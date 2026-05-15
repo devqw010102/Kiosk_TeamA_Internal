@@ -21,5 +21,9 @@ public class StudentApiController {
         return badgeService.selectStudents(param);
     }
     
-    
+    @GetMapping("/detail")
+    public Map<String, Object> searchDetail(String param) {
+    	System.out.println("StudentApiController :: /api/student/detail");
+    	return badgeService.selectStudentDetail(param);
+    }
 }

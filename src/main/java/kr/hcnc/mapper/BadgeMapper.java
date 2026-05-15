@@ -13,4 +13,6 @@ public interface BadgeMapper {
 	public String selectCount();
 	
 	public List<Map<String, Object>> selectStudents(@Param("birthDate") String param);
+	
+	public Map<String, Object> selectStudentDetail(@Param("studentId") String param);
 }
