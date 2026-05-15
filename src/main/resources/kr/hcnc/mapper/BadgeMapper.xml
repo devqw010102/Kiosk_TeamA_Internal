@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.hcnc.mapper.BadgeMapper">
-
-	<select id = "selectCount" resultType = "String">
-		SELECT COUNT(*) FROM STUDENTS
-	</select>
 	
 	<select id = "selectStudents" resultType = "Map" parameterType = "String">
 		SELECT S.STUDENT_ID AS STUDENT_ID
@@ -19,5 +15,38 @@
 		    ON S.EDU_ID  = E.EDU_ID 
 		 WHERE S.BIRTH_DATE = #{birthDate}
 	</select>
+	
+	<select id = "selectStudentDetail" resultType = "Map" parameterType = "String">
+		SELECT S.STUDENT_NAME AS STUDENT_NAME
+			 , E.EDU_NAME AS EDU_NAME
+			 , E.EDU_ROOM_NAME AS EDU_ROOM_NAME
+			 , E.START_DATE AS START_DATE
+			 , E.END_DATE  AS END_DATE
+			 , IFNULL(D.DORMITORY_ID, 'X') AS DORMITORY_ID
+		  FROM STUDENTS S
+		  LEFT JOIN DORMITORIES D
+		    ON S.DORMITORY_ID  = D.DORMITORY_ID 
+		  LEFT JOIN EDU_INFO E
+		    ON S.EDU_ID  = E.EDU_ID
+   		 WHERE S.STUDENT_ID = #{studentId} 
+	</select>
+	
+	<update id = "updateAttendYN" parameterType = "String">
+		 UPDATE STUDENTS 
+   			SET ATTEND_YN = 'Y'
+ 		  WHERE STUDENT_ID = #{studentId}
+ 		    AND ATTEND_YN = 'N'
+	</update>
+	
+	<update id = "updateDormitoryCount" parameterType = "String">
+		UPDATE DORMITORIES 
+   		   SET CURRENT_COUNT = CURRENT_COUNT + 1
+ 		 WHERE DORMITORY_ID = (
+ 			SELECT DORMITORY_ID
+ 	  		  FROM STUDENTS
+ 	 		 WHERE DORM_YN = 'Y'
+ 	   		   AND STUDENT_ID = #{studentId}
+ 			 )
+	</update>
 	
 </mapper>
