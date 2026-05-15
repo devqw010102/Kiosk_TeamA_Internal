@@ -4,7 +4,11 @@
 	
 	<!-- 구내식당 목록 조회 -->
 	<select id = "selectCafeteriaList" resultType = "Map">
-		SELECT 1
+		SELECT '조식' AS "MEAL_TYPE", '07:00 ~ 09:00' AS "MEAL_TIME", '된장국, 흰쌀밥, 김치, 계란말이, 시금치나물' AS "MENU"
+		UNION ALL
+		SELECT '중식' AS "MEAL_TYPE", '11:30 ~ 13:00' AS "MEAL_TIME", '부대찌개, 흰쌀밥, 김치, 잡채, 콩나물무침' AS "MENU"
+		UNION ALL
+		SELECT '석식' AS "MEAL_TYPE", '17:30 ~ 19:00' AS "MEAL_TIME", '김치찌개, 흰쌀밥, 김치, 멸치볶음, 계절과일' AS "MENU"
 	</select>
 	
 	<!-- 흡연장  조회 -->
