@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.BadgeMapper;
@@ -41,4 +42,13 @@ public class BadgeService extends EgovAbstractServiceImpl {
 		
 		return result;
 	}
+	
+	@Transactional
+	public void updateStudentStatus(String param) {
+		System.out.println("BadgeService :: updateStudentStatus()");
+		
+		badgeMapper.updateAttendYN(param);
+		badgeMapper.updateDormitoryCount(param);
+	}
+	
 }

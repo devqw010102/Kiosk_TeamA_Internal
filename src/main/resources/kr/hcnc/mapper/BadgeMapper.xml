@@ -31,4 +31,22 @@
    		 WHERE S.STUDENT_ID = #{studentId} 
 	</select>
 	
+	<update id = "updateAttendYN" parameterType = "String">
+		 UPDATE STUDENTS 
+   			SET ATTEND_YN = 'Y'
+ 		  WHERE STUDENT_ID = #{studentId}
+ 		    AND ATTEND_YN = 'N'
+	</update>
+	
+	<update id = "updateDormitoryCount" parameterType = "String">
+		UPDATE DORMITORIES 
+   		   SET CURRENT_COUNT = CURRENT_COUNT + 1
+ 		 WHERE DORMITORY_ID = (
+ 			SELECT DORMITORY_ID
+ 	  		  FROM STUDENTS
+ 	 		 WHERE DORM_YN = 'Y'
+ 	   		   AND STUDENT_ID = #{studentId}
+ 			 )
+	</update>
+	
 </mapper>
