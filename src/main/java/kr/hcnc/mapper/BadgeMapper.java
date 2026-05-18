@@ -2,21 +2,16 @@ package kr.hcnc.mapper;
 
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
-
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
-
+import kr.hcnc.vo.StudentSearchVO;
 @Mapper("badgeMapper")
 public interface BadgeMapper {
-
-	public String selectCount();
 	
-	public List<Map<String, Object>> selectStudents(@Param("birthDate") String param);
+	List<Map<String, Object>> selectStudents(StudentSearchVO searchVO);
 	
-	public Map<String, Object> selectStudentDetail(@Param("studentId") String param);
+	Map<String, Object> selectStudentDetail(StudentSearchVO searchVO);
 	
-	public int updateAttendYN(@Param("studentId") String param);
+	int updateAttendYN(StudentSearchVO searchVO);
 	
-	public int updateDormitoryCount(@Param("studentId") String param);
+	int updateDormitoryCount(StudentSearchVO searchVO);
 }

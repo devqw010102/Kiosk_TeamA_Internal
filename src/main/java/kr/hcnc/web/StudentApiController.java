@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import kr.hcnc.service.BadgeService;
-
+import kr.hcnc.vo.StudentSearchVO;
 @RestController
 @RequestMapping("/api/student")
 public class StudentApiController {
@@ -19,26 +19,26 @@ public class StudentApiController {
     private BadgeService badgeService;
 
     @GetMapping("/search")
-    public List<Map<String, Object>> searchStudent(String param) {
+    public List<Map<String, Object>> searchStudent(StudentSearchVO searchVO) {
         System.out.println("StudentApiController :: /api/student/search");
-        return badgeService.selectStudents(param);
+        return badgeService.selectStudents(searchVO);
     }
     
     @GetMapping("/detail")
-    public Map<String, Object> searchDetail(String param) {
+    public Map<String, Object> searchDetail(StudentSearchVO searchVO) {
     	System.out.println("StudentApiController :: /api/student/detail");
-    	return badgeService.selectStudentDetail(param);
+    	return badgeService.selectStudentDetail(searchVO);
     }
     
     @PostMapping("/update")
     @ResponseBody
-    public Map<String, Object> updateStudentStatus(String param) {
+    public Map<String, Object> updateStudentStatus(StudentSearchVO searchVO) {
     	System.out.println("StudentApiController :: /api/student/update");
     	
     	Map<String, Object> map = new HashMap<>();
     	
     	try {
-    		badgeService.updateStudentStatus(param);
+    		badgeService.updateStudentStatus(searchVO);
     		map.put("status", "success");
     	}
     	catch(Exception e) {
