@@ -45,6 +45,40 @@
 		</property>
 	</bean>
 	
+	<bean id="corsFilter" class="org.springframework.web.filter.CorsFilter">
+		<constructor-arg>
+			<bean class="org.springframework.web.cors.UrlBasedCorsConfigurationSource">
+				<property name="corsConfigurations">
+					<map>
+						<entry key="/api/**">
+							<bean class="org.springframework.web.cors.CorsConfiguration">
+								<property name="allowedOrigins">
+									<list>
+										<value>http://localhost:8080</value>
+									</list>
+								</property>
+								<property name="allowedMethods">
+									<list>
+										<value>GET</value>
+										<value>POST</value>
+									</list>
+								</property>
+								<property name="allowedHeaders">
+									<list>
+										<value>*</value>
+									</list>
+								</property>
+								<property name="maxAge">
+									<value>3600</value>
+								</property>
+							</bean>
+						</entry>
+					</map>
+				</property>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
 	<bean id="antPathMater" class="org.springframework.util.AntPathMatcher" />
 	<bean id="defaultTraceHandler" class="egovframework.rte.fdl.cmmn.trace.handler.DefaultTraceHandler" />
 	 
