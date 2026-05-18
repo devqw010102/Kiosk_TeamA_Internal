@@ -20,5 +20,13 @@
 
     <!-- REST API 활성화 -->
     <mvc:annotation-driven/>
-
+<!-- 
+	<mvc:cors>
+		<mvc:mapping path="/api/**"
+		allowed-origins="http://localhost:8080"
+		allowed-methods="GET, POST"
+		allowed-headers="*"
+		max-age="3600"/>
+	</mvc:cors>
+	 -->
 </beans>
