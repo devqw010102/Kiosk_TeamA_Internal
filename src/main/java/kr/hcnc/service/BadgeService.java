@@ -1,5 +1,6 @@
 package kr.hcnc.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,11 +38,43 @@ public class BadgeService extends EgovAbstractServiceImpl {
 	}
 	
 	@Transactional
-	public void updateStudentStatus(StudentSearchVO searchVO) {
+	public Map<String, Object> updateStudentStatus(StudentSearchVO searchVO) {
 		System.out.println("BadgeService :: updateStudentStatus()");
 		
+		Map<String, Object> result = new HashMap<>();
+		Map<String, Object> student = badgeMapper.selectStudentStatus(searchVO);
+		System.out.println("student status : " + student);
+		
+		String attendYn = (String) student.get("ATTEND_YN");
+
+	    System.out.println("attendYn : " + attendYn);
+		if("Y".equals(attendYn)) {
+			result.put("status", "fail");
+			result.put("message", "이미 출석 처리된 교육생입니다.");
+			return result;
+		}
+		
+		String dormYn = (String) student.get("DORM_YN");
+		if("Y".equals(dormYn)) {
+			Map<String, Object> dorm = badgeMapper.selectDormitoryInfo(searchVO);
+			int currentCount = (int) dorm.get("CURRENT_COUNT");
+			int maxCount = (int) dorm.get("MAX_COUNT");
+			
+			if(currentCount >= maxCount) {
+				result.put("status", "fail");
+				result.put("message", "생활관이 만실입니다.");
+				return result;
+			}
+		}
+		
 		badgeMapper.updateAttendYN(searchVO);
-		badgeMapper.updateDormitoryCount(searchVO);
+		
+		if("Y".equals(dormYn)) {
+			badgeMapper.updateDormitoryCount(searchVO);
+		}
+		
+		result.put("status", "success");
+		return result;
 	}
 	
 }

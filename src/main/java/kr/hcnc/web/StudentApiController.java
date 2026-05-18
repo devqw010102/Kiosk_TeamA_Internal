@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import kr.hcnc.service.BadgeService;
 import kr.hcnc.vo.StudentSearchVO;
@@ -31,21 +30,8 @@ public class StudentApiController {
     }
     
     @PostMapping("/update")
-    @ResponseBody
     public Map<String, Object> updateStudentStatus(StudentSearchVO searchVO) {
     	System.out.println("StudentApiController :: /api/student/update");
-    	
-    	Map<String, Object> map = new HashMap<>();
-    	
-    	try {
-    		badgeService.updateStudentStatus(searchVO);
-    		map.put("status", "success");
-    	}
-    	catch(Exception e) {
-    		map.put("status", "fail");
-    		map.put("message", e.getMessage());
-    	}
-    	
-    	return map;
+    	return badgeService.updateStudentStatus(searchVO);
     }
 }

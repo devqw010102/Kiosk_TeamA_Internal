@@ -14,4 +14,8 @@ public interface BadgeMapper {
 	int updateAttendYN(StudentSearchVO searchVO);
 	
 	int updateDormitoryCount(StudentSearchVO searchVO);
+	
+	Map<String, Object> selectStudentStatus(StudentSearchVO searchVO);
+	
+	Map<String, Object> selectDormitoryInfo(StudentSearchVO searchVO);
 }
