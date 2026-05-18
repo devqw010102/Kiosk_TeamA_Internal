@@ -1,5 +1,6 @@
 package kr.hcnc.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.BadgeMapper;
+import kr.hcnc.validator.StudentValidator;
 import kr.hcnc.vo.StudentSearchVO;
 
 @Service("badgeService")
@@ -22,6 +24,9 @@ public class BadgeService extends EgovAbstractServiceImpl {
 	public List<Map<String, Object>> selectStudents(StudentSearchVO searchVO) {
 		System.out.println("BadgeService :: selectStudents()");
 		
+		if(!StudentValidator.isValidSearchVO(searchVO) || !StudentValidator.isValidBirthDate(searchVO.getBirthDate()))
+			return new ArrayList<>();
+		
 		List<Map<String, Object>> result = badgeMapper.selectStudents(searchVO);
 		System.out.println("selectStudents() :: result = " + result);
 		
@@ -30,6 +35,9 @@ public class BadgeService extends EgovAbstractServiceImpl {
 	
 	public Map<String, Object> selectStudentDetail(StudentSearchVO searchVO) {
 		System.out.println("BadgeService :: selectStudentDetail()");
+		
+		if(!StudentValidator.isValidSearchVO(searchVO) || !StudentValidator.isValidStudentId(searchVO.getStudentId())) 
+			return new HashMap<>();
 		
 		Map<String, Object> result = badgeMapper.selectStudentDetail(searchVO);
 		System.out.println("selectStudentDetail() :: result = " + result);
@@ -42,8 +50,20 @@ public class BadgeService extends EgovAbstractServiceImpl {
 		System.out.println("BadgeService :: updateStudentStatus()");
 		
 		Map<String, Object> result = new HashMap<>();
+		
+		if(!StudentValidator.isValidSearchVO(searchVO) || !StudentValidator.isValidStudentId(searchVO.getStudentId())) {
+			result.put("status", "fail");
+			result.put("message", "잘못된 요청입니다.");
+			return result;
+		}
+		
 		Map<String, Object> student = badgeMapper.selectStudentStatus(searchVO);
 		System.out.println("student status : " + student);
+		if(student == null) {
+			result.put("status", "fail");
+			result.put("message", "교육생 정보를 찾을 수 없습니다.");
+			return result;
+		}
 		
 		String attendYn = (String) student.get("ATTEND_YN");
 
