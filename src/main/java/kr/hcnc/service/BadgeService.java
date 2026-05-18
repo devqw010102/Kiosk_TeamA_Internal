@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.BadgeMapper;
+import kr.hcnc.vo.StudentSearchVO;
 
 @Service("badgeService")
 public class BadgeService extends EgovAbstractServiceImpl {
@@ -17,38 +18,30 @@ public class BadgeService extends EgovAbstractServiceImpl {
 	@Resource(name = "badgeMapper")
 	private BadgeMapper badgeMapper;
 	
-	public String selectCount() {
-		System.out.println("BadgeService :: selectCount()");
-		
-		String result = badgeMapper.selectCount();
-		System.out.println("BadgeService :: result = " + result);
-		return result;
-	}
-	
-	public List<Map<String, Object>> selectStudents(String param) {
+	public List<Map<String, Object>> selectStudents(StudentSearchVO searchVO) {
 		System.out.println("BadgeService :: selectStudents()");
 		
-		List<Map<String, Object>> result = badgeMapper.selectStudents(param);
+		List<Map<String, Object>> result = badgeMapper.selectStudents(searchVO);
 		System.out.println("selectStudents() :: result = " + result);
 		
 		return result;
 	}
 	
-	public Map<String, Object> selectStudentDetail(String param) {
+	public Map<String, Object> selectStudentDetail(StudentSearchVO searchVO) {
 		System.out.println("BadgeService :: selectStudentDetail()");
 		
-		Map<String, Object> result = badgeMapper.selectStudentDetail(param);
+		Map<String, Object> result = badgeMapper.selectStudentDetail(searchVO);
 		System.out.println("selectStudentDetail() :: result = " + result);
 		
 		return result;
 	}
 	
 	@Transactional
-	public void updateStudentStatus(String param) {
+	public void updateStudentStatus(StudentSearchVO searchVO) {
 		System.out.println("BadgeService :: updateStudentStatus()");
 		
-		badgeMapper.updateAttendYN(param);
-		badgeMapper.updateDormitoryCount(param);
+		badgeMapper.updateAttendYN(searchVO);
+		badgeMapper.updateDormitoryCount(searchVO);
 	}
 	
 }
