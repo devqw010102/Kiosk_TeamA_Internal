@@ -11,9 +11,12 @@
 		  FROM STUDENTS S
 		  LEFT JOIN DORMITORIES D
 		    ON S.DORMITORY_ID  = D.DORMITORY_ID 
+		   AND D.DEL_YN = 'N'
 		  LEFT JOIN EDU_INFO E
 		    ON S.EDU_ID  = E.EDU_ID 
+		   AND E.DEL_YN = 'N'
 		 WHERE S.BIRTH_DATE = #{birthDate}
+		   AND S.DEL_YN = 'N'
 	</select>
 	
 	<select id = "selectStudentDetail" resultType = "Map" parameterType = "StudentSearchVO">
@@ -26,9 +29,12 @@
 		  FROM STUDENTS S
 		  LEFT JOIN DORMITORIES D
 		    ON S.DORMITORY_ID  = D.DORMITORY_ID 
+		   AND D.DEL_YN = 'N'
 		  LEFT JOIN EDU_INFO E
 		    ON S.EDU_ID  = E.EDU_ID
+		   AND E.DEL_YN = 'N'
    		 WHERE S.STUDENT_ID = #{studentId} 
+   		   AND S.DEL_YN = 'N'
 	</select>
 	
 	<update id = "updateAttendYN" parameterType = "StudentSearchVO">
@@ -36,6 +42,7 @@
    			SET ATTEND_YN = 'Y'
  		  WHERE STUDENT_ID = #{studentId}
  		    AND ATTEND_YN = 'N'
+ 		    AND DEL_YN = 'N'
 	</update>
 	
 	<update id = "updateDormitoryCount" parameterType = "StudentSearchVO">
@@ -46,7 +53,28 @@
  	  		  FROM STUDENTS
  	 		 WHERE DORM_YN = 'Y'
  	   		   AND STUDENT_ID = #{studentId}
+ 	   		   AND DEL_YN = 'N'
  			 )
+ 		   AND DEL_YN = 'N'
 	</update>
 	
+	<select id = "selectStudentStatus" resultType = "Map" parameterType = "StudentSearchVO">
+		SELECT ATTEND_YN
+			 , DORM_YN
+		  FROM STUDENTS 
+		 WHERE STUDENT_ID = #{studentId}
+		   AND DEL_YN = 'N'
+	</select>
+	
+	
+	<select id = "selectDormitoryInfo" resultType = "Map" parameterType = "StudentSearchVO">
+		SELECT D.CURRENT_COUNT
+			 , D.MAX_COUNT
+		  FROM DORMITORIES D
+		  JOIN STUDENTS S
+		    ON S.DORMITORY_ID = D.DORMITORY_ID
+		   AND S.DEL_YN = 'N' 
+		 WHERE S.STUDENT_ID = #{studentId}
+		   AND D.DEL_YN = 'N'
+	</select>
 </mapper>
