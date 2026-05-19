@@ -2,7 +2,7 @@ package kr.hcnc.vo;
 
 public class EduInfoVO {
 	private String eduId;
-	private String enuName;
+	private String eduName;
 	private String startDate;
 	private String endDate;
 	private String eduRoomName;
@@ -14,11 +14,11 @@ public class EduInfoVO {
 	public void setEduId(String eduId) {
 		this.eduId = eduId;
 	}
-	public String getEnuName() {
-		return enuName;
+	public String getEduName() {
+		return eduName;
 	}
-	public void setEnuName(String enuName) {
-		this.enuName = enuName;
+	public void setEduName(String eduName) {
+		this.eduName = eduName;
 	}
 	public String getStartDate() {
 		return startDate;
