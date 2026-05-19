@@ -1,9 +1,11 @@
 package kr.hcnc.web;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,21 +19,23 @@ public class StudentApiController {
     @Resource(name = "badgeService")
     private BadgeService badgeService;
 
+    private static final Logger log = LoggerFactory.getLogger(StudentApiController.class);
+    
     @GetMapping("/search")
     public List<Map<String, Object>> searchStudent(StudentSearchVO searchVO) {
-        System.out.println("StudentApiController :: /api/student/search");
+        log.info("StudentApiController :: /api/student/search");
         return badgeService.selectStudents(searchVO);
     }
     
     @GetMapping("/detail")
     public Map<String, Object> searchDetail(StudentSearchVO searchVO) {
-    	System.out.println("StudentApiController :: /api/student/detail");
+    	log.info("StudentApiController :: /api/student/detail");
     	return badgeService.selectStudentDetail(searchVO);
     }
     
     @PostMapping("/update")
     public Map<String, Object> updateStudentStatus(StudentSearchVO searchVO) {
-    	System.out.println("StudentApiController :: /api/student/update");
+    	log.info("StudentApiController :: /api/student/update");
     	return badgeService.updateStudentStatus(searchVO);
     }
 }
