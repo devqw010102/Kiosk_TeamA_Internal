@@ -54,7 +54,7 @@
 							<bean class="org.springframework.web.cors.CorsConfiguration">
 								<property name="allowedOrigins">
 									<list>
-										<value>http://localhost:8080</value>
+										<value>${Globals.CorsAllowedOrigin}</value>
 									</list>
 								</property>
 								<property name="allowedMethods">
