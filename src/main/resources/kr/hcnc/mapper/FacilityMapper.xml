@@ -22,7 +22,7 @@
 	</select>
 	
 	<!-- 교통 정보 목록 조회 -->
-	<select id = "selectTarnsportList" resultType = "Map">
+	<select id = "selectTransportList" resultType = "Map">
 		SELECT 1
 	</select>
 </mapper>

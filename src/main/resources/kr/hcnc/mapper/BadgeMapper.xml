@@ -85,6 +85,6 @@
 		  JOIN STUDENTS S
 		    ON S.EDU_ID = E.EDU_ID 
 		 WHERE S.STUDENT_ID = #{studentId}
-		   AND S.DEL_YN = 'N';	
+		   AND S.DEL_YN = 'N'
 	</select>
 </mapper>
