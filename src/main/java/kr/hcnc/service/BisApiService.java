@@ -42,15 +42,19 @@ public class BisApiService {
 		conn.setConnectTimeout(5000);
 		conn.setReadTimeout(5000);
 		
-		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-		StringBuilder sb = new StringBuilder();
-		String line;
-		
-		while((line = br.readLine()) != null) 
-			sb.append(line);
-		
-		br.close();
-		return sb.toString();
+		try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
+			StringBuilder sb = new StringBuilder();
+			String line;
+			
+			while((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+			
+			return sb.toString();
+		}
+		finally {
+			conn.disconnect();
+		}
 	}
 	
 	private List<Map<String, Object>> parseArrival(String xml) throws Exception{

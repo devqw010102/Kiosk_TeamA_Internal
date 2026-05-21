@@ -83,7 +83,8 @@
 			 , E.END_DATE
 		  FROM EDU_INFO E
 		  JOIN STUDENTS S
-		    ON S.EDU_ID = E.EDU_ID 
+		    ON S.EDU_ID = E.EDU_ID
+		   AND E.DEL_YN = 'N' 
 		 WHERE S.STUDENT_ID = #{studentId}
 		   AND S.DEL_YN = 'N'
 	</select>
