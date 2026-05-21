@@ -46,16 +46,17 @@
 	</update>
 	
 	<update id = "updateDormitoryCount" parameterType = "StudentSearchVO">
-		UPDATE DORMITORIES 
-   		   SET CURRENT_COUNT = CURRENT_COUNT + 1
- 		 WHERE DORMITORY_ID = (
- 			SELECT DORMITORY_ID
- 	  		  FROM STUDENTS
- 	 		 WHERE DORM_YN = 'Y'
- 	   		   AND STUDENT_ID = #{studentId}
- 	   		   AND DEL_YN = 'N'
- 			 )
- 		   AND DEL_YN = 'N'
+	    UPDATE DORMITORIES 
+	       SET CURRENT_COUNT = CURRENT_COUNT + 1
+	     WHERE DORMITORY_ID = (
+	        SELECT DORMITORY_ID
+	          FROM STUDENTS
+	         WHERE DORM_YN = 'Y'
+	           AND STUDENT_ID = #{studentId}
+	           AND DEL_YN = 'N'
+	         )
+	       AND MAX_COUNT > CURRENT_COUNT
+	       AND DEL_YN = 'N'
 	</update>
 	
 	<select id = "selectStudentStatus" resultType = "Map" parameterType = "StudentSearchVO">
