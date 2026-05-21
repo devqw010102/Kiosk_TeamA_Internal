@@ -1,5 +1,6 @@
 package kr.hcnc.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -98,7 +99,7 @@ public class BadgeService extends EgovAbstractServiceImpl {
 				String startDate = (String) eduInfo.get("START_DATE");
 				String endDate = (String) eduInfo.get("END_DATE");
 				
-				String today = new java.text.SimpleDateFormat("yyMMdd").format(new java.util.Date());
+				String today = new SimpleDateFormat("yyMMdd").format(new java.util.Date());
 				
 				if(today.compareTo(startDate) < 0) {
 					result.put("status", "fail");
@@ -126,7 +127,6 @@ public class BadgeService extends EgovAbstractServiceImpl {
 	        result.put("status", "fail");
 	        result.put("message", "처리 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.");
 		}
-		
 
 		return result;
 	}

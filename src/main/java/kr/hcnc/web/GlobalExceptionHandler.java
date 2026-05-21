@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 	
 	
-	@ExceptionHandler(IllegalArgumentException.class)
+	@ExceptionHandler(IllegalArgumentException.class)	// 잘못된 인수
 	public Map<String, Object> handelIllegalArgument(IllegalArgumentException e) {
 		Map<String, Object> result = new HashMap<>();
 		logger.warn("Invalid request", e);
@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 		return result;
 	}
 
-	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)	// HTTP 상태 코드 405 Method Not Allowed
 	public Map<String, Object> handleMethodNotAllowed(HttpRequestMethodNotSupportedException  e) {
 		Map<String, Object> result = new HashMap<>();
 		logger.warn("Method not allowed", e);
