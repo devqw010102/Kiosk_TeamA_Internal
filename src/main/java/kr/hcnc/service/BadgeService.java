@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.BadgeMapper;
@@ -121,6 +122,7 @@ public class BadgeService extends EgovAbstractServiceImpl {
 		}
 		catch(Exception e) {
 	        log.error("BadgeService :: updateStudentStatus() 오류 : {}", e);
+	        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 	        result.put("status", "fail");
 	        result.put("message", "처리 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.");
 		}
