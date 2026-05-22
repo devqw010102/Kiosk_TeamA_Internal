@@ -23,19 +23,19 @@ public class StudentApiController {
     
     @GetMapping("/search")
     public List<Map<String, Object>> searchStudent(StudentSearchVO searchVO) {
-        log.info("StudentApiController :: /api/student/search");
+        log.info("Called :: /api/student/search");
         return badgeService.selectStudents(searchVO);
     }
     
     @GetMapping("/detail")
     public Map<String, Object> searchDetail(StudentSearchVO searchVO) {
-    	log.info("StudentApiController :: /api/student/detail");
+    	log.info("Called :: /api/student/detail");
     	return badgeService.selectStudentDetail(searchVO);
     }
     
     @PostMapping("/update")
     public Map<String, Object> updateStudentStatus(StudentSearchVO searchVO) {
-    	log.info("StudentApiController :: /api/student/update");
+    	log.info("Called :: /api/student/update");
     	return badgeService.updateStudentStatus(searchVO);
     }
 }

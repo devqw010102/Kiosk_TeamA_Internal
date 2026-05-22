@@ -22,25 +22,25 @@ public class FacilityService extends EgovAbstractServiceImpl{
 	
 	// 구내식당
 	public List<Map<String, Object>> selectCafeteriaList() {
-		log.info("FacilityService :: selectCafeteriaList");
+		log.info("Called :: selectCafeteriaList");
 		return facilityMapper.selectCafeteriaList();
 	}
 	
 	// 흡연장소
 	public List<Map<String, Object>> selectSmokingAreaList() {
-		log.info("FacilityService :: selectSmokingAreaList");
+		log.info("Called :: selectSmokingAreaList");
 		return facilityMapper.selectSmokingAreaList();
 	}
 	
 	// 강의실
 	public List<Map<String, Object>> selectClassroomList() {
-		log.info("FacilityService :: selectClassroomList");
+		log.info("Called :: selectClassroomList");
 		return facilityMapper.selectClassroomList();
 	}
 	
 	// 교통 정보
 	public List<Map<String, Object>> selectTransportList() {
-		log.info("FacilityService :: selectTransportList");
+		log.info("Called :: selectTransportList");
 		return facilityMapper.selectTransportList();
 	}
 }
