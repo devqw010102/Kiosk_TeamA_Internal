@@ -28,25 +28,25 @@ public class BadgeService extends EgovAbstractServiceImpl {
 	private static final Logger log = LoggerFactory.getLogger(BadgeService.class);
 	
 	public List<Map<String, Object>> selectStudents(StudentSearchVO searchVO) {
-		log.info("BadgeService :: selectStudents()");
+		log.info("Called :: selectStudents()");
 		
 		if(!StudentValidator.isValidSearchVO(searchVO) || !StudentValidator.isValidBirthDate(searchVO.getBirthDate()))
 			return new ArrayList<>();
 		
 		List<Map<String, Object>> result = badgeMapper.selectStudents(searchVO);
-		log.info("selectStudents() :: result = {}", result);
+		log.info("result = {}", result);
 		
 		return result;
 	}
 	
 	public Map<String, Object> selectStudentDetail(StudentSearchVO searchVO) {
-		log.info("BadgeService :: selectStudentDetail()");
+		log.info("Called :: selectStudentDetail()");
 		
 		if(!StudentValidator.isValidSearchVO(searchVO) || !StudentValidator.isValidStudentId(searchVO.getStudentId())) 
 			return new HashMap<>();
 		
 		Map<String, Object> result = badgeMapper.selectStudentDetail(searchVO);
-		log.info("selectStudentDetail() :: result = {}", result);
+		log.info("result = {}", result);
 		return result;
 	}
 	

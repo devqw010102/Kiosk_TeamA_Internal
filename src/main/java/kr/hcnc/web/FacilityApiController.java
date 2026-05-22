@@ -20,11 +20,11 @@ public class FacilityApiController {
 	@Resource(name = "facilityService")
 	private FacilityService facilityService;
 	
-	private static final Logger log = LoggerFactory.getLogger(FacilityService.class);
+	private static final Logger log = LoggerFactory.getLogger(FacilityApiController.class);
 	
 	@GetMapping("/cafe")
 	public List<Map<String, Object>> selectCafeteriaList() {
-		log.info("FacilityApiController :: /api/info/cafe");
+		log.info("Called :: /api/info/cafe");
 		return facilityService.selectCafeteriaList();
 	}
 }
