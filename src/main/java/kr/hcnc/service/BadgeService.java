@@ -96,6 +96,7 @@ public class BadgeService extends EgovAbstractServiceImpl {
 					}
 					searchVO.setDormitoryId((String) available.get("DORMITORY_ID"));
 					badgeMapper.updateStudentDormitory(searchVO);
+					result.put("autoAssigned", "Y");
 				} 
 			}
 			
