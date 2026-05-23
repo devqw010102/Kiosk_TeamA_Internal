@@ -89,4 +89,19 @@
 		 WHERE S.STUDENT_ID = #{studentId}
 		   AND S.DEL_YN = 'N'
 	</select>
+	
+	<select id = "selectAvailableDormitory" resultType = "Map">
+		SELECT DORMITORY_ID
+		  FROM DORMITORIES
+		 WHERE MAX_COUNT > CURRENT_COUNT
+		   AND DEL_YN = 'N'
+		 LIMIT 1
+	</select>
+	
+	<update id = "updateStudentDormitory" parameterType = "StudentSearchVO">
+		UPDATE STUDENTS
+		   SET DORMITORY_ID = #{dormitoryId}
+		 WHERE STUDENT_ID = #{studentId}
+		   AND DEL_YN = 'N'
+	</update>
 </mapper>

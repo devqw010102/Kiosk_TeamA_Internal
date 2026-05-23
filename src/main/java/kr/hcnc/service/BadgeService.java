@@ -87,10 +87,17 @@ public class BadgeService extends EgovAbstractServiceImpl {
 				int maxCount = (int) dorm.get("MAX_COUNT");
 				
 				if(currentCount >= maxCount) {
-					result.put("status", "fail");
-					result.put("message", "생활관이 만실입니다.");
-					return result;
-				}
+					Map<String, Object> available = badgeMapper.selectAvailableDormitory();
+					
+					if(available == null) {
+						result.put("status", "fail");
+						result.put("message", "배정 가능한 생활관이 없습니다.");
+						return result;
+					}
+					searchVO.setDormitoryId((String) available.get("DORMITORY_ID"));
+					badgeMapper.updateStudentDormitory(searchVO);
+					result.put("autoAssigned", "Y");
+				} 
 			}
 			
 			// 교육 기간 유효성 검사
@@ -120,6 +127,7 @@ public class BadgeService extends EgovAbstractServiceImpl {
 			}
 			
 			result.put("status", "success");
+			result.put("dormAssigned", "O");
 		}
 		catch(Exception e) {
 	        log.error("BadgeService :: updateStudentStatus() 오류 : {}", e);
