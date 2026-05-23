@@ -20,4 +20,8 @@ public interface BadgeMapper {
 	Map<String, Object> selectDormitoryInfo(StudentSearchVO searchVO);
 	
 	Map<String, Object> selectStudentEduInfo(StudentSearchVO searchVO);
+	
+	Map<String, Object> selectAvailableDormitory();
+	
+	int updateStudentDormitory(StudentSearchVO searchVO);
 }
