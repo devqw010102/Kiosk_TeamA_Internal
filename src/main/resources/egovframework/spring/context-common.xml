@@ -79,6 +79,8 @@
 		</constructor-arg>
 	</bean>
 	
+	<bean id="secretKeyFilter" class="kr.hcnc.filter.SecretKeyFilter" />
+	
 	<bean id="antPathMater" class="org.springframework.util.AntPathMatcher" />
 	<bean id="defaultTraceHandler" class="egovframework.rte.fdl.cmmn.trace.handler.DefaultTraceHandler" />
 	 
