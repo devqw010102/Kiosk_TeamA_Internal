@@ -54,7 +54,7 @@
 							<bean class="org.springframework.web.cors.CorsConfiguration">
 								<property name="allowedOrigins">
 									<list>
-										<value>http://localhost:8080</value>
+										<value>${Globals.CorsAllowedOrigin}</value>
 									</list>
 								</property>
 								<property name="allowedMethods">
@@ -78,6 +78,8 @@
 			</bean>
 		</constructor-arg>
 	</bean>
+	
+	<bean id="secretKeyFilter" class="kr.hcnc.filter.SecretKeyFilter" />
 	
 	<bean id="antPathMater" class="org.springframework.util.AntPathMatcher" />
 	<bean id="defaultTraceHandler" class="egovframework.rte.fdl.cmmn.trace.handler.DefaultTraceHandler" />

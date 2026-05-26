@@ -1,5 +1,6 @@
 package kr.hcnc.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,8 +8,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.BadgeMapper;
@@ -21,34 +25,34 @@ public class BadgeService extends EgovAbstractServiceImpl {
 	@Resource(name = "badgeMapper")
 	private BadgeMapper badgeMapper;
 	
+	private static final Logger log = LoggerFactory.getLogger(BadgeService.class);
+	
 	public List<Map<String, Object>> selectStudents(StudentSearchVO searchVO) {
-		System.out.println("BadgeService :: selectStudents()");
+		log.info("Called :: selectStudents()");
 		
 		if(!StudentValidator.isValidSearchVO(searchVO) || !StudentValidator.isValidBirthDate(searchVO.getBirthDate()))
 			return new ArrayList<>();
 		
 		List<Map<String, Object>> result = badgeMapper.selectStudents(searchVO);
-		System.out.println("selectStudents() :: result = " + result);
+		log.info("result = {}", result);
 		
 		return result;
 	}
 	
 	public Map<String, Object> selectStudentDetail(StudentSearchVO searchVO) {
-		System.out.println("BadgeService :: selectStudentDetail()");
+		log.info("Called :: selectStudentDetail()");
 		
 		if(!StudentValidator.isValidSearchVO(searchVO) || !StudentValidator.isValidStudentId(searchVO.getStudentId())) 
 			return new HashMap<>();
 		
 		Map<String, Object> result = badgeMapper.selectStudentDetail(searchVO);
-		System.out.println("selectStudentDetail() :: result = " + result);
-		
+		log.info("result = {}", result);
 		return result;
 	}
 	
 	@Transactional
 	public Map<String, Object> updateStudentStatus(StudentSearchVO searchVO) {
-		System.out.println("BadgeService :: updateStudentStatus()");
-		
+		log.info("BadgeService :: updateStudentStatus()");
 		Map<String, Object> result = new HashMap<>();
 		
 		try {
@@ -60,7 +64,7 @@ public class BadgeService extends EgovAbstractServiceImpl {
 			}
 			
 			Map<String, Object> student = badgeMapper.selectStudentStatus(searchVO);
-			System.out.println("student status : " + student);
+			log.info("student status : {}", student);
 			if(student == null) {
 				result.put("status", "fail");
 				result.put("message", "교육생 정보를 찾을 수 없습니다.");
@@ -68,8 +72,7 @@ public class BadgeService extends EgovAbstractServiceImpl {
 			}
 			// 출석 유효성 검사
 			String attendYn = (String) student.get("ATTEND_YN");
-
-		    System.out.println("attendYn : " + attendYn);
+			log.info("attendYn : {}", attendYn);
 			if("Y".equals(attendYn)) {
 				result.put("status", "already");
 				result.put("message", "이미 출석 처리된 교육생입니다.");
@@ -84,10 +87,17 @@ public class BadgeService extends EgovAbstractServiceImpl {
 				int maxCount = (int) dorm.get("MAX_COUNT");
 				
 				if(currentCount >= maxCount) {
-					result.put("status", "fail");
-					result.put("message", "생활관이 만실입니다.");
-					return result;
-				}
+					Map<String, Object> available = badgeMapper.selectAvailableDormitory();
+					
+					if(available == null) {
+						result.put("status", "fail");
+						result.put("message", "배정 가능한 생활관이 없습니다.");
+						return result;
+					}
+					searchVO.setDormitoryId((String) available.get("DORMITORY_ID"));
+					badgeMapper.updateStudentDormitory(searchVO);
+					result.put("autoAssigned", "Y");
+				} 
 			}
 			
 			// 교육 기간 유효성 검사
@@ -96,7 +106,7 @@ public class BadgeService extends EgovAbstractServiceImpl {
 				String startDate = (String) eduInfo.get("START_DATE");
 				String endDate = (String) eduInfo.get("END_DATE");
 				
-				String today = new java.text.SimpleDateFormat("yyMMdd").format(new java.util.Date());
+				String today = new SimpleDateFormat("yyMMdd").format(new java.util.Date());
 				
 				if(today.compareTo(startDate) < 0) {
 					result.put("status", "fail");
@@ -117,13 +127,14 @@ public class BadgeService extends EgovAbstractServiceImpl {
 			}
 			
 			result.put("status", "success");
+			result.put("dormAssigned", "O");
 		}
 		catch(Exception e) {
-	        System.out.println("BadgeService :: updateStudentStatus() 오류 : " + e.getMessage());
+	        log.error("BadgeService :: updateStudentStatus() 오류 : {}", e);
+	        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 	        result.put("status", "fail");
 	        result.put("message", "처리 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.");
 		}
-		
 
 		return result;
 	}

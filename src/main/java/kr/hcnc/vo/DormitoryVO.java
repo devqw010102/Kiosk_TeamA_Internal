@@ -6,6 +6,7 @@ public class DormitoryVO {
 	private int currentCount;
 	private int maxCount;
 	private String delYn;
+	private String dormitoryRoomName;
 	
 	public String getDormitoryId() {
 		return dormitoryId;
@@ -36,6 +37,12 @@ public class DormitoryVO {
 	}
 	public void setDelYn(String delYn) {
 		this.delYn = delYn;
+	}
+	public String getDormitoryRoomName() {
+		return dormitoryRoomName;
+	}
+	public void setDormitoryRoomName(String dormitoryRoomName) {
+		this.dormitoryRoomName = dormitoryRoomName;
 	}
 	
 	
