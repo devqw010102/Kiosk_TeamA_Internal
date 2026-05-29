@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.hcnc.service.admin.AdminAttendanceService;
+import kr.hcnc.vo.AttendSearchVO;
 
 //출석 관리 API - 출석 현황 조회 및 수동 변경
 @RestController
@@ -25,10 +26,17 @@ public class AdminAttendanceController {
     @Resource(name = "adminAttendanceService")
     private AdminAttendanceService adminAttendanceService;
    
-    @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> getAttendances(@RequestParam(required = false) String date) {
-    	log.info("Called :: GET /api/admin/attendances");
-    	
-    	return ResponseEntity.ok(adminAttendanceService.selectAttendances(date));
+//    @GetMapping
+//    public ResponseEntity<List<Map<String, Object>>> getAttendances(@RequestParam(required = false) String date) {
+//    	log.info("Called :: GET /api/admin/attendances");
+//    	
+//    	return ResponseEntity.ok(adminAttendanceService.selectAttendances(date));
+//    }
+    
+    @GetMapping 
+    // 동적 쿼리를 사용해서 조건별로 메소드 구분이 없도록 설계 함
+    public ResponseEntity<List<Map<String, Object>>> getAttendace(AttendSearchVO attendSearchVO){
+    	log.info("Ansewer :: GET /api/admin/attendances");
+    	return ResponseEntity.ok(adminAttendanceService.selectAttendance(attendSearchVO));
     }
 }

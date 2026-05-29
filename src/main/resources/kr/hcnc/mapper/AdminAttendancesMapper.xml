@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hcnc.mapper.AdminAttendancesMapper">
+	<select id="selectAttend" parameterType="AttendSearchVO" resultType="Map">
+		SELECT A.ATTENDANCE_ID AS attendanceId,
+			   A.STUDENT_ID AS studentId,
+			   S.EDU_ID AS eduId, 
+			   A.ATTEND_DATE AS attendDate, 
+			   A.STATUS AS status,
+			   A.MESSAGE AS message,
+			   A.CREATED_AT AS createdAt, 
+			   A.UPDATED_AT AS updatedAt
+		FROM ATTENDANCE A
+		LEFT JOIN STUDENTS S
+			ON A.STUDENT_ID = S.STUDENT_ID 
+		<where>
+        	S.DEL_YN = 'N' 
+	        <if test="studentId != null and studentId != ''">
+	            AND A.STUDENT_ID = #{studentId}
+	        </if>
+	        <if test="eduId != null and eduId != ''">
+	        	AND S.EDU_ID = #{eduId}
+	        </if>
+	    </where>
+	</select>
+</mapper>
