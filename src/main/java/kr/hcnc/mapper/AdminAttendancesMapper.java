@@ -9,4 +9,5 @@ import kr.hcnc.vo.AttendSearchVO;
 @Mapper("adminAttendancesMapper")
 public interface AdminAttendancesMapper {
 	public List<Map<String, Object>> selectAttend(AttendSearchVO attendSearchVO);
+	public int updateAttendMsg(Map<String, Object> param);
 }
