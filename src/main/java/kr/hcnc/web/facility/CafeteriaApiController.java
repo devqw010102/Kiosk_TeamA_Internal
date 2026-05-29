@@ -1,4 +1,4 @@
-package kr.hcnc.web;
+package kr.hcnc.web.facility;
 
 import java.util.List;
 import java.util.Map;
@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.hcnc.service.FacilityService;
+import kr.hcnc.service.facility.CafeteriaService;
 
 @RestController
 @RequestMapping("/api/info")
-public class FacilityApiController {
+public class CafeteriaApiController {
 
-	@Resource(name = "facilityService")
-	private FacilityService facilityService;
+	@Resource(name = "cafeteriaService")
+	private CafeteriaService cafeteriaService;
 	
-	private static final Logger log = LoggerFactory.getLogger(FacilityApiController.class);
+	private static final Logger log = LoggerFactory.getLogger(CafeteriaApiController.class);
 	
 	@GetMapping("/cafe")
 	public List<Map<String, Object>> selectCafeteriaList() {
 		log.info("Called :: /api/info/cafe");
-		return facilityService.selectCafeteriaList();
+		return cafeteriaService.selectCafeteriaList();
 	}
 }
