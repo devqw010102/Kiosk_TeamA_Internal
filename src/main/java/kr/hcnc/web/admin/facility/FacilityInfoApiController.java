@@ -1,4 +1,4 @@
-package kr.hcnc.web.facility;
+package kr.hcnc.web.admin.facility;
 
 import java.util.List;
 import java.util.Map;
