@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.hcnc.service.facility.TransportService;
+import kr.hcnc.service.admin.facility.TransportService;
+
 
 @RestController
 @RequestMapping("/api/info")
