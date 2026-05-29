@@ -43,6 +43,19 @@ public class GlobalExceptionHandler {
 		return result;
 	}
 	
+//	@ExceptionHandler(Exception.class)
+//	public Map<String, Object> handleException(Exception e) {
+//	    Map<String, Object> result = new HashMap<>();
+//	    logger.error("Unexpected error", e);
+//	    result.put("status", "error");
+//	    result.put("message", "서버 오류가 발생했습니다.");
+//
+//	    result.put("debug_error", e.getClass().getName());
+//	    result.put("debug_message", e.getMessage());
+//	    
+//	    return result;
+//	}
+	
 
 	
 }

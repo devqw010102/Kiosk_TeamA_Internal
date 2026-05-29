@@ -30,4 +30,10 @@ public class AdminAttendanceService extends EgovAbstractServiceImpl {
 		log.info("studentId = {}", attendSearchVO.getStudentId());
 		return adminAttendancesMapper.selectAttend(attendSearchVO);
 	}
+	
+	public int updateAttendMsg(Map<String, Object> param) {
+		log.info("Called::updateAttendMsg()");
+		int result = adminAttendancesMapper.updateAttendMsg(param);
+		return result;
+	}
 }

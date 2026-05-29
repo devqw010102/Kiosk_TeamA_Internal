@@ -1,5 +1,6 @@
 package kr.hcnc.web.admin;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,4 +41,18 @@ public class AdminAttendanceController {
     	log.info("Ansewer :: GET /api/admin/attendances");
     	return ResponseEntity.ok(adminAttendanceService.selectAttendance(attendSearchVO));
     }
+    
+    @PostMapping
+    public ResponseEntity<Integer> updateAttendMsg(@RequestParam(name="msg") String msg,
+    							@RequestParam(name="attendDate") String attendDate,
+    							@RequestParam(name="studentId") String studentId) {
+    	log.info("Called::updateAttendMsg");
+    	Map<String, Object> param = new HashMap<>();
+    	param.put("msg", msg);
+    	param.put("attendDate", attendDate);
+    	param.put("studentId", studentId);
+    	int result = adminAttendanceService.updateAttendMsg(param);
+    	return ResponseEntity.ok(result);
+    }
+   
 }

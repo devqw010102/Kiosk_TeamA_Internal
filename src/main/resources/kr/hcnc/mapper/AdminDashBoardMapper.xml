@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hcnc.mapper.dashboard.AdminDashBoardMapper">
+    <select id="selectLog" resultType="Map">
+        SELECT ACTION,
+              CREATED_AT
+        FROM KIOSK_LOG
+	        WHERE ACTION=#{action}
+    </select>
+
+    <select id="selectPrintCountByHour" resultType="Map">
+        SELECT HOUR(CREATED_AT) AS PRINT_HOUR
+	        , COUNT(*) AS PRINTING_COUNT
+        FROM KIOSK_LOG
+        WHERE ACTION='명찰 발급'
+        GROUP BY HOUR(CREATED_AT)
+        ORDER BY PRINT_HOUR
+    </select>
+    
+    <select id="selectPopularFeature" resultType="Map">
+        SELECT ACTION
+             , COUNT(*) AS CNT
+        FROM KIOSK_LOG
+            GROUP BY ACTION
+            ORDER BY CNT DESC
+    </select>
+
+    <select id="selectAttendCount" resultType="Map">
+    <![CDATA[
+        SELECT 
+            COUNT(CASE WHEN STATUS = '출석' THEN 1 END) AS ATTEND,
+            COUNT(CASE WHEN STATUS <> '출석' THEN 1 END) AS NOT_ATTEND
+        FROM ATTENDANCE
+        ]]>
+    </select>
+</mapper>
