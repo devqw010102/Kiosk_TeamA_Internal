@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.admin.AdminClassroomMapper;
-import kr.hcnc.vo.admin.ClassroomVO;
+import kr.hcnc.vo.ClassroomVO;
 
 @Service("adminClassroomService")
 public class AdminClassroomService extends EgovAbstractServiceImpl {

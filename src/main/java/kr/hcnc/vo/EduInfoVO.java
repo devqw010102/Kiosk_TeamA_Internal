@@ -5,7 +5,8 @@ public class EduInfoVO {
 	private String eduName;
 	private String startDate;
 	private String endDate;
-	private String eduRoomName;
+	private Integer batchNumber;
+	private Integer capacity;
 	private String delYn;
 	
 	public String getEduId() {
@@ -32,11 +33,17 @@ public class EduInfoVO {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	public String getEduRoomName() {
-		return eduRoomName;
+	public Integer getBatchNumber() {
+		return batchNumber;
 	}
-	public void setEduRoomName(String eduRoomName) {
-		this.eduRoomName = eduRoomName;
+	public void setBatchNumber(Integer batchNumber) {
+		this.batchNumber = batchNumber;
+	}
+	public Integer getCapacity() {
+		return capacity;
+	}
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
 	}
 	public String getDelYn() {
 		return delYn;
