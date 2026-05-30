@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.hcnc.mapper.admin.AdminFacilityInfoMapper">
+	<update id="updateFacility" parameterType="kr.hcnc.vo.FacilityInfoVO">
+		UPDATE FACILITY
+		  <set>
+		    <if test="name != null and name != ''">NAME = #{name},</if>
+		    <if test="location != null and location != ''">LOCATION = #{location},</if>
+		    <if test="imagePath != null and imagePath != ''">IMAGE_PATH = #{imagePath},</if>
+		    <if test="description != null">DESCRIPTION = #{description},</if>
+		    UPDATED_AT = NOW()
+		  </set>
+		 WHERE FACILITY_ID   = #{facilityId}
+		   AND FACILITY_TYPE = #{facilityType}
+		   AND DEL_YN = 'N'
+	</update>
+</mapper>
+

@@ -1,4 +1,4 @@
-package kr.hcnc.mapper.facility;
+package kr.hcnc.mapper;
 
 import java.util.List;
 import java.util.Map;
