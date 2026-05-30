@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hcnc.mapper.admin.AdminSubjectMapper">
+
+	<select id = "selectSubject" resultType = "SubjectVO">
+		 SELECT SUBJECT_ID
+		 	  , EDU_ID
+		 	  , SUBJECT_NAME
+		 	  , START_DATE
+		 	  , END_DATE
+		 	  , END_YN
+		 	  , EDU_ROOM_NAME
+		   FROM SUBJECT
+		  WHERE DEL_YN = 'N'	
+	</select>
+	
+	<select id = "selectSubjectById" resultType = "SubjectVO">
+		 SELECT SUBJECT_ID
+		 	  , EDU_ID
+		 	  , SUBJECT_NAME
+		 	  , START_DATE
+		 	  , END_DATE
+		 	  , END_YN
+		 	  , EDU_ROOM_NAME
+		   FROM SUBJECT
+		  WHERE DEL_YN = 'N'
+		    AND SUBJECT_ID = #{subjectId}
+	</select>
+	
+	<insert id = "insertSubject" parameterType = "SubjectVO">
+		INSERT INTO SUBJECT (SUBJECT_ID, EDU_ID, SUBJECT_NAME, START_DATE, END_DATE, EDU_ROOM_NAME)
+		VALUES (#{subjectId}, #{eduId}, #{subjectName}, #{startDate}, #{endDate}, #{eduRoomName})
+	</insert>
+	
+	<update id="updateSubject" parameterType="SubjectVO">
+		UPDATE SUBJECT
+		<set>
+			<if test="subjectName != null and subjectName != ''">
+				SUBJECT_NAME = #{subjectName},
+			</if>
+			<if test="startDate != null and startDate != ''">
+				START_DATE = #{startDate},
+			</if>
+			<if test="endDate != null and endDate != ''">
+				END_DATE = #{endDate},
+			</if>
+			<if test="endYn != null and endYn != ''">
+				END_YN = #{endYn},
+			</if>
+			<if test="eduRoomName != null and eduRoomName != ''">
+				EDU_ROOM_NAME = #{eduRoomName},
+			</if>
+			UPDATED_AT = NOW()
+		</set>
+		WHERE SUBJECT_ID = #{subjectId}
+		  AND DEL_YN = 'N'
+	</update>
+	
+	<update id="deleteSubject">
+		UPDATE SUBJECT
+		   SET DEL_YN = 'Y'
+		 WHERE SUBJECT_ID = #{subjectId}
+		   AND DEL_YN = 'N'
+	</update>
+</mapper>
