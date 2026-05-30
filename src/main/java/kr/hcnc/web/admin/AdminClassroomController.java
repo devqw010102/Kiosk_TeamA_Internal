@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.hcnc.service.admin.AdminClassroomService;
-import kr.hcnc.vo.admin.ClassroomVO;
+import kr.hcnc.vo.ClassroomVO;
 
 //강의실 관리 API - 배치도 이미지 등록/수정/삭제
 @RestController
