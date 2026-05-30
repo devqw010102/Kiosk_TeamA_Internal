@@ -3,7 +3,7 @@ package kr.hcnc.mapper.admin;
 import java.util.List;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
-import kr.hcnc.vo.admin.ClassroomVO;
+import kr.hcnc.vo.ClassroomVO;
 
 @Mapper("adminClassroomMapper")
 public interface AdminClassroomMapper {
