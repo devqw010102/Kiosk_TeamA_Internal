@@ -5,11 +5,11 @@
 		SELECT A.ATTENDANCE_ID AS attendanceId,
 			   A.STUDENT_ID AS studentId,
 			   S.EDU_ID AS eduId, 
-			   A.ATTEND_DATE AS attendDate, 
+			   DATE_FORMAT(A.ATTEND_DATE, '%Y-%m-%d') AS attendDate,   <!-- DB에서 JSON으로 날짜데이터를 받아올 떄 밀리초 단위로 변환한하기 때문에 DATE_FORMAT으로 형식 지정 -->
 			   A.STATUS AS status,
 			   A.MESSAGE AS message,
-			   A.CREATED_AT AS createdAt, 
-			   A.UPDATED_AT AS updatedAt
+			  DATE_FORMAT(A.CREATED_AT, '%Y-%m-%d %H:%i:%S') AS createdAt, 
+			  DATE_FORMAT(A.UPDATED_AT, '%Y-%m-%d %H:%i:%S') AS updatedAt
 		FROM ATTENDANCE A
 		LEFT JOIN STUDENTS S
 			ON A.STUDENT_ID = S.STUDENT_ID 
@@ -21,6 +21,17 @@
 	        <if test="eduId != null and eduId != ''">
 	        	AND S.EDU_ID = #{eduId}
 	        </if>
+			<if test="attendDate != null and attendDate != ''">
+				AND A.ATTEND_DATE = #{attendDate}
+			</if>	
 	    </where>
 	</select>
+	
+	<update id="updateAttendMsg" parameterType="Map">
+		UPDATE ATTENDANCE
+			SET MESSAGE=#{msg},
+	 			UPDATED_AT=NOW()
+ 		WHERE STUDENT_ID = #{studentId}
+ 			AND ATTEND_DATE = #{attendDate}
+	</update>
 </mapper>
