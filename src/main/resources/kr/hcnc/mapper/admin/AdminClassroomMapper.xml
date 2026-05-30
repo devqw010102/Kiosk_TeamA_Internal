@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hcnc.mapper.admin.AdminClassroomMapper">
+
+	<select id = "selectClassroom" resultType = "ClassroomVO">
+		SELECT CLASSROOM_ID
+			 , CLASSROOM_NAME
+			 , FLOOR
+			 , IMAGE_ID
+			 , IMAGE_PATH
+		  FROM CLASSROOM
+		 WHERE DEL_YN = 'N'
+	</select>
+	
+	<select id = "selectClassroomById" resultType = "ClassroomVO">
+		SELECT CLASSROOM_ID
+			 , CLASSROOM_NAME
+			 , FLOOR
+			 , IMAGE_ID
+			 , IMAGE_PATH
+		  FROM CLASSROOM
+		 WHERE DEL_YN = 'N'
+		   AND CLASSROOM_ID = #{classroomId}
+	</select>
+	
+	<insert id = "insertClassroom" parameterType = "ClassroomVO">
+		INSERT INTO CLASSROOM (CLASSROOM_ID, CLASSROOM_NAME, FLOOR, IMAGE_ID, IMAGE_PATH)
+		VALUES (#{classroomId}, #{classroomName}, #{floor}, #{imageId}, #{imagePath})
+	</insert>
+	
+	<update id = "updateClassroom" parameterType = "ClassroomVO">
+		UPDATE CLASSROOM
+		<set>
+			<if test = "classroomName != null and classroomName != ''">
+				CLASSROOM_NAME = #{classroomName},
+			</if>
+			<if test = "floor != null">
+				FLOOR = #{floor},
+			</if>
+			<if test = "imageId != null and imageId != ''">
+				IMAGE_ID = #{imageId},
+			</if>
+			<if test = "imagePath != null and imagePath != ''">
+				IMAGE_PATH = #{imagePath},
+			</if>
+				UPDATED_AT = NOW()
+		</set>
+		 WHERE CLASSROOM_ID = #{classroomId}
+	</update>
+
+</mapper>

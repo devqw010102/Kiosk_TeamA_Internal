@@ -36,6 +36,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public Map<String, Object> handleException(Exception e) {
 		Map<String, Object> result = new HashMap<>();
+		e.printStackTrace();
 		logger.error("Unexpected error", e);
 		result.put("status", "error");
 		result.put("message", "서버 오류가 발생했습니다.");
