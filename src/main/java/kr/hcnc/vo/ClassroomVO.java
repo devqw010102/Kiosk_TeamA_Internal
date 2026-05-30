@@ -1,4 +1,4 @@
-package kr.hcnc.vo.admin;
+package kr.hcnc.vo;
 
 public class ClassroomVO {
 
