@@ -1,6 +1,7 @@
 package kr.hcnc.service.admin;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -21,8 +22,18 @@ public class AdminFacilityInfoService extends EgovAbstractServiceImpl {
 
 	private static final Logger log = LoggerFactory.getLogger(AdminFacilityInfoService.class);
 
+	public List<FacilityInfoVO> selectFacilityList() {
+		log.info("Called :: selectFacilityList");
+		return adminFacilityInfoMapper.selectFacilityList();
+	}
+
+	public FacilityInfoVO selectFacilityById(String facilityId) {
+		log.info("Called :: selectFacilityById");
+		return adminFacilityInfoMapper.selectFacilityById(facilityId);
+	}
+
 	public Map<String, Object> updateFacility(FacilityInfoVO facilityInfoVO) {
-		log.info("Called::updateFacility");
+		log.info("Called :: updateFacility");
 		Map<String, Object> result = new HashMap<>();
 
 		if (facilityInfoVO == null || facilityInfoVO.getFacilityId() == null || facilityInfoVO.getFacilityType() == null) {
