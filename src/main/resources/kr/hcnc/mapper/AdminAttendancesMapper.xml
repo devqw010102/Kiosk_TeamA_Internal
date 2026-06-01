@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.hcnc.mapper.AdminAttendancesMapper">
-	<select id="selectAttend" parameterType="AttendSearchVO" resultType="Map">
+	<select id="selectAttend" parameterType="AttendVO" resultType="Map">
 		SELECT A.ATTENDANCE_ID AS attendanceId,
 			   A.STUDENT_ID AS studentId,
 			   S.EDU_ID AS eduId, 
@@ -23,14 +23,24 @@
 	        </if>
 			<if test="attendDate != null and attendDate != ''">
 				AND A.ATTEND_DATE = #{attendDate}
+			</if>
+			<if test="status != null and status != ''">
+				AND A.STATUS = #{status}
 			</if>	
 	    </where>
 	</select>
 	
-	<update id="updateAttendMsg" parameterType="Map">
+	<update id="updateAttendMsg" parameterType="AttendVO">
 		UPDATE ATTENDANCE
-			SET MESSAGE=#{msg},
-	 			UPDATED_AT=NOW()
+			<set>
+				<if test="message != null and message != ''">
+					MESSAGE=#{message},
+				</if>
+	 			<if test="status != null and status != ''">
+					STATUS=#{status},
+				</if>
+				UPDATED_AT=NOW()
+ 			</set>
  		WHERE STUDENT_ID = #{studentId}
  			AND ATTEND_DATE = #{attendDate}
 	</update>

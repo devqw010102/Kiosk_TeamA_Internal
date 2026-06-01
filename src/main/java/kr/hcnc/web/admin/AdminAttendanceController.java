@@ -10,13 +10,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.hcnc.service.admin.AdminAttendanceService;
 import kr.hcnc.vo.AttendSearchVO;
+import kr.hcnc.vo.AttendVO;
 
 //출석 관리 API - 출석 현황 조회 및 수동 변경
 @RestController
@@ -37,21 +41,17 @@ public class AdminAttendanceController {
     
     @GetMapping 
     // 동적 쿼리를 사용해서 조건별로 메소드 구분이 없도록 설계 함
-    public ResponseEntity<List<Map<String, Object>>> getAttendace(AttendSearchVO attendSearchVO){
-    	log.info("Ansewer :: GET /api/admin/attendances");
-    	return ResponseEntity.ok(adminAttendanceService.selectAttendance(attendSearchVO));
+    public ResponseEntity<List<AttendVO>> getAttendace(@RequestBody AttendVO attendVO){
+    	log.info("Called :: GET /api/admin/attendances");
+    	return ResponseEntity.ok(adminAttendanceService.selectAttendance(attendVO));
     }
     
-    @PostMapping
-    public ResponseEntity<Integer> updateAttendMsg(@RequestParam(name="msg") String msg,
-    							@RequestParam(name="attendDate") String attendDate,
-    							@RequestParam(name="studentId") String studentId) {
-    	log.info("Called::updateAttendMsg");
-    	Map<String, Object> param = new HashMap<>();
-    	param.put("msg", msg);
-    	param.put("attendDate", attendDate);
-    	param.put("studentId", studentId);
-    	int result = adminAttendanceService.updateAttendMsg(param);
+    // 출석 상태 변경 및 사유 기재
+    @PutMapping("/{studentId}")
+    public ResponseEntity<Integer> updateAttendMsg(@PathVariable String studentId, @RequestBody AttendVO attendVO) {
+    	log.info("Called::updateAttendMsg/{}", studentId);
+    	attendVO.setStudentId(studentId);
+    	int result = adminAttendanceService.updateAttendMsg(attendVO);
     	return ResponseEntity.ok(result);
     }
    
