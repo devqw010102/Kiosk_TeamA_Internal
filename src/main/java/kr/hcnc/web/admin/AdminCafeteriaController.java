@@ -33,7 +33,6 @@ public class AdminCafeteriaController {
     @Resource(name = "adminCafeteriaService")
     private AdminCafeteriaService adminCafeteriaService;
     
-    // 선택 달 전체 조회 API
     @GetMapping("")
     public ResponseEntity<List<CafeteriaVO>> getCafeteria(@RequestParam String date) {
     	log.info("Called :: GET /api/admin/cafeteria?date={}", date);
@@ -47,7 +46,6 @@ public class AdminCafeteriaController {
     	return ResponseEntity.ok(result);
     }
     
-    // 일일 메뉴표(조식, 중식, 석식) 전체 조회 API
     @GetMapping("/detail")
     public ResponseEntity<List<CafeteriaVO>> getCafeteriaDetail(@RequestParam String date) {
     	log.info("Called :: GET /api/admin/cafeteria/detail?date={}", date);
@@ -57,7 +55,6 @@ public class AdminCafeteriaController {
     	return ResponseEntity.ok(result);
     }
     
-    // 일일 메뉴 단건 등록 API
     @PostMapping(produces = "application/json; charset=utf8")
     public ResponseEntity<?> insertCafeteria(@RequestBody CafeteriaVO cafeteriaVO) {
     	log.info("Called :: POST /api/admin/cafeteria - body: {}", cafeteriaVO);
@@ -66,26 +63,29 @@ public class AdminCafeteriaController {
     	
     	Map<String, Object> response = new HashMap<>();
     	response.put("caferterId", cafeteriaVO.getCafeteriaId());
+    	response.put("message", "등록이 완료되었습니다.");
     	return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
-    // 일일 메뉴 및 운영유무 수정 API
     @PutMapping("/{cafeteriaId}")
-    public ResponseEntity<?> updateCafeteria(@RequestBody CafeteriaVO cafeteriaVO) {
+    public ResponseEntity<?> updateCafeteria(@PathVariable String cafeteriaId, @RequestBody CafeteriaVO cafeteriaVO) {
     	log.info("Called :: PUT / api/admin/cafeteria/ - body: {}", cafeteriaVO);
     	
+    	cafeteriaVO.setCafeteriaId(cafeteriaId);
     	adminCafeteriaService.updateCafeteria(cafeteriaVO);
     	
-    	String mealDate = cafeteriaVO.getMealDate();
-    	List<CafeteriaVO> updatedData = adminCafeteriaService.selectCafeteriaDetail(mealDate);
-    	return ResponseEntity.ok(updatedData);
+    	Map<String, Object> response = new HashMap<>();
+    	response.put("message", "수정이 완료되었습니다.");
+    	return ResponseEntity.ok(response);
     }
     
-    // 일일 메뉴 단건 삭제 (논리 삭제)
     @DeleteMapping("/{cafeteriaId}")
     public ResponseEntity<?> deleteCafeteria(@PathVariable String cafeteriaId) {
-    	log.info("Called :: DELETE / api/admin/cafeteria/delete/{}", cafeteriaId);
+    	log.info("Called :: DELETE / api/admin/cafeteria/{}", cafeteriaId);
     	adminCafeteriaService.deleteCafeteria(cafeteriaId);
-    	return ResponseEntity.ok().build();
+    	
+    	Map<String, Object> response = new HashMap<>();
+    	response.put("message", "삭제가 완료되었습니다.");
+    	return ResponseEntity.ok(response);
     }
 }
