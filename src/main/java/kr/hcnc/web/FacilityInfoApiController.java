@@ -23,15 +23,15 @@ public class FacilityInfoApiController {
 
 	private static final Logger log = LoggerFactory.getLogger(FacilityInfoApiController.class);
 
-	@GetMapping("/smoking")
+	@GetMapping("/smokingArea")
 	public List<FacilityInfoVO> selectSmokingArea() {
-		log.info("Called :: /api/info/smoking");
+		log.info("Called :: /api/info/smokingArea");
 		return facilityInfoService.selectSmokingArea();
 	}
 
-	@GetMapping("/cafeteria")
+	@GetMapping("/cafeteriaLocation")
 	public List<FacilityInfoVO> selectCafeteriaLocation() {
-		log.info("Called :: /api/info/cafeteria");
+		log.info("Called :: /api/info/cafeteriaLocation");
 		return facilityInfoService.selectCafeteriaLocation();
 	}
 }
