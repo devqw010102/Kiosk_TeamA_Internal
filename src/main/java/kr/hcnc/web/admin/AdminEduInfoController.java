@@ -46,7 +46,7 @@ public class AdminEduInfoController {
 	
 	@PostMapping
 	public ResponseEntity<?> insertEduInfo(@RequestBody EduInfoVO eduInfoVO) {
-		log.info("Called :: GET /api/admin/eduInfo");
+		log.info("Called :: POST /api/admin/eduInfo");
 		adminEduInfoService.insertEduInfo(eduInfoVO);
 		Map<String, Object> response = new HashMap<>();
 		response.put("eduId", eduInfoVO.getEduId());

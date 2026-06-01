@@ -1,8 +1,6 @@
 package kr.hcnc.service.admin;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.AdminAttendancesMapper;
-import kr.hcnc.vo.AttendSearchVO;
+import kr.hcnc.vo.AttendVO;
 
 @Service("adminAttendanceService")
 public class AdminAttendanceService extends EgovAbstractServiceImpl {
@@ -21,14 +19,20 @@ public class AdminAttendanceService extends EgovAbstractServiceImpl {
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminAttendanceService.class);
 	
-	public List<Map<String, Object>> selectAttendances(String date) {
-		log.info("selectAttendances date = {}", date);
-		return new ArrayList<>();
+//	public List<Map<String, Object>> selectAttendances(String date) {
+//		log.info("selectAttendances date = {}", date);
+//		return new ArrayList<>();
+//	}
+	
+	public List<AttendVO> selectAttendance(AttendVO attendVO) {
+		log.info("studentId = {}", attendVO.getStudentId());
+		return adminAttendancesMapper.selectAttend(attendVO);
 	}
 	
-	public List<Map<String, Object>> selectAttendance(AttendSearchVO attendSearchVO) {
-		log.info("studentId = {}", attendSearchVO.getStudentId());
-		return adminAttendancesMapper.selectAttend(attendSearchVO);
+	public int updateAttendMsg(AttendVO attendVO) {
+		log.info("Called::updateAttendMsg()");
+		int result = adminAttendancesMapper.updateAttendMsg(attendVO);
+		return result;
 	}
 	
 	public int updateAttendMsg(Map<String, Object> param) {

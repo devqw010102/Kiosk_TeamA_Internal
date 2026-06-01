@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.hcnc.mapper.FacilityInfoMapper">
+
+	<!-- 흡연장 or 구내식당 위치 조회 -->
+	<select id="selectFacilityList" parameterType="string" resultType="kr.hcnc.vo.FacilityInfoVO">
+		SELECT FACILITY_ID,
+               FACILITY_TYPE,
+               NAME,
+               LOCATION,
+               IMAGE_PATH,
+               DESCRIPTION,
+               CREATED_AT,
+               UPDATED_AT,
+               DEL_YN
+          FROM FACILITY
+         WHERE FACILITY_TYPE = #{facilityType}
+           AND DEL_YN = 'N'
+	</select>
+</mapper>

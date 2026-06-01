@@ -1,13 +1,12 @@
 package kr.hcnc.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
-import kr.hcnc.vo.AttendSearchVO;
+import kr.hcnc.vo.AttendVO;
 
 @Mapper("adminAttendancesMapper")
 public interface AdminAttendancesMapper {
-	public List<Map<String, Object>> selectAttend(AttendSearchVO attendSearchVO);
-	public int updateAttendMsg(Map<String, Object> param);
+	public List<AttendVO> selectAttend(AttendVO attendVO);
+	public int updateAttendMsg(AttendVO attendVO);
 }

@@ -11,7 +11,10 @@
 		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
 		<typeAlias alias="StudentSearchVO" type="kr.hcnc.vo.StudentSearchVO"/>
 		<typeAlias alias="AttendSearchVO" type="kr.hcnc.vo.AttendSearchVO"/>
+		<typeAlias alias="AttendVO" type="kr.hcnc.vo.AttendVO"/>
 		<typeAlias alias="ClassroomVO" type="kr.hcnc.vo.ClassroomVO" />
 		<typeAlias alias="EduInfoVO" type="kr.hcnc.vo.EduInfoVO"/>
+		<typeAlias alias="DormitoryVO" type="kr.hcnc.vo.DormitoryVO"/>
+		<typeAlias alias="SubjectVO" type="kr.hcnc.vo.SubjectVO"/>
 	</typeAliases>
 </configuration>

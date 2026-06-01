@@ -33,4 +33,10 @@
         FROM ATTENDANCE
         ]]>
     </select>
+    
+    <select id="selectDormAssignStatus" resultType="Map">
+    	SELECT
+ 		 (SELECT COUNT(*) FROM KIOSK_LOG WHERE `ACTION` = '생활관 입실') AS assignCount,
+  		 (SELECT COUNT(*) FROM STUDENTS WHERE DORM_YN='Y' AND DEL_YN = 'N') AS totalStudents;
+    </select>
 </mapper>

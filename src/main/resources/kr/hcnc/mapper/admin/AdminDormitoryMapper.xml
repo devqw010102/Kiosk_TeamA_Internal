@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hcnc.mapper.admin.AdminDormitoryMapper">
+
+	<select id="selectDormRoomAssignStatus" resultType="DormitoryVO">
+		SELECT  DORMITORY_ID as dormitoryId,
+				DORMITORY_ROOM_NAME as dormitoryRoomName,
+   				CURRENT_COUNT as currentCount, 
+			   MAX_COUNT as maxCount
+		FROM DORMITORIES
+		WHERE DEL_YN = 'N'
+	</select>
+	
+	<select id="selectDormRoomAssignStatusById" resultType="DormitoryVO">
+    	SELECT  DORMITORY_ID as dormitoryId,
+    			DORMITORY_ROOM_NAME as dormitoryRoomName,
+   				CURRENT_COUNT as currentCount, 
+			   MAX_COUNT as maxCount
+		FROM DORMITORIES
+			WHERE DORMITORY_ID = #{dormitoryId}
+			AND DEL_YN = 'N'
+    </select>
+    
+    <update id="updateDormAssignMaxCnt" parameterType="DormitoryVO">
+		UPDATE DORMITORIES
+			SET MAX_COUNT = #{maxCount}
+		WHERE DORMITORY_ID = #{dormitoryId}
+	</update>
+    
+    <update id="updateDormCurrentCnt" parameterType="DormitoryVO">
+    	UPDATE DORMITORIES
+			SET CURRENT_COUNT = CURRENT_COUNT + 1
+		WHERE DORMITORY_ID = #{dormitoryId} 	
+    </update>
+    
+    <update id="updateDormCurrentCntDown" parameterType="DormitoryVO">
+    	UPDATE DORMITORIES
+			SET CURRENT_COUNT = CURRENT_COUNT - 1
+		WHERE DORMITORY_ID = #{dormitoryId}	
+    </update>
+</mapper>
