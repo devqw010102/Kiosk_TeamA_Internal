@@ -43,5 +43,6 @@
  			</set>
  		WHERE STUDENT_ID = #{studentId}
  			AND ATTEND_DATE = #{attendDate}
+ 			AND DEL_YN = "N"
 	</update>
 </mapper>
