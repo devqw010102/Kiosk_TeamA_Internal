@@ -33,17 +33,22 @@
            AND DEL_YN = 'N'
 	</select>
 
+	<insert id="insertFacility" parameterType="kr.hcnc.vo.FacilityInfoVO">
+		INSERT INTO FACILITY (FACILITY_ID, FACILITY_TYPE, NAME, LOCATION, IMAGE_PATH, DESCRIPTION, DEL_YN)
+		VALUES (#{facilityId}, #{facilityType}, #{name}, #{location}, #{imagePath}, #{description}, 'N')
+	</insert>
+
 	<update id="updateFacility" parameterType="kr.hcnc.vo.FacilityInfoVO">
 		UPDATE FACILITY
 		  <set>
+		    <if test="facilityType != null and facilityType != ''">FACILITY_TYPE = #{facilityType},</if>
 		    <if test="name != null and name != ''">NAME = #{name},</if>
 		    <if test="location != null and location != ''">LOCATION = #{location},</if>
 		    <if test="imagePath != null and imagePath != ''">IMAGE_PATH = #{imagePath},</if>
 		    <if test="description != null">DESCRIPTION = #{description},</if>
 		    UPDATED_AT = NOW()
 		  </set>
-		 WHERE FACILITY_ID   = #{facilityId}
-		   AND FACILITY_TYPE = #{facilityType}
+		 WHERE FACILITY_ID = #{facilityId}
 		   AND DEL_YN = 'N'
 	</update>
 </mapper>

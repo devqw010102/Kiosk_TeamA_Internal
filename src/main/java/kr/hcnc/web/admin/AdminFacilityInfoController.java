@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,15 +42,25 @@ public class AdminFacilityInfoController {
 	}
 
 	@PostMapping
-	public Map<String, Object> updateFacilityByPost(@RequestBody FacilityInfoVO facilityInfoVO) {
+	public ResponseEntity<Map<String, Object>> insertFacility(@RequestBody FacilityInfoVO facilityInfoVO) {
 		log.info("Called :: POST /api/admin/facilityInfo");
-		return adminFacilityInfoService.updateFacility(facilityInfoVO);
+		Map<String, Object> result = adminFacilityInfoService.insertFacility(facilityInfoVO);
+		if ("fail".equals(result.get("status"))) {
+			return ResponseEntity.badRequest().body(result);
+		}
+		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 
 	@PutMapping("/{facilityId}")
-	public Map<String, Object> updateFacility(@PathVariable String facilityId, @RequestBody FacilityInfoVO facilityInfoVO) {
+	public ResponseEntity<Map<String, Object>> updateFacility(
+			@PathVariable String facilityId,
+			@RequestBody FacilityInfoVO facilityInfoVO) {
 		log.info("Called :: PUT /api/admin/facilityInfo/{}", facilityId);
 		facilityInfoVO.setFacilityId(facilityId);
-		return adminFacilityInfoService.updateFacility(facilityInfoVO);
+		Map<String, Object> result = adminFacilityInfoService.updateFacility(facilityInfoVO);
+		if ("fail".equals(result.get("status"))) {
+			return ResponseEntity.badRequest().body(result);
+		}
+		return ResponseEntity.ok(result);
 	}
 }

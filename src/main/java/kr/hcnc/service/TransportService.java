@@ -1,7 +1,6 @@
 package kr.hcnc.service;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.TransportMapper;
+import kr.hcnc.vo.TransportVO;
 
 @Service("transportService")
 public class TransportService extends EgovAbstractServiceImpl {
@@ -20,7 +20,7 @@ public class TransportService extends EgovAbstractServiceImpl {
 
 	private static final Logger log = LoggerFactory.getLogger(TransportService.class);
 
-	public List<Map<String, Object>> selectTransportList() {
+	public List<TransportVO> selectTransportList() {
 		log.info("Called :: selectTransportList");
 		return transportMapper.selectTransportList();
 	}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.hcnc.mapper.admin.AdminTransportMapper">
+	<select id="selectTransportList" resultType="kr.hcnc.vo.TransportVO">
+		SELECT TRANSPORT_ID,
+               TYPE,
+               CONTENT,
+               CREATED_AT,
+               UPDATED_AT,
+               DEL_YN
+          FROM TRANSPORT
+         WHERE DEL_YN = 'N'
+         ORDER BY TYPE, TRANSPORT_ID
+	</select>
+
+	<select id="selectTransportById" parameterType="string" resultType="kr.hcnc.vo.TransportVO">
+		SELECT TRANSPORT_ID,
+               TYPE,
+               CONTENT,
+               CREATED_AT,
+               UPDATED_AT,
+               DEL_YN
+          FROM TRANSPORT
+         WHERE TRANSPORT_ID = #{transportId}
+           AND DEL_YN = 'N'
+	</select>
+
+	<insert id="insertTransport" parameterType="kr.hcnc.vo.TransportVO">
+		INSERT INTO TRANSPORT (TRANSPORT_ID, TYPE, CONTENT, DEL_YN)
+		VALUES (#{transportId}, #{type}, #{content}, 'N')
+	</insert>
+
+	<update id="updateTransport" parameterType="kr.hcnc.vo.TransportVO">
+		UPDATE TRANSPORT
+		  <set>
+		    <if test="type != null and type != ''">TYPE = #{type},</if>
+		    <if test="content != null">CONTENT = #{content},</if>
+		    UPDATED_AT = NOW()
+		  </set>
+		 WHERE TRANSPORT_ID = #{transportId}
+		   AND DEL_YN = 'N'
+	</update>
+</mapper>

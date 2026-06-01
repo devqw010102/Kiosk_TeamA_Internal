@@ -11,5 +11,8 @@ public interface AdminFacilityInfoMapper {
 	List<FacilityInfoVO> selectFacilityList();
 
 	FacilityInfoVO selectFacilityById(String facilityId);
+
+	int insertFacility(FacilityInfoVO facilityInfoVO);
+
 	int updateFacility(FacilityInfoVO facilityInfoVO);
 }

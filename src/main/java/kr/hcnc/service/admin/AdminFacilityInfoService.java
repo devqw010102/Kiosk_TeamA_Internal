@@ -32,11 +32,39 @@ public class AdminFacilityInfoService extends EgovAbstractServiceImpl {
 		return adminFacilityInfoMapper.selectFacilityById(facilityId);
 	}
 
+	public Map<String, Object> insertFacility(FacilityInfoVO facilityInfoVO) {
+		log.info("Called :: insertFacility");
+		Map<String, Object> result = new HashMap<>();
+
+		if (facilityInfoVO == null || facilityInfoVO.getFacilityId() == null || facilityInfoVO.getFacilityType() == null) {
+			result.put("status", "fail");
+			result.put("message", "facilityId와 facilityType은 필수입니다.");
+			return result;
+		}
+
+		if (adminFacilityInfoMapper.selectFacilityById(facilityInfoVO.getFacilityId()) != null) {
+			result.put("status", "fail");
+			result.put("message", "이미 존재하는 facilityId입니다.");
+			return result;
+		}
+
+		int inserted = adminFacilityInfoMapper.insertFacility(facilityInfoVO);
+		if (inserted > 0) {
+			result.put("status", "success");
+			result.put("message", "등록되었습니다.");
+			result.put("facilityId", facilityInfoVO.getFacilityId());
+		} else {
+			result.put("status", "fail");
+			result.put("message", "등록에 실패했습니다.");
+		}
+		return result;
+	}
+
 	public Map<String, Object> updateFacility(FacilityInfoVO facilityInfoVO) {
 		log.info("Called :: updateFacility");
 		Map<String, Object> result = new HashMap<>();
 
-		if (facilityInfoVO == null || facilityInfoVO.getFacilityId() == null || facilityInfoVO.getFacilityType() == null) {
+		if (facilityInfoVO == null || facilityInfoVO.getFacilityId() == null) {
 			result.put("status", "fail");
 			result.put("message", "잘못된 요청입니다.");
 			return result;

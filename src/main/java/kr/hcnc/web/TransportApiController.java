@@ -1,7 +1,6 @@
 package kr.hcnc.web;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.hcnc.service.TransportService;
+import kr.hcnc.vo.TransportVO;
 
 @RestController
 @RequestMapping("/api/info")
@@ -23,7 +23,7 @@ public class TransportApiController {
 	private static final Logger log = LoggerFactory.getLogger(TransportApiController.class);
 
 	@GetMapping("/transport")
-	public List<Map<String, Object>> selectTransportList() {
+	public List<TransportVO> selectTransportList() {
 		log.info("Called :: /api/info/transport");
 		return transportService.selectTransportList();
 	}
