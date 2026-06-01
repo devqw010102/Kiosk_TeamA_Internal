@@ -43,3 +43,4 @@ src/main/resources/egovframework/egovProps/globals.properties
 # Claude Code
 .claude/
 CLAUDE.md
+/.factorypath

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.hcnc.mapper.AdminAttendancesMapper">
+<mapper namespace="kr.hcnc.mapper.admin.AdminAttendancesMapper">
 	<select id="selectAttend" parameterType="AttendVO" resultType="Map">
 		SELECT A.ATTENDANCE_ID AS attendanceId,
 			   A.STUDENT_ID AS studentId,

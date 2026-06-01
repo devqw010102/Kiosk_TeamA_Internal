@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import kr.hcnc.mapper.AdminAttendancesMapper;
+import kr.hcnc.mapper.admin.AdminAttendancesMapper;
 import kr.hcnc.vo.AttendVO;
 
 @Service("adminAttendanceService")

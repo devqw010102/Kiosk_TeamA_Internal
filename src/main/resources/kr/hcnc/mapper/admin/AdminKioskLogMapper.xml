@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hcnc.mapper.admin.AdminKioskLogMapper">
+	<select id="selectKioskLog" parameterType="KioskLogVO" resultType="KioskLogVO">
+		SELECT LOG_ID AS logId,
+			   ACTION AS action,
+			   CREATED_AT AS createdAt ,
+			   DEL_YN AS delYN
+		FROM  KIOSK_LOG
+		<where>
+			DEL_YN = 'N'
+			<if test="logId != null and logId != ''">
+				AND LOG_ID = #{logId}
+			</if>
+			<if test="action != null and action != ''">
+				AND ACTION = #{action}
+			</if>
+			<if test="createdAt != null and createdAt != ''">
+				AND CREATED_AT = #{createdAt}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertLog" parameterType="KioskLogVO">
+		INSERT INTO KIOSK_LOG (ACTION, CREATED_AT)
+		VALUES (#{action}, NOW())
+	</insert>
+	
+	<update id="deleteLog" parameterType="KioskLogVO">
+		UPDATE KIOSK_LOG
+			SET DEL_YN = 'Y'
+		<where>
+			DEL_YN = 'N'
+			<if test="logId != null and logId != ''">
+				AND LOG_ID = #{logId}
+			</if>
+			<if test="action != null and action != ''">
+				AND ACTION = #{action}
+			</if>
+			<if test="createdAt != null and createdAt != ''">
+				AND CREATED_AT = #{createdAt}
+			</if>
+		</where>
+	</update>
+</mapper>
