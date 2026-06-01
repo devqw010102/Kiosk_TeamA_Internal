@@ -7,6 +7,7 @@ public class AttendVO {
 	private String message;
 	private String createdAt;
 	private String updatedAt;
+	private String attendDate;
 	public String getStudentId() {
 		return studentId;
 	}
@@ -42,6 +43,12 @@ public class AttendVO {
 	}
 	public void setUpdatedAt(String updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	public String getAttendDate() {
+		return attendDate;
+	}
+	public void setAttendDate(String attendDate) {
+		this.attendDate = attendDate;
 	}
 	
 	
