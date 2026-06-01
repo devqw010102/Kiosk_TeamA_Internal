@@ -1,4 +1,4 @@
-package kr.hcnc.web.admin.dashBoard;
+package kr.hcnc.web.admin;
 
 import java.util.List;
 import java.util.Map;
@@ -39,5 +39,11 @@ public class AdminDashBoardController {
     public ResponseEntity<Map<String, Object>> selectAttendCount() {
     	log.info("Called::selectPrintCountByHour()");
     	return ResponseEntity.ok(adminDashBoardService.selectAttendCount());
+    }
+    
+    @GetMapping("/dorm-stats")
+    public ResponseEntity<Map<String, Object>> selectDormStats() {
+    	log.info("Called::selectDormStats()");
+    	return ResponseEntity.ok(adminDashBoardService.selectDormStats());
     }
 }

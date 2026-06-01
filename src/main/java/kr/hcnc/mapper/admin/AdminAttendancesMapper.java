@@ -1,4 +1,4 @@
-package kr.hcnc.mapper;
+package kr.hcnc.mapper.admin;
 
 import java.util.List;
 

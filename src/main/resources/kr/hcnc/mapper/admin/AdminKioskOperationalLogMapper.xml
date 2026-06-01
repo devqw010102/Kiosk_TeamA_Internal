@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.hcnc.mapper.admin.AdminKioskOperationalLogMapper">
+	<select id="selectOpLog" parameterType="KioskOperationalLogVO" resultType="KioskOperationalLogVO">
+		SELECT OP_LOG_ID AS opLogId,
+				STUDENT_ID AS studentId,
+				PRINTING AS printing,
+				DORM AS dorm,
+				CREATED_AT AS createdAt,
+				DEL_YN AS delYN
+		FROM KIOSK_OPERATIONAL_LOG
+		<where>
+			DEL_YN = 'N'
+			<if test="studentId != null and studentId != ''">
+				AND STUDENT_ID = #{studentId}
+			</if>
+			<if test="dorm != null and dorm != ''">
+				AND DORM = #{dorm}
+			</if>
+			<if test="createdAt != null and createdAt != ''">
+				AND CREATED_AT = #{createdAt}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insertOpLog" parameterType="KioskOperationalLogVO">
+		INSERT INTO KIOSK_OPERATIONAL_LOG (STUDENT_ID, PRINTING, DORM, CREATED_AT)
+		VALUES (#{studentId}, 'Y', 
+		<choose>
+			<when test="dorm != null and dorm != ''">
+				#{dorm},
+			</when>
+			<otherwise>
+				NULL,
+			</otherwise>
+		</choose>
+		NOW())
+	</insert>
+	
+	<insert id="insertDormOutLog" parameterType="KioskOperationalLogVO">
+		INSERT INTO KIOSK_OPERATIONAL_LOG(STUDENT_ID, PRINTING, DORM, CREATED_AT)
+		VALUES (#{studentId}, 'Y', 'OUT', NOW())
+	</insert>
+	
+	<update id="deleteOpLog" parameterType="KioskLogVO">
+		UPDAET KIOSK_OPERATIONAL_LOG
+			SET DEL_YN = 'Y'
+		<where>
+			DEL_YN = 'N'
+			<if test="opLogId != null and opLogId != ''">
+				AND OP_LOG_ID = #{opLogId}
+			</if>
+			<if test="createdAt != null and createdAt != ''">
+				AND CREATED_AT = #{createdAt}
+			</if>
+		</where>
+	</update>
+</mapper>
