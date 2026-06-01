@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hcnc.mapper.admin.AdminStudentMapper">
+
+	<select id = "selectStudent" resultType = "StudentVO">
+		SELECT STUDENT_ID
+			 , STUDENT_NAME
+			 , BIRTH_DATE
+			 , EDU_ID
+			 , ATTEND_YN
+			 , DORM_YN
+			 , DORMITORY_ID
+			 , PHONE_NUMBER
+		  FROM STUDENTS
+		 WHERE DEL_YN = 'N'
+	</select>
+
+	<select id = "selectStudentById" resultType = "StudentVO">
+		SELECT STUDENT_ID
+			 , STUDENT_NAME
+			 , BIRTH_DATE
+			 , EDU_ID
+			 , ATTEND_YN
+			 , DORM_YN
+			 , DORMITORY_ID
+			 , PHONE_NUMBER
+		  FROM STUDENTS
+		 WHERE DEL_YN = 'N'
+		   AND STUDENT_ID = #{studentId}
+	</select>
+	
+	<insert id = "insertStudent" parameterType = "StudentVO">
+		INSERT INTO STUDENTS (STUDENT_ID, STUDENT_NAME, BIRTH_DATE, EDU_ID, ATTEND_YN, DORM_YN, DORMITORY_ID, PHONE_NUMBER)
+		VALUES (#{studentId}, #{studentName}, #{birthDate}, #{eduId}, #{attendYn}, #{dormYn}, #{dormitoryId}, #{phoneNumber})
+	</insert>
+	
+	<update id="updateStudent" parameterType="StudentVO">
+		UPDATE STUDENTS
+		<set>
+			<if test="studentName != null and studentName != ''">
+				STUDENT_NAME = #{studentName},
+			</if>
+			<if test="birthDate != null and birthDate != ''">
+				BIRTH_DATE = #{birthDate},
+			</if>
+			<if test="eduId != null and eduId != ''">
+				EDU_ID = #{eduId},
+			</if>
+			<if test="attendYn != null and attendYn != ''">
+				ATTEND_YN = #{attendYn},
+			</if>
+			<if test="dormYn != null and dormYn != ''">
+				DORM_YN = #{dormYn},
+			</if>
+			<if test="dormitoryId != null and dormitoryId != ''">
+				DORMITORY_ID = #{dormitoryId},
+			</if>
+			<if test="phoneNumber != null and phoneNumber != ''">
+				PHONE_NUMBER = #{phoneNumber},
+			</if>
+		</set>
+		WHERE STUDENT_ID = #{studentId}
+		  AND DEL_YN = 'N'
+	</update>
+	
+	<update id = "deleteStudent">
+		UPDATE STUDENTS
+		   SET DEL_YN = 'Y'
+		 WHERE STUDENT_ID = #{studentId}
+		   AND DEL_YN = 'N'
+	</update>
+</mapper>
