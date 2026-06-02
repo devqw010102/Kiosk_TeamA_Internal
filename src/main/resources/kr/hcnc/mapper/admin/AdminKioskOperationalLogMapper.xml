@@ -19,7 +19,7 @@
 				AND DORM = #{dorm}
 			</if>
 			<if test="createdAt != null and createdAt != ''">
-				AND CREATED_AT = #{createdAt}
+				AND DATE(CREATED_AT) = #{createdAt}
 			</if>
 		</where>
 	</select>
@@ -43,8 +43,8 @@
 		VALUES (#{studentId}, 'Y', 'OUT', NOW())
 	</insert>
 	
-	<update id="deleteOpLog" parameterType="KioskLogVO">
-		UPDAET KIOSK_OPERATIONAL_LOG
+	<update id="deleteOpLog" parameterType="KioskOperationalLogVO">
+		UPDATE KIOSK_OPERATIONAL_LOG
 			SET DEL_YN = 'Y'
 		<where>
 			DEL_YN = 'N'
@@ -52,7 +52,7 @@
 				AND OP_LOG_ID = #{opLogId}
 			</if>
 			<if test="createdAt != null and createdAt != ''">
-				AND CREATED_AT = #{createdAt}
+				AND DATE(CREATED_AT) = #{createdAt}
 			</if>
 		</where>
 	</update>
