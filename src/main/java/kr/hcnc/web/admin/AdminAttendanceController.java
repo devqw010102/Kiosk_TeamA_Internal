@@ -1,21 +1,25 @@
 package kr.hcnc.web.admin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.hcnc.service.admin.AdminAttendanceService;
-import kr.hcnc.vo.AttendSearchVO;
 import kr.hcnc.vo.AttendVO;
 
 //출석 관리 API - 출석 현황 조회 및 수동 변경
@@ -27,19 +31,21 @@ public class AdminAttendanceController {
 
     @Resource(name = "adminAttendanceService")
     private AdminAttendanceService adminAttendanceService;
-   
-//    @GetMapping
-//    public ResponseEntity<List<Map<String, Object>>> getAttendances(@RequestParam(required = false) String date) {
-//    	log.info("Called :: GET /api/admin/attendances");
-//    	
-//    	return ResponseEntity.ok(adminAttendanceService.selectAttendances(date));
-//    }
     
     @GetMapping 
     // 동적 쿼리를 사용해서 조건별로 메소드 구분이 없도록 설계 함
-    public ResponseEntity<List<AttendVO>> getAttendace(@RequestBody AttendVO attendVO){
+    public ResponseEntity<List<AttendVO>> getAttendace(AttendVO attendVO){
     	log.info("Called :: GET /api/admin/attendances");
     	return ResponseEntity.ok(adminAttendanceService.selectAttendance(attendVO));
+    }
+    
+    @PostMapping
+    public ResponseEntity<?> insertAttendance(@RequestBody AttendVO attendVO) {
+    	log.info("Called :: POST /api/admin/attendances");
+    	adminAttendanceService.insertAttend(attendVO);
+    	Map<String, Object> response = new HashMap<>();
+    	response.put("AttendanceId", attendVO.getAttendanceId());
+    	return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
     // 출석 상태 변경 및 사유 기재
@@ -49,6 +55,13 @@ public class AdminAttendanceController {
     	attendVO.setStudentId(studentId);
     	int result = adminAttendanceService.updateAttendMsg(attendVO);
     	return ResponseEntity.ok(result);
+    }
+    
+    @DeleteMapping("/{attendId}")
+    public ResponseEntity<?> deleteAttend(@PathVariable String attendId) {
+    	log.info("Called :: DELETE /api/admin/attendances/{}", attendId);
+    	adminAttendanceService.deleteAttend(attendId);
+    	return ResponseEntity.ok().build();
     }
    
 }

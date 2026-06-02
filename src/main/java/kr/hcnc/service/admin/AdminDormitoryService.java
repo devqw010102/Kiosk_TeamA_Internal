@@ -1,30 +1,30 @@
 package kr.hcnc.service.admin;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.admin.AdminDormitoryMapper;
+import kr.hcnc.mapper.admin.AdminKioskOperationalLogMapper;
 import kr.hcnc.vo.DormitoryVO;
+import kr.hcnc.vo.KioskOperationalLogVO;
 
 @Service("adminDormitoryService")
 public class AdminDormitoryService extends EgovAbstractServiceImpl {
 
 	private static final Logger log = LoggerFactory.getLogger(AdminDormitoryService.class);
+	
 	@Resource(name = "adminDormitoryMapper")
 	private AdminDormitoryMapper adminDormitoryMapper;
 	
-//	public List<Map<String, Object>> selectDormitories() {
-//		log.info("selectDormitories");
-//		return new ArrayList<>();
-//	}
+	@Resource(name = "adminKioskOperationalMapper")
+	private AdminKioskOperationalLogMapper adminKioskOperationalLogMapper;
 	
 	public List<DormitoryVO> selectDormRoomAssignStatus() {
 		log.info("Called :: selectDormAssignStatus()");
@@ -41,13 +41,27 @@ public class AdminDormitoryService extends EgovAbstractServiceImpl {
 		return adminDormitoryMapper.updateDormAssignMaxCnt(dormitoryVO);
 	}
 	
-	public int updateDormCurrentCnt(DormitoryVO dormitoryVO) {
+	@Transactional
+	public int updateDormCurrentCnt(DormitoryVO dormitoryVO, String studentId) {
 		log.info("Called :: updateDormCurrentCnt");
-		return adminDormitoryMapper.updateDormCurrentCnt(dormitoryVO);
+		int result = adminDormitoryMapper.updateDormCurrentCnt(dormitoryVO);
+		KioskOperationalLogVO logVO = new KioskOperationalLogVO();
+		logVO.setStudentId(studentId);
+		logVO.setDorm("IN");
+		logVO.setPrinting("Y");
+		adminKioskOperationalLogMapper.insertOpLog(logVO);
+		return result;
 	}
 	
-	public int updateDormCurrentCntDown(DormitoryVO dormitoryVO) {
-		log.info("Called :: updateDormCurrentCnt");
-		return adminDormitoryMapper.updateDormCurrentCntDown(dormitoryVO);
+	@Transactional
+	public int updateDormCurrentCntDown(DormitoryVO dormitoryVO, String studentId) {
+		log.info("Called :: updateDormCurrentCntDown");
+		int result = adminDormitoryMapper.updateDormCurrentCntDown(dormitoryVO);
+		KioskOperationalLogVO logVO = new KioskOperationalLogVO();
+		logVO.setStudentId(studentId);
+		logVO.setDorm("OUT");
+		logVO.setPrinting("Y");
+		adminKioskOperationalLogMapper.insertDormOutLog(logVO);
+		return result;
 	}
 }

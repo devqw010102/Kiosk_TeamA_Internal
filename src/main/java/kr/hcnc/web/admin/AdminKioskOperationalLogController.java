@@ -37,7 +37,7 @@ public class AdminKioskOperationalLogController {
 		int result = adminKioskOperationalLogService.insertOpLog(kioskOpVO);
 		return ResponseEntity.ok(result);
 	}
-	@PostMapping("/dorm-op")
+	@DeleteMapping("/dorm-op")
 	public ResponseEntity<Integer> insertDormOutLog(@RequestBody KioskOperationalLogVO kioskOpVO) {
 		log.info("Called :: insertDormOutLog");
 		int result = adminKioskOperationalLogService.insertDormOutLog(kioskOpVO);

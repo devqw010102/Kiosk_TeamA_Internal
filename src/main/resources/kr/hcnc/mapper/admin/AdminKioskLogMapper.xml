@@ -16,7 +16,7 @@
 				AND ACTION = #{action}
 			</if>
 			<if test="createdAt != null and createdAt != ''">
-				AND CREATED_AT = #{createdAt}
+				AND DATE(CREATED_AT) = #{createdAt}
 			</if>
 		</where>
 	</select>
@@ -38,7 +38,7 @@
 				AND ACTION = #{action}
 			</if>
 			<if test="createdAt != null and createdAt != ''">
-				AND CREATED_AT = #{createdAt}
+				AND DATE(CREATED_AT) = #{createdAt}
 			</if>
 		</where>
 	</update>
