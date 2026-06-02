@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.hcnc.service.admin.AdminDormitoryService;
@@ -26,13 +27,6 @@ public class AdminDormitoryController {
 
     @Resource(name = "adminDormitoryService")
     private AdminDormitoryService adminDormitoryService;
-    
-//    @GetMapping
-//    public ResponseEntity<List<Map<String, Object>>> getDormitories() {
-//    	log.info("Called :: GET /api/admin/dormitories");
-//    	
-//    	return ResponseEntity.ok(adminDormitoryService.selectDormitories());
-//    }
     
     // 생활관 전체  배정인원/최대 인원 가져오기
     @GetMapping
@@ -57,16 +51,16 @@ public class AdminDormitoryController {
     }
     // 배정인원 증가
     @PatchMapping("/current-count")
-    public ResponseEntity<Integer> updateDormCurrentCnt (@RequestBody DormitoryVO dormitoryVO){
-    	log.info("Called :: PATCH /api/admin/dormitories/max-count");
-    	int result = adminDormitoryService.updateDormCurrentCnt(dormitoryVO);
+    public ResponseEntity<Integer> updateDormCurrentCnt (@RequestBody DormitoryVO dormitoryVO, @RequestParam String studentId){
+    	log.info("Called :: PATCH /api/admin/dormitories/current-count");
+    	int result = adminDormitoryService.updateDormCurrentCnt(dormitoryVO, studentId);
     	return ResponseEntity.ok(result);
     }
     // 배정인원 감소
     @PatchMapping("/current-down")
-    public ResponseEntity<Integer> updateDormCurrentCntDown (@RequestBody DormitoryVO dormitoryVO){
+    public ResponseEntity<Integer> updateDormCurrentCntDown (@RequestBody DormitoryVO dormitoryVO, @RequestParam String studentId){
     	log.info("Called :: PATCH /api/admin/dormitories/current-down");
-    	int result = adminDormitoryService.updateDormCurrentCntDown(dormitoryVO);
+    	int result = adminDormitoryService.updateDormCurrentCntDown(dormitoryVO, studentId);
     	return ResponseEntity.ok(result);
     }
 }

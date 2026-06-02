@@ -45,4 +45,16 @@
  			AND ATTEND_DATE = #{attendDate}
  			AND DEL_YN = "N"
 	</update>
+	
+	<insert id="insertAttend" parameterType="AttendVO">
+	INSERT INTO ATTENDANCE (ATTENDANCE_ID, STUDENT_ID, ATTEND_DATE, STATUS, MESSAGE)
+	VALUES (#{attendanceId}, #{studentId}, #{attendDate}, #{status}, #{message})
+	</insert>
+	
+	<update id = "deleteAttend">
+		UPDATE ATTENDANCE
+		   SET DEL_YN = 'Y'
+		 WHERE ATTENDANCE_ID = #{attendanceId}
+		   AND DEL_YN = 'N'
+	</update>
 </mapper>
