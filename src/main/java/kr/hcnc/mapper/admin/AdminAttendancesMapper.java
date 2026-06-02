@@ -9,4 +9,8 @@ import kr.hcnc.vo.AttendVO;
 public interface AdminAttendancesMapper {
 	public List<AttendVO> selectAttend(AttendVO attendVO);
 	public int updateAttendMsg(AttendVO attendVO);
+	
+	public int insertAttend(AttendVO attendVO);
+	
+	public int deleteAttend(String attendId);
 }

@@ -26,7 +26,7 @@
 	
 	<insert id="insertOpLog" parameterType="KioskOperationalLogVO">
 		INSERT INTO KIOSK_OPERATIONAL_LOG (STUDENT_ID, PRINTING, DORM, CREATED_AT)
-		VALUES (#{studentId}, 'Y', 
+		VALUES (#{studentId}, #{printing}, 
 		<choose>
 			<when test="dorm != null and dorm != ''">
 				#{dorm},

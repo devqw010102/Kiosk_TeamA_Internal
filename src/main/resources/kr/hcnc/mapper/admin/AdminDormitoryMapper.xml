@@ -25,17 +25,20 @@
 		UPDATE DORMITORIES
 			SET MAX_COUNT = #{maxCount}
 		WHERE DORMITORY_ID = #{dormitoryId}
+		  AND DEL_YN = 'N'
 	</update>
     
     <update id="updateDormCurrentCnt" parameterType="DormitoryVO">
     	UPDATE DORMITORIES
 			SET CURRENT_COUNT = CURRENT_COUNT + 1
-		WHERE DORMITORY_ID = #{dormitoryId} 	
+		WHERE DORMITORY_ID = #{dormitoryId} 
+		  AND DEL_YN = 'N'	
     </update>
     
     <update id="updateDormCurrentCntDown" parameterType="DormitoryVO">
     	UPDATE DORMITORIES
 			SET CURRENT_COUNT = CURRENT_COUNT - 1
-		WHERE DORMITORY_ID = #{dormitoryId}	
+		WHERE DORMITORY_ID = #{dormitoryId}
+		  AND DEL_YN = 'N'	
     </update>
 </mapper>
