@@ -3,7 +3,7 @@
 <mapper namespace="kr.hcnc.mapper.TransportMapper">
 
 	<!-- 교통 정보 목록 조회 -->
-	<select id="selectTransportList" resultType="kr.hcnc.vo.TransportVO">
+	<select id="selectTransportList" resultType="TransportVO">
 		SELECT TRANSPORT_ID,
                TYPE,
                CONTENT,

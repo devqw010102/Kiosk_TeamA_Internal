@@ -15,4 +15,6 @@ public interface AdminFacilityInfoMapper {
 	int insertFacility(FacilityInfoVO facilityInfoVO);
 
 	int updateFacility(FacilityInfoVO facilityInfoVO);
+
+	int deleteFacility(String facilityId);
 }

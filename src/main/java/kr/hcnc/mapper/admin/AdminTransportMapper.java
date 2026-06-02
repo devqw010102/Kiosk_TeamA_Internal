@@ -15,4 +15,6 @@ public interface AdminTransportMapper {
 	int insertTransport(TransportVO transportVO);
 
 	int updateTransport(TransportVO transportVO);
+
+	int deleteTransport(String transportId);
 }

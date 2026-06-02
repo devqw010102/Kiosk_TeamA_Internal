@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,25 +43,24 @@ public class AdminTransportController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Map<String, Object>> insertTransport(@RequestBody TransportVO transportVO) {
+	public ResponseEntity<?> insertTransport(@RequestBody TransportVO transportVO) {
 		log.info("Called :: POST /api/admin/transport");
-		Map<String, Object> result = adminTransportService.insertTransport(transportVO);
-		if ("fail".equals(result.get("status"))) {
-			return ResponseEntity.badRequest().body(result);
-		}
+		int result = adminTransportService.insertTransport(transportVO);
 		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 
 	@PutMapping("/{transportId}")
-	public ResponseEntity<Map<String, Object>> updateTransport(
-			@PathVariable String transportId,
-			@RequestBody TransportVO transportVO) {
+	public ResponseEntity<?> updateTransport(@PathVariable String transportId, @RequestBody TransportVO transportVO) {
 		log.info("Called :: PUT /api/admin/transport/{}", transportId);
 		transportVO.setTransportId(transportId);
-		Map<String, Object> result = adminTransportService.updateTransport(transportVO);
-		if ("fail".equals(result.get("status"))) {
-			return ResponseEntity.badRequest().body(result);
-		}
+		int result = adminTransportService.updateTransport(transportVO);
 		return ResponseEntity.ok(result);
+	}
+	
+	@DeleteMapping("/{transportId}")
+	public ResponseEntity<Integer> deleteFacility(@PathVariable String transportId) {
+	    log.info("Called :: DELETE /api/admin/transport/{}", transportId);
+	    int result = adminTransportService.deleteTransport(transportId);
+	    return ResponseEntity.ok(result);
 	}
 }

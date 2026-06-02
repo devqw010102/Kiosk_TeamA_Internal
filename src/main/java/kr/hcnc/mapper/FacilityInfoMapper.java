@@ -10,6 +10,6 @@ import kr.hcnc.vo.FacilityInfoVO;
 @Mapper("facilityInfoMapper")
 public interface FacilityInfoMapper {
 
-	List<FacilityInfoVO> selectFacilityList(@Param("facilityType") String facilityType);
+	List<FacilityInfoVO> selectFacilityList();
 
 }

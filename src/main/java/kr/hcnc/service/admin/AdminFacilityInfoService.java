@@ -1,8 +1,6 @@
 package kr.hcnc.service.admin;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -32,52 +30,18 @@ public class AdminFacilityInfoService extends EgovAbstractServiceImpl {
 		return adminFacilityInfoMapper.selectFacilityById(facilityId);
 	}
 
-	public Map<String, Object> insertFacility(FacilityInfoVO facilityInfoVO) {
-		log.info("Called :: insertFacility");
-		Map<String, Object> result = new HashMap<>();
-
-		if (facilityInfoVO == null || facilityInfoVO.getFacilityId() == null || facilityInfoVO.getFacilityType() == null) {
-			result.put("status", "fail");
-			result.put("message", "facilityId와 facilityType은 필수입니다.");
-			return result;
-		}
-
-		if (adminFacilityInfoMapper.selectFacilityById(facilityInfoVO.getFacilityId()) != null) {
-			result.put("status", "fail");
-			result.put("message", "이미 존재하는 facilityId입니다.");
-			return result;
-		}
-
-		int inserted = adminFacilityInfoMapper.insertFacility(facilityInfoVO);
-		if (inserted > 0) {
-			result.put("status", "success");
-			result.put("message", "등록되었습니다.");
-			result.put("facilityId", facilityInfoVO.getFacilityId());
-		} else {
-			result.put("status", "fail");
-			result.put("message", "등록에 실패했습니다.");
-		}
-		return result;
+	public int insertFacility(FacilityInfoVO facilityInfoVO) {
+	    log.info("Called :: insertFacility");
+	    return adminFacilityInfoMapper.insertFacility(facilityInfoVO);
 	}
-
-	public Map<String, Object> updateFacility(FacilityInfoVO facilityInfoVO) {
-		log.info("Called :: updateFacility");
-		Map<String, Object> result = new HashMap<>();
-
-		if (facilityInfoVO == null || facilityInfoVO.getFacilityId() == null) {
-			result.put("status", "fail");
-			result.put("message", "잘못된 요청입니다.");
-			return result;
-		}
-
-		int updated = adminFacilityInfoMapper.updateFacility(facilityInfoVO);
-		if (updated > 0) {
-			result.put("status", "success");
-			result.put("message", "수정되었습니다.");
-		} else {
-			result.put("status", "fail");
-			result.put("message", "수정할 시설 정보를 찾을 수 없습니다.");
-		}
-		return result;
+	
+	public int updateFacility(FacilityInfoVO facilityInfoVO) {
+	    log.info("Called :: updateFacility");
+	    return adminFacilityInfoMapper.updateFacility(facilityInfoVO);
+	}
+	
+	public int deleteFacility(String facilityId) {
+	    log.info("Called :: deleteFacility");
+	    return adminFacilityInfoMapper.deleteFacility(facilityId);
 	}
 }
