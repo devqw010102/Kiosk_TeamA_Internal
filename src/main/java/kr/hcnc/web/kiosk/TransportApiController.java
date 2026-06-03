@@ -1,4 +1,4 @@
-package kr.hcnc.web;
+package kr.hcnc.web.kiosk;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.hcnc.service.TransportService;
+import kr.hcnc.service.kiosk.TransportService;
 import kr.hcnc.vo.TransportVO;
 
 @RestController

@@ -1,4 +1,4 @@
-package kr.hcnc.mapper;
+package kr.hcnc.mapper.kiosk;
 
 import java.util.List;
 

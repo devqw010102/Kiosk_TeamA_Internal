@@ -1,8 +1,6 @@
-package kr.hcnc.mapper;
+package kr.hcnc.mapper.kiosk;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 import kr.hcnc.vo.FacilityInfoVO;
