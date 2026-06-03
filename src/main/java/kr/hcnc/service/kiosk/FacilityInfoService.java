@@ -1,7 +1,6 @@
-package kr.hcnc.service;
+package kr.hcnc.service.kiosk;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import kr.hcnc.mapper.FacilityInfoMapper;
+import kr.hcnc.mapper.kiosk.FacilityInfoMapper;
 import kr.hcnc.vo.FacilityInfoVO;
 
 @Service("facilityInfoService")

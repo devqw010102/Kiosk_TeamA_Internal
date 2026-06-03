@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="kr.hcnc.mapper.FacilityInfoMapper">
+<mapper namespace="kr.hcnc.mapper.kiosk.FacilityInfoMapper">
 
 	<!-- 시설정보 조회  -->
 	<select id="selectFacilityList" parameterType="string" resultType="FacilityInfoVO">

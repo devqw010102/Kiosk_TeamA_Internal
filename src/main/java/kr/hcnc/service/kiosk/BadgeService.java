@@ -1,4 +1,4 @@
-package kr.hcnc.service;
+package kr.hcnc.service.kiosk;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import kr.hcnc.mapper.BadgeMapper;
+import kr.hcnc.mapper.kiosk.BadgeMapper;
 import kr.hcnc.validator.StudentValidator;
 import kr.hcnc.vo.StudentSearchVO;
 

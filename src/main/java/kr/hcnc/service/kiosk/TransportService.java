@@ -1,4 +1,4 @@
-package kr.hcnc.service;
+package kr.hcnc.service.kiosk;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import kr.hcnc.mapper.TransportMapper;
+import kr.hcnc.mapper.kiosk.TransportMapper;
 import kr.hcnc.vo.TransportVO;
 
 @Service("transportService")

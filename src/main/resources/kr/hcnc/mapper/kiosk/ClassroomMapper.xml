@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hcnc.mapper.kiosk.ClassroomMapper">
+	
+	<select id="selectClassroom" resultType="ClassroomVO">
+        SELECT CLASSROOM_ID,
+               CLASSROOM_NAME,
+               FLOOR,
+               IMAGE_ID,
+               IMAGE_PATH
+          FROM CLASSROOM
+         WHERE DEL_YN = 'N'
+         ORDER BY FLOOR, CLASSROOM_ID
+    </select>
+    
+</mapper>

@@ -1,9 +1,10 @@
-package kr.hcnc.mapper;
+package kr.hcnc.mapper.kiosk;
 
 import java.util.List;
 import java.util.Map;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 import kr.hcnc.vo.StudentSearchVO;
+
 @Mapper("badgeMapper")
 public interface BadgeMapper {
 	
