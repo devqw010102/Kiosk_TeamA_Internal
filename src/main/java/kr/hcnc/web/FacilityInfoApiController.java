@@ -1,7 +1,6 @@
 package kr.hcnc.web;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -15,23 +14,16 @@ import kr.hcnc.service.FacilityInfoService;
 import kr.hcnc.vo.FacilityInfoVO;
 
 @RestController
-@RequestMapping("/api/info")
+@RequestMapping("/api/facilityInfo")
 public class FacilityInfoApiController {
+    private static final Logger log = LoggerFactory.getLogger(FacilityInfoApiController.class);
 
-	@Resource(name = "facilityInfoService")
-	private FacilityInfoService facilityInfoService;
+    @Resource(name = "facilityInfoService")
+    private FacilityInfoService facilityInfoService;
 
-	private static final Logger log = LoggerFactory.getLogger(FacilityInfoApiController.class);
-
-	@GetMapping("/smoking")
-	public List<FacilityInfoVO> selectSmokingArea() {
-		log.info("Called :: /api/info/smoking");
-		return facilityInfoService.selectSmokingArea();
-	}
-
-	@GetMapping("/cafeteria")
-	public List<FacilityInfoVO> selectCafeteriaLocation() {
-		log.info("Called :: /api/info/cafeteria");
-		return facilityInfoService.selectCafeteriaLocation();
-	}
+    @GetMapping
+    public List<FacilityInfoVO> selectFacilityList() {
+        log.info("Called :: GET /api/facilityInfo");
+        return facilityInfoService.selectFacilityList();
+    }
 }

@@ -20,5 +20,7 @@
 		<typeAlias alias="KioskOperationalLogVO" type="kr.hcnc.vo.KioskOperationalLogVO"/>
 		<typeAlias alias="CafeteriaVO" type="kr.hcnc.vo.CafeteriaVO"/>
 		<typeAlias alias="StudentVO" type="kr.hcnc.vo.StudentVO"/>
+		<typeAlias alias="FacilityInfoVO" type="kr.hcnc.vo.FacilityInfoVO"/>
+		<typeAlias alias="TransportVO" type="kr.hcnc.vo.TransportVO"/>
 	</typeAliases>
 </configuration>

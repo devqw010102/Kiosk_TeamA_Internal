@@ -1,13 +1,14 @@
 package kr.hcnc.web.admin;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,15 +42,24 @@ public class AdminFacilityInfoController {
 	}
 
 	@PostMapping
-	public Map<String, Object> updateFacilityByPost(@RequestBody FacilityInfoVO facilityInfoVO) {
-		log.info("Called :: POST /api/admin/facilityInfo");
-		return adminFacilityInfoService.updateFacility(facilityInfoVO);
+	public ResponseEntity<Integer> insertFacility(@RequestBody FacilityInfoVO facilityInfoVO) {
+	    log.info("Called :: POST /api/admin/facilityInfo");
+	    int result = adminFacilityInfoService.insertFacility(facilityInfoVO);
+	    return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
-
+	
 	@PutMapping("/{facilityId}")
-	public Map<String, Object> updateFacility(@PathVariable String facilityId, @RequestBody FacilityInfoVO facilityInfoVO) {
-		log.info("Called :: PUT /api/admin/facilityInfo/{}", facilityId);
-		facilityInfoVO.setFacilityId(facilityId);
-		return adminFacilityInfoService.updateFacility(facilityInfoVO);
+	public ResponseEntity<Integer> updateFacility(@PathVariable String facilityId, @RequestBody FacilityInfoVO facilityInfoVO) {
+	    log.info("Called :: PUT /api/admin/facilityInfo/{}", facilityId);
+	    facilityInfoVO.setFacilityId(facilityId);
+	    int result = adminFacilityInfoService.updateFacility(facilityInfoVO);
+	    return ResponseEntity.ok(result);
+	}
+	
+	@DeleteMapping("/{facilityId}")
+	public ResponseEntity<Integer> deleteFacility(@PathVariable String facilityId) {
+	    log.info("Called :: DELETE /api/admin/facilityInfo/{}", facilityId);
+	    int result = adminFacilityInfoService.deleteFacility(facilityId);
+	    return ResponseEntity.ok(result);
 	}
 }

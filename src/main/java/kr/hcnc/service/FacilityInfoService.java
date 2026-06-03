@@ -21,13 +21,8 @@ public class FacilityInfoService extends EgovAbstractServiceImpl {
 
 	private static final Logger log = LoggerFactory.getLogger(FacilityInfoService.class);
 
-	public List<FacilityInfoVO> selectSmokingArea() {
-		log.info("Called::selectSmokingArea");
-		return facilityInfoMapper.selectFacilityList("SMOKING");
-	}
-
-	public List<FacilityInfoVO> selectCafeteriaLocation() {
-		log.info("Called::selectCafeteriaLocation");
-		return facilityInfoMapper.selectFacilityList("CAFETERIA");
+	public List<FacilityInfoVO> selectFacilityList() {
+	    log.info("Called::selectFacilityList");
+	    return facilityInfoMapper.selectFacilityList();
 	}
 }
