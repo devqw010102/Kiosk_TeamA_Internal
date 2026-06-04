@@ -3,15 +3,26 @@
 <mapper namespace="kr.hcnc.mapper.admin.AdminCafeteriaMapper">
 	
 	<select id="selectCafeteriaSummary" resultType="CafeteriaVO">
-		SELECT CAFETERIA_ID
-			   , MEAL_DATE
-			   , MEAL_TYPE
-			   , MEAL_CLOSED
-		FROM CAFETERIA
+		SELECT C.CAFETERIA_ID
+			   , C.MEAL_DATE
+			   , C.MEAL_TYPE
+			   , C.MEAL_CLOSED
+		FROM CAFETERIA C
+		INNER JOIN(
+			SELECT MAX(CAFETERIA_ID)AS max_id
+			FROM CAFETERIA
+			GROUP BY MEAL_DATE, MEAL_TYPE
+		)latest
+		ON C.CAFETERIA_ID = latest.max_id
 		WHERE YEAR(MEAL_DATE) = #{searchYear}
-		AND MONTH(MEAL_DATE) = #{searchMonth}
-		AND DEL_YN = 'N'
-		ORDER BY MEAL_DATE ASC
+		  AND MONTH(MEAL_DATE) = #{searchMonth}
+		ORDER BY 
+			C.MEAL_DATE ASC
+			CASE C.MEAL_TYPE
+				WHEN 'BREAKFAST' THEN 1
+				WHEN 'LUNCH' THEN 2
+				WHEN 'DINNER' THEN 3
+			END ASC
 	</select>
 	
 	<select id="selectCafeteriaDetail" resultType="CafeteriaVO">
@@ -22,23 +33,35 @@
 			   , MEAL_CLOSED
 		FROM CAFETERIA
 		WHERE MEAL_DATE = #{mealDate}
-		AND DEL_YN = 'N'
+		  AND MEAL_TYPE = #{mealType}
+		ORDER BY CAFETERIA_ID DESC
+		LIMIT 1
 	</select>
 
-	<insert id="insertCafeteria" parameterType="CafeteriaVO">
+	<insert id="insertCafeteria" parameterType="java.util.List">
+	
+		<selectKey keyProperty="cafeteriaId" resultType="String" order="BEFORE">
+			SELECT CONCAT('CAF',
+						  LPAD(COALESCE(CAST(SUBSTRING(CAFETERIA_ID, 4)AS UNSIGNED)),2026000) + 1, 7, '0'))
+		</selectKey>
+		
 		INSERT INTO CAFETERIA(
 			CAFETERIA_ID
 			, MEAL_DATE
 			, MEAL_TYPE
 			, MENU
 			, MEAL_CLOSED
-		) VALUES(
-			#{cafeteriaId}
-			, #{mealDate}
-			, #{mealType}
-			, #{menu}
-			, #{mealClosed}
-		)
+		) VALUES
+		  <foreach collection="list" item="item" index="idx" separator=",">
+		  	(
+		  		CONCAT('CAF',
+		  			   LPAD(CAST(#{CAFETERIA_ID} AS UNSIGNED) + 1, 7, '0'))
+		  		#{item.mealDate}
+		  		#{item.mealType}
+		  		#{item.meal}
+		  		#{item.mealClosed}
+		  	)
+		  </foreach>
 	</insert>
 	
 	<update id="updateCafeteria" parameterType="CafeteriaVO">
