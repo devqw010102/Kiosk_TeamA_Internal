@@ -23,7 +23,6 @@
 	<select id = "selectStudentDetail" resultType = "Map" parameterType = "StudentSearchVO">
 		SELECT S.STUDENT_NAME AS STUDENT_NAME
 			 , E.EDU_NAME AS EDU_NAME
-			 , E.EDU_ROOM_NAME AS EDU_ROOM_NAME
 			 , E.START_DATE AS START_DATE
 			 , E.END_DATE  AS END_DATE
 			 , IFNULL(D.DORMITORY_ID, 'X') AS DORMITORY_ID
@@ -106,4 +105,18 @@
 		 WHERE STUDENT_ID = #{studentId}
 		   AND DEL_YN = 'N'
 	</update>
+	
+	<select id = "selectTodaySubject" resultType = "Map" parameterType = "StudentSearchVO">
+		SELECT J.SUBJECT_NAME
+			 , J.EDU_ROOM_NAME
+		  FROM SUBJECT J
+		  JOIN STUDENTS S
+		    ON S.EDU_ID = J.EDU_ID 
+		   AND S.DEL_YN = 'N'
+		 WHERE S.STUDENT_ID = #{studentId}
+		   AND J.DEL_YN = 'N'
+		   AND J.END_YN = 'N'
+		   AND J.END_DATE >= DATE_FORMAT(CURDATE(),'%y%m%d')
+		   AND DATE_FORMAT(CURDATE(), '%y%m%d') >= J.START_DATE
+	</select>
 </mapper>
