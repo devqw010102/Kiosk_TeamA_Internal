@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.admin.AdminCafeteriaMapper;
@@ -19,7 +20,6 @@ public class AdminCafeteriaService extends EgovAbstractServiceImpl {
 	@Autowired
 	private AdminCafeteriaMapper adminCafeteriaMapper;
 	
-	// 선택 달 전체 조회
 	public List<CafeteriaVO> selectCafeteriaSummary(String year, String month) {
 		log.info("selectCafeteriaSummary year = {}, month = {}", year, month);
 		
@@ -32,21 +32,24 @@ public class AdminCafeteriaService extends EgovAbstractServiceImpl {
 		return adminCafeteriaMapper.selectCafeteriaDetail(date);
 	}
 	
-	public int insertCafeteria(CafeteriaVO cafeteriaVO) {
-		log.info("insertCafeteria - body = {}", cafeteriaVO);
+	@Transactional
+	public int insertCafeteria(List<CafeteriaVO> cafeteriaList) {
+		log.info("통합 저장 프로세스 가동 :: 처리할 데이터 건수 = {}", cafeteriaList != null ? cafeteriaList.size() : 0);
 		
-		return adminCafeteriaMapper.insertCafeteria(cafeteriaVO);
+		if(cafeteriaList != null && !cafeteriaList.isEmpty()) {
+			adminCafeteriaMapper.logicalDeleteOldData(cafeteriaList);
+		}
+		
+		return adminCafeteriaMapper.insertCafeteria(cafeteriaList);
 	}
 	
 	public int updateCafeteria(CafeteriaVO cafeteriaVO) {
 		log.info("updateCafeteria - body = {}", cafeteriaVO);
-		
 		return adminCafeteriaMapper.updateCafeteria(cafeteriaVO);
 	}
-	
+		
 	public int deleteCafeteria(String cafeteriaId) {
 		log.info("deleteCafeteria - cafeteriaId = {}", cafeteriaId);
-		
 		return adminCafeteriaMapper.deleteCafeteria(cafeteriaId);
 	}
 }

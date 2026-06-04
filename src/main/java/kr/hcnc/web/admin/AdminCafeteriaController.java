@@ -56,20 +56,20 @@ public class AdminCafeteriaController {
     }
     
     @PostMapping(produces = "application/json; charset=utf8")
-    public ResponseEntity<?> insertCafeteria(@RequestBody CafeteriaVO cafeteriaVO) {
-    	log.info("Called :: POST /api/admin/cafeteria - body: {}", cafeteriaVO);
+    public ResponseEntity<?> insertCafeteria(@RequestBody List<CafeteriaVO> cafeteriaList) {
+    	log.info("Called :: POST /api/admin/cafeteria - body list size: {}", cafeteriaList);
     	
-    	adminCafeteriaService.insertCafeteria(cafeteriaVO);
+    	adminCafeteriaService.insertCafeteria(cafeteriaList);
     	
     	Map<String, Object> response = new HashMap<>();
-    	response.put("caferterId", cafeteriaVO.getCafeteriaId());
+    	response.put("count", cafeteriaList != null ? cafeteriaList.size() : 0);
     	response.put("message", "등록이 완료되었습니다.");
     	return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
     @PutMapping("/{cafeteriaId}")
     public ResponseEntity<?> updateCafeteria(@PathVariable String cafeteriaId, @RequestBody CafeteriaVO cafeteriaVO) {
-    	log.info("Called :: PUT / api/admin/cafeteria/ - body: {}", cafeteriaVO);
+    	log.info("Called :: PUT /api/admin/cafeteria/{} - body: {}", cafeteriaId, cafeteriaVO);
     	
     	cafeteriaVO.setCafeteriaId(cafeteriaId);
     	adminCafeteriaService.updateCafeteria(cafeteriaVO);
@@ -81,11 +81,13 @@ public class AdminCafeteriaController {
     
     @DeleteMapping("/{cafeteriaId}")
     public ResponseEntity<?> deleteCafeteria(@PathVariable String cafeteriaId) {
-    	log.info("Called :: DELETE / api/admin/cafeteria/{}", cafeteriaId);
+    	log.info("Called :: DELETE /api/admin/cafeteria/{}", cafeteriaId);
+    	
     	adminCafeteriaService.deleteCafeteria(cafeteriaId);
     	
     	Map<String, Object> response = new HashMap<>();
     	response.put("message", "삭제가 완료되었습니다.");
     	return ResponseEntity.ok(response);
     }
+
 }

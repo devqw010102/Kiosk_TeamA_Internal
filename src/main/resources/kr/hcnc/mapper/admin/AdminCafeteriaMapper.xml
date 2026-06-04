@@ -3,42 +3,75 @@
 <mapper namespace="kr.hcnc.mapper.admin.AdminCafeteriaMapper">
 	
 	<select id="selectCafeteriaSummary" resultType="CafeteriaVO">
-		SELECT CAFETERIA_ID
-			   , MEAL_DATE
-			   , MEAL_TYPE
-			   , MEAL_CLOSED
-		FROM CAFETERIA
-		WHERE YEAR(MEAL_DATE) = #{searchYear}
-		AND MONTH(MEAL_DATE) = #{searchMonth}
-		AND DEL_YN = 'N'
-		ORDER BY MEAL_DATE ASC
+		SELECT 
+    		C.CAFETERIA_ID, 
+    		C.MEAL_DATE, 
+    		C.MEAL_TYPE, 
+    		C.MENU, 
+    		C.MEAL_CLOSED
+		FROM CAFETERIA C
+		INNER JOIN (
+    			SELECT MAX(CAFETERIA_ID) AS max_id
+    			FROM CAFETERIA
+    			GROUP BY MEAL_DATE, MEAL_TYPE
+		) latest 
+		ON C.CAFETERIA_ID = latest.max_id
+		WHERE YEAR(C.MEAL_DATE) = #{mealYear}
+  		  AND MONTH(C.MEAL_DATE) = #{mealMonth}
+    	  AND C.DEL_YN = 'N'
+		ORDER BY C.MEAL_DATE ASC;
 	</select>
 	
 	<select id="selectCafeteriaDetail" resultType="CafeteriaVO">
-		SELECT CAFETERIA_ID
-			   , MEAL_DATE
-			   , MEAL_TYPE
-			   , MENU
-			   , MEAL_CLOSED
-		FROM CAFETERIA
-		WHERE MEAL_DATE = #{mealDate}
-		AND DEL_YN = 'N'
+		SELECT C.CAFETERIA_ID, 
+		 	C.MEAL_DATE, 
+		 	C.MEAL_TYPE, 
+		 	C.MENU, 
+		 	C.MEAL_CLOSED
+		FROM CAFETERIA C
+		INNER JOIN (
+			SELECT MAX(CAFETERIA_ID) AS max_id
+			FROM CAFETERIA
+			GROUP BY MEAL_DATE, 
+			MEAL_TYPE
+		) latest 
+		ON C.CAFETERIA_ID = latest.max_id
+		WHERE C.MEAL_DATE = #{mealDate}
+		  AND C.DEL_YN = 'N'
 	</select>
+	
+	<update id="logicalDeleteOldData" parameterType="java.util.List">
+	    UPDATE CAFETERIA
+	       SET DEL_YN = 'Y',
+	           UPDATED_AT = NOW()
+	     WHERE DEL_YN = 'N'
+	       AND (MEAL_DATE, MEAL_TYPE) IN
+	       <foreach collection="list" item="item" open="(" separator="," close=")">
+	           (#{item.mealDate}, #{item.mealType})
+	       </foreach>
+	</update>
 
-	<insert id="insertCafeteria" parameterType="CafeteriaVO">
-		INSERT INTO CAFETERIA(
+	<insert id="insertCafeteria" parameterType="java.util.List">
+		<selectKey keyProperty="cafeteriaId" resultType="String" order="BEFORE">
+			SELECT COALESCE(MAX(CAST(SUBSTRING(CAFETERIA_ID, 4) AS UNSIGNED)), 2026000) FROM CAFETERIA
+		</selectKey>
+		
+		INSERT INTO CAFETERIA (
 			CAFETERIA_ID
 			, MEAL_DATE
 			, MEAL_TYPE
 			, MENU
 			, MEAL_CLOSED
-		) VALUES(
-			#{cafeteriaId}
-			, #{mealDate}
-			, #{mealType}
-			, #{menu}
-			, #{mealClosed}
-		)
+		) VALUES
+		<foreach collection="list" item="item" index="idx" separator=",">
+			(
+				CONCAT('CAF', LPAD(CAST(#{cafeteriaId} AS UNSIGNED) + #{idx} + 1, 7, '0')),
+				#{item.mealDate},
+				#{item.mealType},
+				#{item.menu},
+				#{item.mealClosed}
+			)
+		</foreach>
 	</insert>
 	
 	<update id="updateCafeteria" parameterType="CafeteriaVO">
@@ -53,7 +86,7 @@
 			UPDATED_AT = NOW()
 		</set>
 		WHERE CAFETERIA_ID = #{cafeteriaId}
-		AND DEL_YN = 'N'
+		  AND DEL_YN = 'N'
 	</update>
 	
 	<update id="deleteCafeteria" parameterType="String">
