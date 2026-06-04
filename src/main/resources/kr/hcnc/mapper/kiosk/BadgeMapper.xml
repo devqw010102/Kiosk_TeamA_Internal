@@ -109,7 +109,10 @@
 	<select id = "selectTodaySubject" resultType = "Map" parameterType = "StudentSearchVO">
 		SELECT J.SUBJECT_NAME
 			 , J.CLASSROOM_ID
+			 , C.CLASSROOM_NAME
 			 , C.FLOOR
+			 , C.IMAGE_PATH
+			 , C.IMAGE_ID
 		  FROM SUBJECT J
 		  JOIN STUDENTS S
 		    ON S.EDU_ID = J.EDU_ID 
