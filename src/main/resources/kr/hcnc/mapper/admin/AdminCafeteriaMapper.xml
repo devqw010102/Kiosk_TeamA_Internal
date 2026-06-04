@@ -3,23 +3,23 @@
 <mapper namespace="kr.hcnc.mapper.admin.AdminCafeteriaMapper">
 	
 	<select id="selectCafeteriaSummary" resultType="CafeteriaVO">
-		SELECT
-			C.CAFETERIA_ID,
-			C.MEAL_DATE,
-			C.MEAL_TYPE,
-			C.MENU,
-			C.MEAL_CLOSED,
+		SELECT 
+    		C.CAFETERIA_ID, 
+    		C.MEAL_DATE, 
+    		C.MEAL_TYPE, 
+    		C.MENU, 
+    		C.MEAL_CLOSED
 		FROM CAFETERIA C
 		INNER JOIN (
-				SELECT MAX(CAFETERIA_ID) AS max_id
-				FROM CAFETERIA
-				GROUP BY MEAL_DATE, MEAL_TYPE
-		)latest
+    			SELECT MAX(CAFETERIA_ID) AS max_id
+    			FROM CAFETERIA
+    			GROUP BY MEAL_DATE, MEAL_TYPE
+		) latest 
 		ON C.CAFETERIA_ID = latest.max_id
 		WHERE YEAR(C.MEAL_DATE) = #{mealYear}
   		  AND MONTH(C.MEAL_DATE) = #{mealMonth}
-		GROUP BY C.MEAL_DATE
-		ORDER BY C.MEAL_DATE ASC
+    	  AND C.DEL_YN = 'N'
+		ORDER BY C.MEAL_DATE ASC;
 	</select>
 	
 	<select id="selectCafeteriaDetail" resultType="CafeteriaVO">
@@ -62,5 +62,28 @@
 			)
 		</foreach>
 	</insert>
+	
+	<update id="updateCafeteria" parameterType="CafeteriaVO">
+		UPDATE CAFETERIA
+		<set>
+			<if test="menu != null and menu != ''">
+				MENU = #{menu},
+			</if>
+			<if test="mealClosed != null and mealClosed != ''">
+				MEAL_CLOSED = #{mealClosed},
+			</if>
+			UPDATED_AT = NOW()
+		</set>
+		WHERE CAFETERIA_ID = #{cafeteriaId}
+		  AND DEL_YN = 'N'
+	</update>
+	
+	<update id="deleteCafeteria" parameterType="String">
+		UPDATE CAFETERIA
+		   SET DEL_YN = 'Y'
+		       , UPDATED_AT = NOW()
+		 WHERE CAFETERIA_ID = #{cafeteriaId}
+		   AND DEL_YN = 'N'
+	</update>
 	
 </mapper>

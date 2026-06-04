@@ -38,4 +38,14 @@ public class AdminCafeteriaService extends EgovAbstractServiceImpl {
 		
 		return adminCafeteriaMapper.insertCafeteria(cafeteriaList);
 	}
+	
+	public int updateCafeteria(CafeteriaVO cafeteriaVO) {
+		log.info("updateCafeteria - body = {}", cafeteriaVO);
+		return adminCafeteriaMapper.updateCafeteria(cafeteriaVO);
+	}
+		
+	public int deleteCafeteria(String cafeteriaId) {
+		log.info("deleteCafeteria - cafeteriaId = {}", cafeteriaId);
+		return adminCafeteriaMapper.deleteCafeteria(cafeteriaId);
+	}
 }
