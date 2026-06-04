@@ -10,6 +10,9 @@
                LOCATION,
                IMAGE_PATH,
                DESCRIPTION,
+               FLOOR,
+               MAP_X,
+               MAP_Y,
                CREATED_AT,
                UPDATED_AT,
                DEL_YN
@@ -25,6 +28,9 @@
                LOCATION,
                IMAGE_PATH,
                DESCRIPTION,
+               FLOOR,
+               MAP_X,
+               MAP_Y,
                CREATED_AT,
                UPDATED_AT,
                DEL_YN
@@ -34,8 +40,8 @@
 	</select>
 
 	<insert id="insertFacility" parameterType="FacilityInfoVO">
-		INSERT INTO FACILITY (FACILITY_ID, FACILITY_TYPE, NAME, LOCATION, IMAGE_PATH, DESCRIPTION)
-		VALUES (#{facilityId}, #{facilityType}, #{name}, #{location}, #{imagePath}, #{description})
+		INSERT INTO FACILITY (FACILITY_ID, FACILITY_TYPE, NAME, LOCATION, IMAGE_PATH, DESCRIPTION, FLOOR, MAP_X, MAP_Y)
+		VALUES (#{facilityId}, #{facilityType}, #{name}, #{location}, #{imagePath}, #{description}, #{floor}, #{mapX}, #{mapY})
 	</insert>
 
 	<update id="updateFacility" parameterType="FacilityInfoVO">
@@ -46,6 +52,9 @@
 		    <if test="location != null and location != ''">LOCATION = #{location},</if>
 		    <if test="imagePath != null and imagePath != ''">IMAGE_PATH = #{imagePath},</if>
 		    <if test="description != null">DESCRIPTION = #{description},</if>
+		    <if test="floor != null">FLOOR = #{floor},</if>
+		    <if test="mapX != null">MAP_X = #{mapX},</if>
+		    <if test="mapY != null">MAP_Y = #{mapY},</if>
 		    UPDATED_AT = NOW()
 		  </set>
 		 WHERE FACILITY_ID = #{facilityId}
