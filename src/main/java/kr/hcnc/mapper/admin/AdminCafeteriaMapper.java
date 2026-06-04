@@ -19,4 +19,6 @@ public interface AdminCafeteriaMapper {
 	int updateCafeteria(CafeteriaVO cafeteriaVO);
 
 	int deleteCafeteria(String cafeteriaId);
+	
+	int logicalDeleteOldData(List<CafeteriaVO> cafeteriaList);
 }

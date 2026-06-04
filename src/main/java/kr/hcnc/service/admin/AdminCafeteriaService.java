@@ -36,6 +36,10 @@ public class AdminCafeteriaService extends EgovAbstractServiceImpl {
 	public int insertCafeteria(List<CafeteriaVO> cafeteriaList) {
 		log.info("통합 저장 프로세스 가동 :: 처리할 데이터 건수 = {}", cafeteriaList != null ? cafeteriaList.size() : 0);
 		
+		if(cafeteriaList != null && !cafeteriaList.isEmpty()) {
+			adminCafeteriaMapper.logicalDeleteOldData(cafeteriaList);
+		}
+		
 		return adminCafeteriaMapper.insertCafeteria(cafeteriaList);
 	}
 	

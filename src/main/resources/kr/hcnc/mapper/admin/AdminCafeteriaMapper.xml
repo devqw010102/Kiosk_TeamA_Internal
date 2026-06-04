@@ -39,6 +39,17 @@
 		WHERE C.MEAL_DATE = #{mealDate}
 		  AND C.DEL_YN = 'N'
 	</select>
+	
+	<update id="logicalDeleteOldData" parameterType="java.util.List">
+	    UPDATE CAFETERIA
+	       SET DEL_YN = 'Y',
+	           UPDATED_AT = NOW()
+	     WHERE DEL_YN = 'N'
+	       AND (MEAL_DATE, MEAL_TYPE) IN
+	       <foreach collection="list" item="item" open="(" separator="," close=")">
+	           (#{item.mealDate}, #{item.mealType})
+	       </foreach>
+	</update>
 
 	<insert id="insertCafeteria" parameterType="java.util.List">
 		<selectKey keyProperty="cafeteriaId" resultType="String" order="BEFORE">
