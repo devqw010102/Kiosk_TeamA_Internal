@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.admin.AdminCafeteriaMapper;
@@ -32,10 +33,11 @@ public class AdminCafeteriaService extends EgovAbstractServiceImpl {
 		return adminCafeteriaMapper.selectCafeteriaDetail(date);
 	}
 	
-	public int insertCafeteria(CafeteriaVO cafeteriaVO) {
-		log.info("insertCafeteria - body = {}", cafeteriaVO);
+	@Transactional
+	public int insertCafeteria(List<CafeteriaVO> cafeteriaList) {
+		log.info("insertCafeteria - list size = {}", cafeteriaList != null ? cafeteriaList.size() : 0);
 		
-		return adminCafeteriaMapper.insertCafeteria(cafeteriaVO);
+		return adminCafeteriaMapper.insertCafeteria(cafeteriaList);
 	}
 	
 	public int updateCafeteria(CafeteriaVO cafeteriaVO) {

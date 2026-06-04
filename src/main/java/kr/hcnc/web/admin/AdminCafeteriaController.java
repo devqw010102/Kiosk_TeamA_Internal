@@ -56,13 +56,13 @@ public class AdminCafeteriaController {
     }
     
     @PostMapping(produces = "application/json; charset=utf8")
-    public ResponseEntity<?> insertCafeteria(@RequestBody CafeteriaVO cafeteriaVO) {
-    	log.info("Called :: POST /api/admin/cafeteria - body: {}", cafeteriaVO);
+    public ResponseEntity<?> insertCafeteria(@RequestBody List<CafeteriaVO> cafeteriaList) {
+    	log.info("Called :: POST /api/admin/cafeteria - body list size: {}", cafeteriaList);
     	
-    	adminCafeteriaService.insertCafeteria(cafeteriaVO);
+    	adminCafeteriaService.insertCafeteria(cafeteriaList);
     	
     	Map<String, Object> response = new HashMap<>();
-    	response.put("caferterId", cafeteriaVO.getCafeteriaId());
+    	response.put("count", cafeteriaList != null ? cafeteriaList.size() : 0);
     	response.put("message", "등록이 완료되었습니다.");
     	return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

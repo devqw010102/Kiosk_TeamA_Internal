@@ -3,65 +3,69 @@
 <mapper namespace="kr.hcnc.mapper.admin.AdminCafeteriaMapper">
 	
 	<select id="selectCafeteriaSummary" resultType="CafeteriaVO">
-		SELECT C.CAFETERIA_ID
-			   , C.MEAL_DATE
-			   , C.MEAL_TYPE
-			   , C.MEAL_CLOSED
+		SELECT
+			C.MEAL_DATE,
+			CASE WHEN SUM(CASE WHEN C.MEAL_TYPE = 'BREAKFAST' AND C.MEAL_CLOSED = 'N' THEN 1 ELSE 0 END) > 0 THEN 'O' ELSE 'X' END AS BREAKFAST,
+			CASE WHEN SUM(CASE WHEN C.MEAL_TYPE = 'LUNCH' AND C.MEAL_CLOSED = 'N' THEN 1 ELSE 0 END) > 0 THEN 'O' ELSE 'X' END AS LUNCH,
+			CASE WHEN SUM(CASE WHEN C.MEAL_TYPE = 'DINNER' AND C.MEAL_CLOSED = 'N' THEN 1 ELSE 0 END) > 0 THEN 'O' ELSE 'X' END AS DINNER
 		FROM CAFETERIA C
-		INNER JOIN(
-			SELECT MAX(CAFETERIA_ID)AS max_id
-			FROM CAFETERIA
-			GROUP BY MEAL_DATE, MEAL_TYPE
+		INNER JOIN (
+				SELECT MAX(CAFETERIA_ID) AS max_id
+				FROM CAFETERIA
+				GROUP BY MEAL_DATE, MEAL_TYPE
 		)latest
 		ON C.CAFETERIA_ID = latest.max_id
-		WHERE YEAR(MEAL_DATE) = #{searchYear}
-		  AND MONTH(MEAL_DATE) = #{searchMonth}
-		ORDER BY 
-			C.MEAL_DATE ASC
-			CASE C.MEAL_TYPE
-				WHEN 'BREAKFAST' THEN 1
-				WHEN 'LUNCH' THEN 2
-				WHEN 'DINNER' THEN 3
-			END ASC
+		WHERE YEAR(C.MEAL_DATE) = #{mealYear}
+  		  AND MONTH(C.MEAL_DATE) = #{mealMonth}
+		GROUP BY C.MEAL_DATE
+		ORDER BY C.MEAL_DATE ASC
 	</select>
 	
 	<select id="selectCafeteriaDetail" resultType="CafeteriaVO">
-		SELECT CAFETERIA_ID
-			   , MEAL_DATE
-			   , MEAL_TYPE
-			   , MENU
-			   , MEAL_CLOSED
-		FROM CAFETERIA
-		WHERE MEAL_DATE = #{mealDate}
-		  AND MEAL_TYPE = #{mealType}
-		ORDER BY CAFETERIA_ID DESC
-		LIMIT 1
+		SELECT C.CAFETERIA_ID, 
+		 	C.MEAL_DATE, 
+		 	C.MEAL_TYPE, 
+		 	C.MENU, 
+		 	C.MEAL_CLOSED
+		FROM CAFETERIA C
+		INNER JOIN (
+			SELECT MAX(CAFETERIA_ID) AS max_id
+			FROM CAFETERIA
+			GROUP BY MEAL_DATE, 
+			MEAL_TYPE
+		) latest 
+		ON C.CAFETERIA_ID = latest.max_id
+		WHERE C.MEAL_DATE = #{mealDate}
+		ORDER BY 
+			CASE C.MEAL_TYPE
+			WHEN 'BREAKFAST' THEN 1
+			WHEN 'LUNCH'     THEN 2
+			WHEN 'DINNER'    THEN 3
+			ELSE 4
+		END ASC
 	</select>
 
 	<insert id="insertCafeteria" parameterType="java.util.List">
-	
 		<selectKey keyProperty="cafeteriaId" resultType="String" order="BEFORE">
-			SELECT CONCAT('CAF',
-						  LPAD(COALESCE(CAST(SUBSTRING(CAFETERIA_ID, 4)AS UNSIGNED)),2026000) + 1, 7, '0'))
+			SELECT COALESCE(MAX(CAST(SUBSTRING(CAFETERIA_ID, 4) AS UNSIGNED)), 2026000) FROM CAFETERIA
 		</selectKey>
 		
-		INSERT INTO CAFETERIA(
+		INSERT INTO CAFETERIA (
 			CAFETERIA_ID
 			, MEAL_DATE
 			, MEAL_TYPE
 			, MENU
 			, MEAL_CLOSED
 		) VALUES
-		  <foreach collection="list" item="item" index="idx" separator=",">
-		  	(
-		  		CONCAT('CAF',
-		  			   LPAD(CAST(#{CAFETERIA_ID} AS UNSIGNED) + 1, 7, '0'))
-		  		#{item.mealDate}
-		  		#{item.mealType}
-		  		#{item.meal}
-		  		#{item.mealClosed}
-		  	)
-		  </foreach>
+		<foreach collection="list" item="item" index="idx" separator=",">
+			(
+				CONCAT('CAF', LPAD(CAST(#{cafeteriaId} AS UNSIGNED) + #{idx} + 1, 7, '0')),
+				#{item.mealDate},
+				#{item.mealType},
+				#{item.menu},
+				#{item.mealClosed}
+			)
+		</foreach>
 	</insert>
 	
 	<update id="updateCafeteria" parameterType="CafeteriaVO">

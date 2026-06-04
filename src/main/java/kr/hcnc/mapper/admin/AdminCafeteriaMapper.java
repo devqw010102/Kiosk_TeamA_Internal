@@ -10,11 +10,11 @@ import kr.hcnc.vo.CafeteriaVO;
 @Mapper
 public interface AdminCafeteriaMapper {
 	
-	List<CafeteriaVO> selectCafeteriaSummary(@Param("searchYear")String year, @Param("searchMonth")String month);
+	List<CafeteriaVO> selectCafeteriaSummary(@Param("mealYear")String year, @Param("mealMonth")String month);
 		
-	List<CafeteriaVO> selectCafeteriaDetail(String mealDate);
+	List<CafeteriaVO> selectCafeteriaDetail(@Param("mealDate") String mealDate);
 		
-	int insertCafeteria(CafeteriaVO cafeteriaVO);
+	int insertCafeteria(List<CafeteriaVO> cafeteriaList);
 		
 	int updateCafeteria(CafeteriaVO cafeteriaVO);
 	
