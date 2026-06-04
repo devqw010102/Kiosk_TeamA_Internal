@@ -20,7 +20,6 @@ public class AdminCafeteriaService extends EgovAbstractServiceImpl {
 	@Autowired
 	private AdminCafeteriaMapper adminCafeteriaMapper;
 	
-	// 선택 달 전체 조회
 	public List<CafeteriaVO> selectCafeteriaSummary(String year, String month) {
 		log.info("selectCafeteriaSummary year = {}, month = {}", year, month);
 		
@@ -35,20 +34,8 @@ public class AdminCafeteriaService extends EgovAbstractServiceImpl {
 	
 	@Transactional
 	public int insertCafeteria(List<CafeteriaVO> cafeteriaList) {
-		log.info("insertCafeteria - list size = {}", cafeteriaList != null ? cafeteriaList.size() : 0);
+		log.info("통합 저장 프로세스 가동 :: 처리할 데이터 건수 = {}", cafeteriaList != null ? cafeteriaList.size() : 0);
 		
 		return adminCafeteriaMapper.insertCafeteria(cafeteriaList);
-	}
-	
-	public int updateCafeteria(CafeteriaVO cafeteriaVO) {
-		log.info("updateCafeteria - body = {}", cafeteriaVO);
-		
-		return adminCafeteriaMapper.updateCafeteria(cafeteriaVO);
-	}
-	
-	public int deleteCafeteria(String cafeteriaId) {
-		log.info("deleteCafeteria - cafeteriaId = {}", cafeteriaId);
-		
-		return adminCafeteriaMapper.deleteCafeteria(cafeteriaId);
 	}
 }

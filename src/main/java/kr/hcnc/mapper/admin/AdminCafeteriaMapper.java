@@ -15,8 +15,4 @@ public interface AdminCafeteriaMapper {
 	List<CafeteriaVO> selectCafeteriaDetail(@Param("mealDate") String mealDate);
 		
 	int insertCafeteria(List<CafeteriaVO> cafeteriaList);
-		
-	int updateCafeteria(CafeteriaVO cafeteriaVO);
-	
-	int deleteCafeteria(String cafeteriaId);
 }

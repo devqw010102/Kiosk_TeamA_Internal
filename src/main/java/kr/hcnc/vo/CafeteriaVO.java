@@ -13,9 +13,6 @@ public class CafeteriaVO {
 	private String createdAt;
 	private String updatedAt;
 	private String delYn;
-	private String breakfast;
-	private String lunch;
-	private String dinner;
 	
 	public CafeteriaVO() {}
 
@@ -80,29 +77,5 @@ public class CafeteriaVO {
 
 	public void setDelYn(String delYn) {
 		this.delYn = delYn;
-	}
-
-	public String getLunch() {
-		return lunch;
-	}
-
-	public void setLunch(String lunch) {
-		this.lunch = lunch;
-	}
-
-	public String getBreakfast() {
-		return breakfast;
-	}
-
-	public void setBreakfast(String breakfast) {
-		this.breakfast = breakfast;
-	}
-
-	public String getDinner() {
-		return dinner;
-	}
-
-	public void setDinner(String dinner) {
-		this.dinner = dinner;
 	}
 }
