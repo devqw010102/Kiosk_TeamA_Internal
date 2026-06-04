@@ -5,11 +5,11 @@
 	<select id = "selectSubject" resultType = "SubjectVO">
 		 SELECT SUBJECT_ID
 		 	  , EDU_ID
+		 	  , CLASSROOM_ID
 		 	  , SUBJECT_NAME
 		 	  , START_DATE
 		 	  , END_DATE
 		 	  , END_YN
-		 	  , EDU_ROOM_NAME
 		   FROM SUBJECT
 		  WHERE DEL_YN = 'N'	
 	</select>
@@ -17,19 +17,19 @@
 	<select id = "selectSubjectById" resultType = "SubjectVO">
 		 SELECT SUBJECT_ID
 		 	  , EDU_ID
+		 	  , CLASSROOM_ID
 		 	  , SUBJECT_NAME
 		 	  , START_DATE
 		 	  , END_DATE
 		 	  , END_YN
-		 	  , EDU_ROOM_NAME
 		   FROM SUBJECT
 		  WHERE DEL_YN = 'N'
 		    AND SUBJECT_ID = #{subjectId}
 	</select>
 	
 	<insert id = "insertSubject" parameterType = "SubjectVO">
-		INSERT INTO SUBJECT (SUBJECT_ID, EDU_ID, SUBJECT_NAME, START_DATE, END_DATE, EDU_ROOM_NAME)
-		VALUES (#{subjectId}, #{eduId}, #{subjectName}, #{startDate}, #{endDate}, #{eduRoomName})
+		INSERT INTO SUBJECT (SUBJECT_ID, EDU_ID, CLASSROOM_ID, SUBJECT_NAME, START_DATE, END_DATE)
+		VALUES (#{subjectId}, #{eduId}, #{classroomId}, #{subjectName}, #{startDate}, #{endDate})
 	</insert>
 	
 	<update id="updateSubject" parameterType="SubjectVO">
@@ -37,6 +37,9 @@
 		<set>
 			<if test="subjectName != null and subjectName != ''">
 				SUBJECT_NAME = #{subjectName},
+			</if>
+			<if test="classroomId != null and classroomId != ''">
+				CLASSROOM_ID = #{classroomId},
 			</if>
 			<if test="startDate != null and startDate != ''">
 				START_DATE = #{startDate},
@@ -46,9 +49,6 @@
 			</if>
 			<if test="endYn != null and endYn != ''">
 				END_YN = #{endYn},
-			</if>
-			<if test="eduRoomName != null and eduRoomName != ''">
-				EDU_ROOM_NAME = #{eduRoomName},
 			</if>
 			UPDATED_AT = NOW()
 		</set>
