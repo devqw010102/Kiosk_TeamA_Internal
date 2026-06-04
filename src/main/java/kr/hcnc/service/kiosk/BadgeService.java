@@ -47,6 +47,9 @@ public class BadgeService extends EgovAbstractServiceImpl {
 		
 		Map<String, Object> result = badgeMapper.selectStudentDetail(searchVO);
 		log.info("result = {}", result);
+		
+		List<Map<String, Object>> subject = badgeMapper.selectTodaySubject(searchVO);
+		result.put("subject", subject);
 		return result;
 	}
 	
@@ -138,5 +141,4 @@ public class BadgeService extends EgovAbstractServiceImpl {
 
 		return result;
 	}
-	
 }

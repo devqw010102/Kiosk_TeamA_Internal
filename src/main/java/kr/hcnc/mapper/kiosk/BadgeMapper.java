@@ -25,4 +25,6 @@ public interface BadgeMapper {
 	Map<String, Object> selectAvailableDormitory();
 	
 	int updateStudentDormitory(StudentSearchVO searchVO);
+	
+	List<Map<String, Object>> selectTodaySubject(StudentSearchVO searchVO);
 }
