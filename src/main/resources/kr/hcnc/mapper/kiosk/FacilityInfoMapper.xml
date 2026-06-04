@@ -12,6 +12,9 @@
                LOCATION,
                IMAGE_PATH,
                DESCRIPTION,
+               FLOOR,
+               MAP_X,
+               MAP_Y,
                CREATED_AT,
                UPDATED_AT,
                DEL_YN
