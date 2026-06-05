@@ -63,31 +63,20 @@ public class AdminCafeteriaController {
     	
     	Map<String, Object> response = new HashMap<>();
     	response.put("count", cafeteriaList != null ? cafeteriaList.size() : 0);
-    	response.put("message", "등록이 완료되었습니다.");
     	return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
     @PutMapping("/{cafeteriaId}")
     public ResponseEntity<?> updateCafeteria(@PathVariable String cafeteriaId, @RequestBody CafeteriaVO cafeteriaVO) {
     	log.info("Called :: PUT /api/admin/cafeteria/{} - body: {}", cafeteriaId, cafeteriaVO);
-    	
     	cafeteriaVO.setCafeteriaId(cafeteriaId);
-    	adminCafeteriaService.updateCafeteria(cafeteriaVO);
-    	
-    	Map<String, Object> response = new HashMap<>();
-    	response.put("message", "수정이 완료되었습니다.");
-    	return ResponseEntity.ok(response);
+    	return ResponseEntity.ok(adminCafeteriaService.updateCafeteria(cafeteriaVO));
     }
     
     @DeleteMapping("/{cafeteriaId}")
     public ResponseEntity<?> deleteCafeteria(@PathVariable String cafeteriaId) {
     	log.info("Called :: DELETE /api/admin/cafeteria/{}", cafeteriaId);
-    	
-    	adminCafeteriaService.deleteCafeteria(cafeteriaId);
-    	
-    	Map<String, Object> response = new HashMap<>();
-    	response.put("message", "삭제가 완료되었습니다.");
-    	return ResponseEntity.ok(response);
+    	return ResponseEntity.ok(adminCafeteriaService.deleteCafeteria(cafeteriaId));
     }
 
 }
