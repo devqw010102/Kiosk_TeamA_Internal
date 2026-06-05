@@ -57,6 +57,15 @@ public class AdminAttendanceService extends EgovAbstractServiceImpl {
 		}
 		return adminAttendancesMapper.insertAttend(attendVO);
 	}
+	// 다건 처리
+	public int insertAttendList(List<AttendVO> attendList) {
+	    log.info("Called :: insertAttendList");
+	    int count = 0;
+	    for (AttendVO attendVO : attendList) {
+	        count += insertAttend(attendVO);
+	    }
+	    return count;
+	}
 	
 	public int deleteAttend(String attendId) {
 		log.info("Called :: deleteAttend");
