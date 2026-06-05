@@ -9,6 +9,8 @@
 		 	  , END_DATE
 		 	  , BATCH_NUMBER
 		 	  , CAPACITY
+		 	  , CREATED_AT
+		 	  , UPDATED_AT
 		   FROM EDU_INFO
 		  WHERE DEL_YN = 'N'
 	</select>
@@ -20,6 +22,8 @@
 		 	 , END_DATE
 		 	 , BATCH_NUMBER
 		 	 , CAPACITY
+		 	 , CREATED_AT
+		 	 , UPDATED_AT
 		  FROM EDU_INFO
 		 WHERE DEL_YN = 'N'
 		   AND EDU_ID = #{eduId}
