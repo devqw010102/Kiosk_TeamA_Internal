@@ -39,4 +39,9 @@ public class AdminClassroomService extends EgovAbstractServiceImpl {
 		log.info("updateClassroom");
 		return adminClassroomMapper.updateClassroom(classroomVO);
 	}
+	
+	public int deleteClassroom(String classroomId) {
+		log.info("deleteClassroom");
+		return adminClassroomMapper.deleteClassroom(classroomId);
+	}
 }

@@ -15,4 +15,6 @@ public interface AdminClassroomMapper {
 	public int insertClassroom(ClassroomVO classroomVO);
 	
 	public int updateClassroom(ClassroomVO classroomVO);
+	
+	public int deleteClassroom(String classroomId);
 }

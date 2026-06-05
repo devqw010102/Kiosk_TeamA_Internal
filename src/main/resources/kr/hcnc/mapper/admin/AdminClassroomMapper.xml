@@ -48,4 +48,10 @@
 		 WHERE CLASSROOM_ID = #{classroomId}
 	</update>
 
+	<update id = "deleteClassroom">
+		UPDATE CLASSROOM
+		   SET DEL_YN = 'Y'
+		 WHERE CLASSROOM_ID = #{classroomId}
+		   AND DEL_YN = 'N'
+	</update>	
 </mapper>

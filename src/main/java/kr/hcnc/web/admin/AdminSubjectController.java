@@ -1,8 +1,6 @@
 package kr.hcnc.web.admin;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -46,26 +44,22 @@ public class AdminSubjectController {
 	@PostMapping
 	public ResponseEntity<?> insertSubject(@RequestBody SubjectVO subjectVO) {
 		log.info("Called :: POST /api/admin/subject");
-		adminSubjectService.insertSubject(subjectVO);
-		Map<String, Object> response = new HashMap<>();
-		response.put("subjectId", subjectVO.getSubjectId());
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		int result = adminSubjectService.insertSubject(subjectVO);
+		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 	
 	@PutMapping("/{subjectId}")
 	public ResponseEntity<?> updateSubject(@PathVariable String subjectId, @RequestBody SubjectVO subjectVO) {
 		log.info("Called :: PATCH /api/admin/subject/{}", subjectId);
 		subjectVO.setSubjectId(subjectId);
-		adminSubjectService.updateSubject(subjectVO);
-		Map<String, Object> response = new HashMap<>();
-		response.put("subjectId", subjectVO.getSubjectId());
-		return ResponseEntity.ok(response);
+		int result = adminSubjectService.updateSubject(subjectVO);
+		return ResponseEntity.ok(result);
 	}
 	
 	@DeleteMapping("/{subjectId}")
 	public ResponseEntity<?> deleteSubject(@PathVariable String subjectId) {
 		log.info("Called :: DELETE /api/admin/subject/{}", subjectId);
-		adminSubjectService.deleteSubject(subjectId);
-		return ResponseEntity.ok().build();
+		int result = adminSubjectService.deleteSubject(subjectId);
+		return ResponseEntity.ok(result);
 	}
 }
