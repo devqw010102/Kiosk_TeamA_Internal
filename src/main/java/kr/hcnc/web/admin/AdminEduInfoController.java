@@ -1,8 +1,6 @@
 package kr.hcnc.web.admin;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -47,26 +45,22 @@ public class AdminEduInfoController {
 	@PostMapping
 	public ResponseEntity<?> insertEduInfo(@RequestBody EduInfoVO eduInfoVO) {
 		log.info("Called :: POST /api/admin/eduInfo");
-		adminEduInfoService.insertEduInfo(eduInfoVO);
-		Map<String, Object> response = new HashMap<>();
-		response.put("eduId", eduInfoVO.getEduId());
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		int result = adminEduInfoService.insertEduInfo(eduInfoVO);
+		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 	
 	@PutMapping("/{eduId}")
 	public ResponseEntity<?> updateEduInfo(@PathVariable String eduId, @RequestBody EduInfoVO eduInfoVO) {
 		log.info("Called :: PUT /api/admin/eduInfo/{}", eduId);
 		eduInfoVO.setEduId(eduId);
-		adminEduInfoService.updateEduInfo(eduInfoVO);
-		Map<String, Object> response = new HashMap<>();
-		response.put("eduId", eduInfoVO.getEduId());
-		return ResponseEntity.ok(response);
+		int result = adminEduInfoService.updateEduInfo(eduInfoVO);
+		return ResponseEntity.ok(result);
 	}
 	
 	@DeleteMapping("/{eduId}")
 	public ResponseEntity<?> deleteEduInfo(@PathVariable String eduId) {
 		log.info("Called :: DELETE /api/admin/eduInfo/{}", eduId);
-		adminEduInfoService.deleteEduInfo(eduId);
-		return ResponseEntity.ok().build();
+		int result = adminEduInfoService.deleteEduInfo(eduId); 
+		return ResponseEntity.ok(result);
 	}
 }

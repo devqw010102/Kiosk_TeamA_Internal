@@ -1,8 +1,6 @@
 package kr.hcnc.web.admin;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -51,27 +49,23 @@ public class AdminStudentController {
 	@PostMapping
 	public ResponseEntity<?> insertStudent(@RequestBody StudentVO studentVO) {
 		log.info("Called :: POST /api/admin/student");
-		adminStudentService.insertStudent(studentVO);
-		Map<String, Object> response = new HashMap<>();
-		response.put("studentId", studentVO.getStudentId());
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		int result = adminStudentService.insertStudent(studentVO);
+		return ResponseEntity.status(HttpStatus.CREATED).body(result);
 	}
 	
 	@PutMapping("/{studentId}")
 	public ResponseEntity<?> updateStudent(@PathVariable String studentId, @RequestBody StudentVO studentVO) {
 		log.info("Called :: PUT /api/admin/student/{}", studentId);
 		studentVO.setStudentId(studentId);
-		adminStudentService.updateStudent(studentVO);
-		Map<String, Object> response = new HashMap<>();
-		response.put("studentId", studentVO.getStudentId());
-		return ResponseEntity.ok(response);
+		int result = adminStudentService.updateStudent(studentVO);
+		return ResponseEntity.ok(result);
 	}
 	
 	@DeleteMapping("/{studentId}")
 	public ResponseEntity<?> deleteStudent(@PathVariable String studentId) {
 		log.info("Called :: DELETE /api/admin/student/{}", studentId);
-		adminStudentService.deleteStudent(studentId);
-		return ResponseEntity.ok().build();
+		int result = adminStudentService.deleteStudent(studentId);
+		return ResponseEntity.ok(result);
 	}
 	
 	// batch 엔드포인트 추가예정 :: 엑셀 대량 업로드 시 Insert 로직
