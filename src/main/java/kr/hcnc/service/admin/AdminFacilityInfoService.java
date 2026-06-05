@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import egovframework.rte.fdl.cmmn.exception.FdlException;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.hcnc.mapper.admin.AdminFacilityInfoMapper;
 import kr.hcnc.vo.FacilityInfoVO;
 
@@ -18,6 +20,9 @@ public class AdminFacilityInfoService extends EgovAbstractServiceImpl {
 	@Resource(name = "adminFacilityInfoMapper")
 	private AdminFacilityInfoMapper adminFacilityInfoMapper;
 
+	@Resource(name = "facilityIdGnService")
+	private EgovIdGnrService facilityIdGnService;
+	
 	private static final Logger log = LoggerFactory.getLogger(AdminFacilityInfoService.class);
 
 	public List<FacilityInfoVO> selectFacilityList() {
@@ -32,6 +37,13 @@ public class AdminFacilityInfoService extends EgovAbstractServiceImpl {
 
 	public int insertFacility(FacilityInfoVO facilityInfoVO) {
 	    log.info("Called :: insertFacility");
+	    try {
+	    	facilityInfoVO.setFacilityId(facilityIdGnService.getNextStringId());
+	    }
+	    catch(FdlException e) {
+	    	log.error("FACILITY ID 채번 실패", e);
+	    	throw new RuntimeException("ID 생성에 실패했습니다.");
+	    }
 	    return adminFacilityInfoMapper.insertFacility(facilityInfoVO);
 	}
 	

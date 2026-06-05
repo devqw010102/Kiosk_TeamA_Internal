@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import egovframework.rte.fdl.cmmn.exception.FdlException;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.hcnc.mapper.admin.AdminEduInfoMapper;
 import kr.hcnc.vo.EduInfoVO;
 
@@ -17,6 +19,9 @@ public class AdminEduInfoService extends EgovAbstractServiceImpl {
 
 	@Resource(name = "adminEduInfoMapper")
 	private AdminEduInfoMapper adminEduInfoMapper;
+	
+	@Resource(name = "eduInfoIdGnService")
+	private EgovIdGnrService eduInfoIdGnService;
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminEduInfoService.class);
 	
@@ -32,6 +37,13 @@ public class AdminEduInfoService extends EgovAbstractServiceImpl {
 	
 	public int insertEduInfo(EduInfoVO eduInfoVO) {
 		log.info("insertEduInfo");
+		try {
+			eduInfoVO.setEduId(eduInfoIdGnService.getNextStringId());
+		}
+		catch(FdlException e) {
+			log.error("EDU_INFO ID 채번 실패", e);
+			throw new RuntimeException("ID 생성에 실패했습니다.");
+		}
 		return adminEduInfoMapper.insertEduInfo(eduInfoVO);
 	}
 	

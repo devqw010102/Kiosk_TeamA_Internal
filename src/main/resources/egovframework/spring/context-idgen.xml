@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<!-- EDU_INFO -->
+	<bean name = "eduInfoIdGnrStrategy"
+		  class = "egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name = "fillChar" value = "0" />
+		<property name = "cipers" value = "3" />
+		<property name = "prefix" value = "EDU_" />	  
+	</bean>
+
+	<bean name="eduInfoIdGnService"
+		  class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"
+		  destroy-method="destroy">
+		<property name = "dataSource" ref = "dataSource" />
+		<property name = "blockSize" value = "1" />
+		<property name = "table" value = "COMTECOPSEQ" />
+		<property name = "tableName" value = "EDU_INFO" />
+		<property name = "strategy" ref = "eduInfoIdGnrStrategy" />
+  	</bean>	   
+  	
+  	<!--  STUDENTS -->
+	<bean name = "studentIdGnrStrategy"
+		  class = "egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name = "fillChar" value = "0" />
+		<property name = "cipers" value = "3" />
+		<property name = "prefix" value = "STU_26" />	
+	</bean>
+  	
+  	<bean name = "studentIdGnService"
+  		  class = "egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"
+  		  destroy-method = "destroy">
+		<property name = "dataSource" ref = "dataSource" />
+		<property name = "blockSize" value = "1" />
+		<property name = "table" value = "COMTECOPSEQ" />
+		<property name = "tableName" value = "STUDENTS" />
+		<property name = "strategy" ref = "studentIdGnrStrategy" />
+	</bean>
+	
+	<!--  SUBJECT  -->
+	<bean name = "subjectIdGnrStrategy"
+		  class = "egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name = "fillChar" value = "0" />
+		<property name = "cipers" value = "3" />
+		<property name = "prefix" value = "SUB_" />	
+	</bean>
+	
+  	<bean name = "subjectIdGnService"
+  		  class = "egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"
+  		  destroy-method = "destroy">
+		<property name = "dataSource" ref = "dataSource" />
+		<property name = "blockSize" value = "1" />
+		<property name = "table" value = "COMTECOPSEQ" />
+		<property name = "tableName" value = "SUBJECT" />
+		<property name = "strategy" ref = "subjectIdGnrStrategy" />
+	</bean>
+	
+	<!--  ATTENDANCE -->
+	<bean name = "attendanceIdGnrStrategy"
+		  class = "egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name = "fillChar" value = "0" />
+		<property name = "cipers" value = "3" />
+		<property name = "prefix" value = "ATT_" />	
+	</bean>
+	
+  	<bean name = "attendanceIdGnService"
+  		  class = "egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"
+  		  destroy-method = "destroy">
+		<property name = "dataSource" ref = "dataSource" />
+		<property name = "blockSize" value = "1" />
+		<property name = "table" value = "COMTECOPSEQ" />
+		<property name = "tableName" value = "ATTENDANCE" />
+		<property name = "strategy" ref = "attendanceIdGnrStrategy" />
+	</bean>
+	
+	<!--  FACILITY  -->
+	<bean name = "facilityIdGnrStrategy"
+		  class = "egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name = "fillChar" value = "0" />
+		<property name = "cipers" value = "3" />
+		<property name = "prefix" value = "FAC_" />	
+	</bean>
+	
+  	<bean name = "facilityIdGnService"
+  		  class = "egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"
+  		  destroy-method = "destroy">
+		<property name = "dataSource" ref = "dataSource" />
+		<property name = "blockSize" value = "1" />
+		<property name = "table" value = "COMTECOPSEQ" />
+		<property name = "tableName" value = "FACILITY" />
+		<property name = "strategy" ref = "facilityIdGnrStrategy" />
+	</bean>
+	
+	<!--  TRANSPORT  -->
+	<bean name = "transportIdGnrStrategy"
+		  class = "egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name = "fillChar" value = "0" />
+		<property name = "cipers" value = "3" />
+		<property name = "prefix" value = "TRP_" />	
+	</bean>
+	
+  	<bean name = "transportIdGnService"
+  		  class = "egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrServiceImpl"
+  		  destroy-method = "destroy">
+		<property name = "dataSource" ref = "dataSource" />
+		<property name = "blockSize" value = "1" />
+		<property name = "table" value = "COMTECOPSEQ" />
+		<property name = "tableName" value = "TRANSPORT" />
+		<property name = "strategy" ref = "transportIdGnrStrategy" />
+	</bean>
+</beans>
