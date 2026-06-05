@@ -1,8 +1,6 @@
 package kr.hcnc.service.admin;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import egovframework.rte.fdl.cmmn.exception.FdlException;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.hcnc.mapper.admin.AdminStudentMapper;
 import kr.hcnc.vo.StudentVO;
 
@@ -19,6 +19,9 @@ public class AdminStudentService extends EgovAbstractServiceImpl {
 
 	@Resource(name = "adminStudentMapper")
 	private AdminStudentMapper adminStudentMapper;
+	
+	@Resource(name = "studentIdGnService")
+	private EgovIdGnrService studentIdGnService;
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminStudentService.class);
 	
@@ -34,6 +37,13 @@ public class AdminStudentService extends EgovAbstractServiceImpl {
 	
 	public int insertStudent(StudentVO studentVO) {
 		log.info("insertStudent");
+		try {
+			studentVO.setStudentId(studentIdGnService.getNextStringId());
+		}
+		catch(FdlException e) {
+			log.error("STUDENT ID 채번 실패", e);
+			throw new RuntimeException("ID 생성에 실패했습니다.");
+		}
 		return adminStudentMapper.insertStudent(studentVO);
 	}
 	

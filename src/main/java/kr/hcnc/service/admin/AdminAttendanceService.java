@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import egovframework.rte.fdl.cmmn.exception.FdlException;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.hcnc.mapper.admin.AdminAttendancesMapper;
 import kr.hcnc.mapper.admin.AdminKioskOperationalLogMapper;
 import kr.hcnc.vo.AttendVO;
@@ -22,6 +24,9 @@ public class AdminAttendanceService extends EgovAbstractServiceImpl {
 	
 	@Resource(name = "adminKioskOperationalMapper")
 	private AdminKioskOperationalLogMapper adminKioskOperationalLogMapper;
+	
+	@Resource(name = "attendanceIdGnService")
+	private EgovIdGnrService attendanceIdGnService;
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminAttendanceService.class);
 	
@@ -43,6 +48,13 @@ public class AdminAttendanceService extends EgovAbstractServiceImpl {
 	
 	public int insertAttend(AttendVO attendVO) {
 		log.info("Called :: insertAttend");
+		try {
+			attendVO.setAttendanceId(attendanceIdGnService.getNextStringId());
+		}
+		catch(FdlException e) {
+			log.error("ATTENDANCE ID 채번 실패", e);
+			throw new RuntimeException("ID 생성에 실패했습니다.");
+		}
 		return adminAttendancesMapper.insertAttend(attendVO);
 	}
 	

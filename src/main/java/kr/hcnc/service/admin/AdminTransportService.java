@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import egovframework.rte.fdl.cmmn.exception.FdlException;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.hcnc.mapper.admin.AdminTransportMapper;
 import kr.hcnc.vo.TransportVO;
 
@@ -18,6 +20,9 @@ public class AdminTransportService extends EgovAbstractServiceImpl {
 	@Resource(name = "adminTransportMapper")
 	private AdminTransportMapper adminTransportMapper;
 
+	@Resource(name = "transportIdGnService")
+	private EgovIdGnrService transportIdGnService;
+	
 	private static final Logger log = LoggerFactory.getLogger(AdminTransportService.class);
 
 	public List<TransportVO> selectTransportList() {
@@ -32,6 +37,13 @@ public class AdminTransportService extends EgovAbstractServiceImpl {
 
 	public int insertTransport(TransportVO transportVO) {
 		log.info("Called :: insertTransport");
+		try {
+			transportVO.setTransportId(transportIdGnService.getNextStringId());
+		}
+		catch(FdlException e) {
+			log.error("TRANSPORT ID 채번 실패", e);
+			throw new RuntimeException("ID 생성에 실패했습니다.");
+		}
 		return adminTransportMapper.insertTransport(transportVO);
 	}
 

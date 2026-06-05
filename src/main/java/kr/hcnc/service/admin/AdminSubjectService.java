@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import egovframework.rte.fdl.cmmn.exception.FdlException;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import kr.hcnc.mapper.admin.AdminSubjectMapper;
 import kr.hcnc.vo.SubjectVO;
 
@@ -17,6 +19,9 @@ public class AdminSubjectService extends EgovAbstractServiceImpl {
 	
 	@Resource(name = "adminSubjectMapper")
 	private AdminSubjectMapper adminSubjectMapper;
+	
+	@Resource(name = "subjectIdGnService")
+	private EgovIdGnrService subjectIdGnService;
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminSubjectService.class);
 	
@@ -32,6 +37,13 @@ public class AdminSubjectService extends EgovAbstractServiceImpl {
 	
 	public int insertSubject(SubjectVO subjectVO) {
 		log.info("insertSubject");
+		try {
+			subjectVO.setSubjectId(subjectIdGnService.getNextStringId());
+		}
+		catch(FdlException e) {
+			log.error("SUBJECT ID 채번 실패", e);
+			throw new RuntimeException("ID 채번에 실패했습니다.");
+		}
 		return adminSubjectMapper.insertSubject(subjectVO);
 	}
 	

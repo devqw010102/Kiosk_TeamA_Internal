@@ -10,6 +10,8 @@
 		 	  , START_DATE
 		 	  , END_DATE
 		 	  , END_YN
+		 	  , CREATED_AT
+		 	  , UPDATED_AT
 		   FROM SUBJECT
 		  WHERE DEL_YN = 'N'	
 	</select>
@@ -22,6 +24,8 @@
 		 	  , START_DATE
 		 	  , END_DATE
 		 	  , END_YN
+		 	  , CREATED_AT
+		 	  , UPDATED_AT
 		   FROM SUBJECT
 		  WHERE DEL_YN = 'N'
 		    AND SUBJECT_ID = #{subjectId}

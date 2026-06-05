@@ -11,6 +11,7 @@
 			 , DORM_YN
 			 , DORMITORY_ID
 			 , PHONE_NUMBER
+			 , CREATED_AT
 		  FROM STUDENTS
 		 WHERE DEL_YN = 'N'
 	</select>
@@ -24,6 +25,7 @@
 			 , DORM_YN
 			 , DORMITORY_ID
 			 , PHONE_NUMBER
+			 , CREATED_AT
 		  FROM STUDENTS
 		 WHERE DEL_YN = 'N'
 		   AND STUDENT_ID = #{studentId}
