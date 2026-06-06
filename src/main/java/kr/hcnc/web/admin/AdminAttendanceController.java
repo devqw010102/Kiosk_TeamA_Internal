@@ -48,6 +48,13 @@ public class AdminAttendanceController {
     	return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
+    @PostMapping("/list")
+    public ResponseEntity<?> insertAttendance(@RequestBody List<AttendVO> attendList) {
+    	log.info("Called :: POST /api/admin/attendances");
+    	return ResponseEntity.status(HttpStatus.CREATED)
+                .body(adminAttendanceService.insertAttendList(attendList));
+    }
+    
     // 출석 상태 변경 및 사유 기재
     @PatchMapping("/{studentId}")
     public ResponseEntity<Integer> updateAttendMsg(@PathVariable String studentId, @RequestBody AttendVO attendVO) {
