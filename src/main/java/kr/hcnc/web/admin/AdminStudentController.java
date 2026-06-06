@@ -70,4 +70,11 @@ public class AdminStudentController {
 	
 	// batch 엔드포인트 추가예정 :: 엑셀 대량 업로드 시 Insert 로직
 	// 엑셀 양식, C# 에서의 비즈니스 로직 등 어떻게 구현할지 미정이라 엔드포인트 구현 불가능에따라 주석 작성
+	
+	@PostMapping("/batch")
+	public ResponseEntity<?> batchInsertStudent(@RequestBody List<StudentVO> students) {
+		log.info("Called :: POST /api/admin/student/batch");
+		int result = adminStudentService.batchInsertStudent(students);
+		return ResponseEntity.ok(result);
+	}
 }
