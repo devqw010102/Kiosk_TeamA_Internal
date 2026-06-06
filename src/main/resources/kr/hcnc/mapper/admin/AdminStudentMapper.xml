@@ -32,8 +32,8 @@
 	</select>
 	
 	<insert id = "insertStudent" parameterType = "StudentVO">
-		INSERT INTO STUDENTS (STUDENT_ID, STUDENT_NAME, BIRTH_DATE, EDU_ID, ATTEND_YN, DORM_YN, DORMITORY_ID, PHONE_NUMBER)
-		VALUES (#{studentId}, #{studentName}, #{birthDate}, #{eduId}, #{attendYn}, #{dormYn}, #{dormitoryId}, #{phoneNumber})
+		INSERT INTO STUDENTS (STUDENT_ID, STUDENT_NAME, BIRTH_DATE, EDU_ID, DORM_YN, DORMITORY_ID, PHONE_NUMBER)
+		VALUES (#{studentId}, #{studentName}, #{birthDate}, #{eduId}, #{dormYn}, #{dormitoryId}, #{phoneNumber})
 	</insert>
 	
 	<update id="updateStudent" parameterType="StudentVO">

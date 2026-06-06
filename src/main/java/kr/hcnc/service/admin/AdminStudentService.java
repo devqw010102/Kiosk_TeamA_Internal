@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.cmmn.exception.FdlException;
@@ -55,5 +56,21 @@ public class AdminStudentService extends EgovAbstractServiceImpl {
 	public int deleteStudent(String studentId) {
 		log.info("deleteStudent");
 		return adminStudentMapper.deleteStudent(studentId);
+	}
+	
+	@Transactional
+	public int batchInsertStudent(List<StudentVO> students) {
+		log.info("batchInsertStudent");
+		for(StudentVO student : students) {
+			try {
+				student.setStudentId(studentIdGnService.getNextStringId());
+			}
+			catch(FdlException e) {
+				log.error("STUDENT ID 채벌 실패", e);
+				throw new RuntimeException("ID 생성에  실패했습니다.");
+			}
+			adminStudentMapper.insertStudent(student);
+		}
+		return students.size();
 	}
 }
