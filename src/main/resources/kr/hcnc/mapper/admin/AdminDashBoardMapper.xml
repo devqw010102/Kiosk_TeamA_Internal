@@ -29,9 +29,12 @@
 
     <select id="selectAttendCount" resultType="Map">
     <![CDATA[
-        SELECT 
-            COUNT(CASE WHEN STATUS = '출석' THEN 1 END) AS ATTEND,
-            COUNT(CASE WHEN STATUS <> '출석' THEN 1 END) AS NOT_ATTEND
+        SELECT
+        	(SELECT COUNT(*) FROM ATTENDANCE) AS TOTAL_ATTENDANCE, 
+           	COUNT(CASE WHEN STATUS = '출석' THEN 1 END) AS ATTEND,
+   			COUNT(CASE WHEN STATUS = '지각' THEN 1 END) AS LATE,
+   			COUNT(CASE WHEN STATUS = '조퇴' THEN 1 END) AS EARLY_LEAVE,
+   			COUNT(CASE WHEN STATUS = '결석' THEN 1 END) AS ABSENCE
         FROM ATTENDANCE
         ]]>
     </select>
