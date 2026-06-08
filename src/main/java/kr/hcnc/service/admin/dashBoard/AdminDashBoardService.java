@@ -19,7 +19,10 @@ public class AdminDashBoardService extends EgovAbstractServiceImpl{
     
 	@Resource(name="adminDashBoardMapper")
 	private AdminDashBoardMapper adminDashBoardMapper;
-	
+	public List<Map<String, Object>> selectLogTo10() {
+		log.info("Call::selectLog()");
+		return adminDashBoardMapper.selectLogTop10();
+	}
 	public List<Map<String, Object>> selectPrintCountByHour() {
 		log.info("Call::selectPrintCountByHour()");
 		return adminDashBoardMapper.selectPrintCountByHour(); 

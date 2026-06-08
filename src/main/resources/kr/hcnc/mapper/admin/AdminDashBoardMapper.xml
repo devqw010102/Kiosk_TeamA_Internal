@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.hcnc.mapper.admin.AdminDashBoardMapper">
-  <!-- 
-  <select id="selectLog" resultType="Map">
-        SELECT ACTION,
-              CREATED_AT
-        FROM KIOSK_LOG
-	        WHERE ACTION=#{action}
+
+  <select id="selectLogTop10" resultType="Map">
+        SELECT LOG_ID AS logId,
+		 		ACTION AS action,
+		 		 DATE_FORMAT(CREATED_AT, '%Y-%m-%d %H:%i:%S') AS createdAt
+		FROM KIOSK_LOG
+			WHERE DEL_YN = 'N'
+		ORDER BY CREATED_AT DESC
+		LIMIT 10
     </select> 
-    -->  
+
 
     <select id="selectPrintCountByHour" resultType="Map">
         SELECT HOUR(CREATED_AT) AS PRINT_HOUR

@@ -7,6 +7,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("adminDashBoardMapper")
 public interface AdminDashBoardMapper {
+	public List<Map<String, Object>> selectLogTop10();
 	public List<Map<String, Object>> selectPrintCountByHour();
 	public List<Map<String, Object>> selectPopularFeature();
 	public Map<String, Object> selectAttendCount();

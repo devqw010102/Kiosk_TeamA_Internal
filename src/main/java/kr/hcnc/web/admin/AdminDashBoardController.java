@@ -23,6 +23,12 @@ public class AdminDashBoardController {
     @Resource(name = "adminDashBoardService")
 	private AdminDashBoardService adminDashBoardService;
     
+    @GetMapping("/kiosk-log")
+    public ResponseEntity<List<Map<String, Object>>> selectLogTop10(){
+    	log.info("Called::selectLogTop10()");
+    	return ResponseEntity.ok(adminDashBoardService.selectLogTo10());
+    }
+    
     @GetMapping("/print-count")
     public ResponseEntity<List<Map<String, Object>>> selectPrintCountByHour() {
     	log.info("Called::selectPrintCountByHour()");
