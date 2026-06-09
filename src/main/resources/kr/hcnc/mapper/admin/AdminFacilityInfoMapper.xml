@@ -50,7 +50,12 @@
 		    <if test="facilityType != null and facilityType != ''">FACILITY_TYPE = #{facilityType},</if>
 		    <if test="name != null and name != ''">NAME = #{name},</if>
 		    <if test="location != null and location != ''">LOCATION = #{location},</if>
-		    <if test="imagePath != null and imagePath != ''">IMAGE_PATH = #{imagePath},</if>
+		    <if test="imagePath != null">
+		      <choose>
+		        <when test="imagePath == ''">IMAGE_PATH = NULL,</when>
+		        <otherwise>IMAGE_PATH = #{imagePath},</otherwise>
+		      </choose>
+		    </if>
 		    <if test="description != null">DESCRIPTION = #{description},</if>
 		    <if test="floor != null">FLOOR = #{floor},</if>
 		    <if test="mapX != null">MAP_X = #{mapX},</if>
