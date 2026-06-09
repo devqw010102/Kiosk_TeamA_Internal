@@ -26,6 +26,22 @@
 		WHERE S.DORM_YN = 'Y'
 	</select>
 	
+	<select id="selectDormWaiting" resultType="DormInOutVO">
+		SELECT 
+		    S.STUDENT_ID AS studentId,
+		    S.STUDENT_NAME AS studentName,
+		    S.DORMITORY_ID AS dormitoryId,
+		    D.DORMITORY_ROOM_NAME AS dormitoryRoomName
+		FROM STUDENTS S
+		    LEFT JOIN DORMITORIES D ON S.DORMITORY_ID = D.DORMITORY_ID
+		WHERE S.DORMITORY_ID IS NOT NULL
+		AND S.STUDENT_ID NOT IN (
+		    SELECT STUDENT_ID 
+		    FROM KIOSK_OPERATIONAL_LOG 
+		    WHERE DORM = 'IN'     
+		)
+	</select>
+	
 	<select id="selectDormIn" resultType="DormInOutVO">
 		SELECT KOL.STUDENT_ID AS studentId, 
 			   S.STUDENT_NAME AS studentName,
@@ -41,29 +57,13 @@
 	</select>
 	
 	<select id="selectDormOut" resultType="DormInOutVO">
-		SELECT KOL.STUDENT_ID, 
-			   S.STUDENT_NAME, 
-			   KOL.DORM
+		SELECT KOL.STUDENT_ID AS studentId, 
+			   S.STUDENT_NAME AS studentName, 
+			   KOL.DORM AS dorm
 		FROM KIOSK_OPERATIONAL_LOG KOL 
 			INNER JOIN STUDENTS S ON
 			KOL.STUDENT_ID = S.STUDENT_ID 
 		WHERE KOL.DORM = 'OUT'
-	</select>
-	
-	<select id="selectDormWating" resultType="DormInOutVO">
-		SELECT 
-		    S.STUDENT_ID,
-		    S.STUDENT_NAME,
-		    S.DORMITORY_ID,
-		    D.DORMITORY_ROOM_NAME
-		FROM STUDENTS S
-		    LEFT JOIN DORMITORIES D ON S.DORMITORY_ID = D.DORMITORY_ID
-		WHERE S.DORMITORY_ID IS NOT NULL
-		AND S.STUDENT_ID NOT IN (
-		    SELECT STUDENT_ID 
-		    FROM KIOSK_OPERATIONAL_LOG 
-		    WHERE DORM = 'IN'     
-		)
 	</select>
 	
 	<select id="selectDormRoomAssignStatus" resultType="DormitoryVO">

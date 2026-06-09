@@ -46,6 +46,14 @@ public class AdminDormitoryController {
     	return ResponseEntity.ok(list);
     }
     
+    // 생활관 대기 조회
+    @GetMapping("/waiting")
+    public ResponseEntity<List<DormInOutVO>> getDormWaiting(){
+    	log.info("Called :: GET /api/admin/dormitories/waiting");
+    	List<DormInOutVO> list = adminDormitoryService.selectDormWaiting();
+    	return ResponseEntity.ok(list);
+    }
+    
     // 생활관 입실 조회
     @GetMapping("/check-in")
     public ResponseEntity<List<DormInOutVO>> getDormIn(){

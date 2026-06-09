@@ -38,6 +38,11 @@ public class AdminDormitoryService extends EgovAbstractServiceImpl {
 		return adminDormitoryMapper.selectDormAssign();
 	}
 	
+	public List<DormInOutVO> selectDormWaiting(){
+		log.info("Called :: selectDormWating()");
+		return adminDormitoryMapper.selectDormWaiting();
+	}
+	
 	public List<DormInOutVO> selectDormIn() {
 		log.info("Called :: selectDormIn()");
 		return adminDormitoryMapper.selectDormIn();

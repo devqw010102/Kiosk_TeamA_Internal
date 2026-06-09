@@ -11,6 +11,7 @@ import kr.hcnc.vo.DormitoryVO;
 public interface AdminDormitoryMapper {
 	public List<DormitoryVO> selectCmbDorm();
 	public List<DormAssignVO> selectDormAssign();
+	public List<DormInOutVO> selectDormWaiting();
 	public List<DormInOutVO> selectDormIn();
 	public List<DormInOutVO> selectDormOut();
 	public List<DormitoryVO> selectDormRoomAssignStatus();
