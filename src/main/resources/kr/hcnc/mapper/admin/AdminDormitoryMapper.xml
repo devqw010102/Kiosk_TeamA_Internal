@@ -1,7 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.hcnc.mapper.admin.AdminDormitoryMapper">
-
+	
+	<select id ="selectCmbDorm" resultType="DormitoryVO">
+		SELECT DORMITORY_ID AS dormitoryId,
+			   DORMITORY_ROOM_NAME AS dormitoryRoomName
+		FROM DORMITORIES
+			WHERE DEL_YN = 'N';
+	</select>
+	
+	<select id="selectDormAssign" resultType="DormAssignVO">
+		SELECT 
+		    S.STUDENT_ID AS studentId,
+		    S.STUDENT_NAME AS studentName,
+		    S.EDU_ID AS eduId,
+		    S.PHONE_NUMBER AS phone,
+		    S.DORMITORY_ID AS dormitoryId,
+		    D.DORMITORY_ROOM_NAME AS dormitoryRoomName,
+		    CASE
+		        WHEN S.DORMITORY_ID IS NOT NULL THEN '배정'
+		        ELSE '미배정'
+		    END AS assignStatus
+		FROM STUDENTS S
+		LEFT JOIN DORMITORIES D ON S.DORMITORY_ID = D.DORMITORY_ID
+		WHERE S.DORM_YN = 'Y'
+	</select>
+	
+	<select id="selectDormIn" resultType="DormInOutVO">
+		SELECT KOL.STUDENT_ID AS studentId, 
+			   S.STUDENT_NAME AS studentName,
+			   S.DORMITORY_ID AS dormitoryId,
+			   D.DORMITORY_ROOM_NAME AS dormitoryRoomName, 
+			   KOL.DORM AS dorm
+		FROM KIOSK_OPERATIONAL_LOG KOL 
+			INNER JOIN STUDENTS S ON
+				KOL.STUDENT_ID = S.STUDENT_ID
+			INNER JOIN DORMITORIES D ON
+				S.DORMITORY_ID = D.DORMITORY_ID 
+		WHERE KOL.DORM = 'IN'
+	</select>
+	
+	<select id="selectDormOut" resultType="DormInOutVO">
+		SELECT KOL.STUDENT_ID, 
+			   S.STUDENT_NAME, 
+			   KOL.DORM
+		FROM KIOSK_OPERATIONAL_LOG KOL 
+			INNER JOIN STUDENTS S ON
+			KOL.STUDENT_ID = S.STUDENT_ID 
+		WHERE KOL.DORM = 'OUT'
+	</select>
+	
+	<select id="selectDormWating" resultType="DormInOutVO">
+		SELECT 
+		    S.STUDENT_ID,
+		    S.STUDENT_NAME,
+		    S.DORMITORY_ID,
+		    D.DORMITORY_ROOM_NAME
+		FROM STUDENTS S
+		    LEFT JOIN DORMITORIES D ON S.DORMITORY_ID = D.DORMITORY_ID
+		WHERE S.DORMITORY_ID IS NOT NULL
+		AND S.STUDENT_ID NOT IN (
+		    SELECT STUDENT_ID 
+		    FROM KIOSK_OPERATIONAL_LOG 
+		    WHERE DORM = 'IN'     
+		)
+	</select>
+	
 	<select id="selectDormRoomAssignStatus" resultType="DormitoryVO">
 		SELECT  DORMITORY_ID as dormitoryId,
 				DORMITORY_ROOM_NAME as dormitoryRoomName,
@@ -20,6 +84,13 @@
 			WHERE DORMITORY_ID = #{dormitoryId}
 			AND DEL_YN = 'N'
     </select>
+    
+    <update id="updateDormId" parameterType="DormAssignVO">
+	    UPDATE STUDENTS
+			SET DORMITORY_ID = #{dormitoryId}
+		WHERE DORM_YN='Y'
+			AND STUDENT_ID = #{studentId};
+    </update>
     
     <update id="updateDormAssignMaxCnt" parameterType="DormitoryVO">
 		UPDATE DORMITORIES

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.hcnc.service.admin.AdminDormitoryService;
+import kr.hcnc.vo.DormAssignVO;
+import kr.hcnc.vo.DormInOutVO;
 import kr.hcnc.vo.DormitoryVO;
 
 //생활관 관리 API - 호실 배정/입실/퇴실 처리
@@ -28,10 +30,42 @@ public class AdminDormitoryController {
     @Resource(name = "adminDormitoryService")
     private AdminDormitoryService adminDormitoryService;
     
-    // 생활관 전체  배정인원/최대 인원 가져오기
+    // 생활관 배정 여부 조회
     @GetMapping
-    public ResponseEntity<List<DormitoryVO>> gettDormRoomAssignStatus() {
+    public ResponseEntity<List<DormAssignVO>> getDormAssign() {
     	log.info("Called :: GET /api/admin/dormitories");
+    	List<DormAssignVO> list = adminDormitoryService.selectDormAssign();
+    	return ResponseEntity.ok(list);
+    }
+    
+    // 생활관 배정, 변경, 취소 콤보박스
+    @GetMapping("/combo-box")
+    public ResponseEntity<List<DormitoryVO>> getCmbDorm() {
+    	log.info("Called :: GET /api/admin/dormitories/combo-box");
+    	List<DormitoryVO> list = adminDormitoryService.selectCmbDorm();
+    	return ResponseEntity.ok(list);
+    }
+    
+    // 생활관 입실 조회
+    @GetMapping("/check-in")
+    public ResponseEntity<List<DormInOutVO>> getDormIn(){
+    	log.info("Called :: GET /api/admin/dormitories");
+    	List<DormInOutVO> list = adminDormitoryService.selectDormIn();
+    	return ResponseEntity.ok(list);
+    }
+    
+    // 생활관 퇴실 조회
+    @GetMapping("/check-out")
+    public ResponseEntity<List<DormInOutVO>> getDormOut(){
+    	log.info("Called :: GET /api/admin/dormitories");
+    	List<DormInOutVO> list = adminDormitoryService.selectDormOut();
+    	return ResponseEntity.ok(list);
+    }
+    
+    // 생활관 전체  배정인원/최대 인원 가져오기
+    @GetMapping("/assign-status")
+    public ResponseEntity<List<DormitoryVO>> gettDormRoomAssignStatus() {
+    	log.info("Called :: GET /api/admin/dormitories/assign-status");
     	List<DormitoryVO> list = adminDormitoryService.selectDormRoomAssignStatus();
     	return ResponseEntity.ok(list);
     }
@@ -42,6 +76,16 @@ public class AdminDormitoryController {
     	DormitoryVO result = adminDormitoryService.selectDormRoomAssignStatusById(dormitoryId);
     	return ResponseEntity.ok(result);
     }
+    
+    // 생활관 배정
+    @PatchMapping("/{studentId}")
+    public ResponseEntity<Integer> updateDormId(@PathVariable String studentId,
+    											@RequestBody DormAssignVO dormAssignVO){
+    	log.info("Called :: PATCH /api/admin/dormitories/{studentId}");
+    	int result = adminDormitoryService.updateDormId(studentId, dormAssignVO);
+    	return ResponseEntity.ok(result);
+    }
+    
     // 최대인원 수정
     @PatchMapping("/max-count")
     public ResponseEntity<Integer> updateDormAssignMaxCnt (@RequestBody DormitoryVO dormitoryVO){
