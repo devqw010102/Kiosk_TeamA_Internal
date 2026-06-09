@@ -43,6 +43,10 @@ public class AdminDashBoardService extends EgovAbstractServiceImpl{
 		return adminDashBoardMapper.selectDormStats();
 	}
 	
+	public Map<String, Object> selectEduStats() {
+		log.info("Call :: selectEduStats()");
+		return adminDashBoardMapper.selectEduStats();
+	}
 }
 
 

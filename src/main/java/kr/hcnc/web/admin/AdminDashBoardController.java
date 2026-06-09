@@ -52,4 +52,10 @@ public class AdminDashBoardController {
     	log.info("Called::selectDormStats()");
     	return ResponseEntity.ok(adminDashBoardService.selectDormStats());
     }
+    
+    @GetMapping("edu-stats")
+    public ResponseEntity<Map<String, Object>> selectEduStats() {
+    	log.info("Called :: selectEduStats()");
+    	return ResponseEntity.ok(adminDashBoardService.selectEduStats());
+    }
 }

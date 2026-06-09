@@ -12,4 +12,6 @@ public interface AdminDashBoardMapper {
 	public List<Map<String, Object>> selectPopularFeature();
 	public Map<String, Object> selectAttendCount();
 	public Map<String, Object> selectDormStats();
+	
+	public Map<String, Object> selectEduStats();
 }
