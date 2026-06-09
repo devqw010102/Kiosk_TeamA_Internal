@@ -47,4 +47,55 @@
 		 (SELECT COUNT(*) FROM KIOSK_OPERATIONAL_LOG WHERE DORM = 'IN' AND DEL_YN = 'N') AS assignCount,
 		 (SELECT COUNT(*) FROM STUDENTS WHERE DORM_YN='Y' AND DEL_YN = 'N') AS totalStudents
     </select>
+    
+    <select id="selectEduStats" resultType="Map">
+    <![CDATA[
+        SELECT
+            (SELECT COUNT(*)
+               FROM EDU_INFO
+              WHERE DEL_YN = 'N'
+                AND STR_TO_DATE(START_DATE, '%y%m%d') <= CURDATE()
+                AND STR_TO_DATE(END_DATE,   '%y%m%d') >= CURDATE()
+            ) AS ACTIVE_EDU_COUNT,
+
+            (SELECT COUNT(*)
+               FROM STUDENTS S
+               JOIN EDU_INFO E ON S.EDU_ID = E.EDU_ID
+              WHERE S.DEL_YN = 'N'
+                AND E.DEL_YN = 'N'
+                AND STR_TO_DATE(E.START_DATE, '%y%m%d') <= CURDATE()
+                AND STR_TO_DATE(E.END_DATE,   '%y%m%d') >= CURDATE()
+            ) AS TOTAL_STUDENTS,
+
+            (SELECT IFNULL(ROUND(
+                COUNT(CASE WHEN A.STATUS = '출석' THEN 1 END) * 100.0
+                / NULLIF(COUNT(*), 0), 1), 0)
+               FROM ATTENDANCE A
+               JOIN STUDENTS S ON A.STUDENT_ID = S.STUDENT_ID
+               JOIN EDU_INFO E ON S.EDU_ID = E.EDU_ID
+              WHERE A.ATTEND_DATE = CURDATE()
+                AND S.DEL_YN = 'N'
+                AND E.DEL_YN = 'N'
+                AND A.DEL_YN = 'N'
+                AND STR_TO_DATE(E.START_DATE, '%y%m%d') <= CURDATE()
+                AND STR_TO_DATE(E.END_DATE,   '%y%m%d') >= CURDATE()
+            ) AS AVG_ATTEND_RATE,
+
+            (SELECT COUNT(*) FROM (
+               SELECT E.EDU_ID,
+                   COUNT(CASE WHEN A.STATUS = '출석' THEN 1 END) * 100.0
+                   / NULLIF(COUNT(A.ATTENDANCE_ID), 0) AS RATE
+               FROM EDU_INFO E
+               JOIN STUDENTS S ON E.EDU_ID = S.EDU_ID AND S.DEL_YN = 'N'
+               JOIN ATTENDANCE A ON S.STUDENT_ID = A.STUDENT_ID
+                                 AND A.ATTEND_DATE = CURDATE()
+                                 AND A.DEL_YN = 'N'
+              WHERE E.DEL_YN = 'N'
+                AND STR_TO_DATE(E.START_DATE, '%y%m%d') <= CURDATE()
+                AND STR_TO_DATE(E.END_DATE,   '%y%m%d') >= CURDATE()
+              GROUP BY E.EDU_ID
+              HAVING RATE < 80
+            ) sub) AS WARNING_EDU_COUNT
+    ]]>
+    </select>
 </mapper>
