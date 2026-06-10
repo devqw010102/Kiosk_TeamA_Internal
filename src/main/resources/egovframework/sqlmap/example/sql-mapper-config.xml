@@ -14,6 +14,8 @@
 		<typeAlias alias="AttendVO" type="kr.hcnc.vo.AttendVO"/>
 		<typeAlias alias="ClassroomVO" type="kr.hcnc.vo.ClassroomVO" />
 		<typeAlias alias="EduInfoVO" type="kr.hcnc.vo.EduInfoVO"/>
+		<typeAlias alias="DormAssignVO" type="kr.hcnc.vo.DormAssignVO"/>
+		<typeAlias alias="DormInOutVO" type="kr.hcnc.vo.DormInOutVO"/>
 		<typeAlias alias="DormitoryVO" type="kr.hcnc.vo.DormitoryVO"/>
 		<typeAlias alias="SubjectVO" type="kr.hcnc.vo.SubjectVO"/>
 		<typeAlias alias="KioskLogVO" type="kr.hcnc.vo.KioskLogVO"/>
