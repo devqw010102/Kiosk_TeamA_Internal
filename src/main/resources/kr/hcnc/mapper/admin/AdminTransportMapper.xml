@@ -6,19 +6,25 @@
 	<select id="selectTransportList" resultType="TransportVO">
 		SELECT TRANSPORT_ID,
                TYPE,
-               CONTENT,
+               DEPART_LOCATION,
+               DESTINATION,
+               DEPART_TIME,
+               ARRIVE_TIME,
                CREATED_AT,
                UPDATED_AT,
                DEL_YN
           FROM TRANSPORT
          WHERE DEL_YN = 'N'
-         ORDER BY TYPE, TRANSPORT_ID
+         ORDER BY TYPE, DEPART_TIME, TRANSPORT_ID
 	</select>
 
 	<select id="selectTransportById" parameterType="string" resultType="TransportVO">
 		SELECT TRANSPORT_ID,
                TYPE,
-               CONTENT,
+               DEPART_LOCATION,
+               DESTINATION,
+               DEPART_TIME,
+               ARRIVE_TIME,
                CREATED_AT,
                UPDATED_AT,
                DEL_YN
@@ -28,26 +34,43 @@
 	</select>
 
 	<insert id="insertTransport" parameterType="TransportVO">
-		INSERT INTO TRANSPORT (TRANSPORT_ID, TYPE, CONTENT)
-		VALUES (#{transportId}, #{type}, #{content})
+		INSERT INTO TRANSPORT (
+			TRANSPORT_ID,
+			TYPE,
+			DEPART_LOCATION,
+			DESTINATION,
+			DEPART_TIME,
+			ARRIVE_TIME
+		)
+		VALUES (
+			#{transportId},
+			#{type},
+			#{departLocation},
+			#{destination},
+			#{departTime},
+			#{arriveTime}
+		)
 	</insert>
 
 	<update id="updateTransport" parameterType="TransportVO">
 		UPDATE TRANSPORT
 		  <set>
 		    <if test="type != null and type != ''">TYPE = #{type},</if>
-		    <if test="content != null">CONTENT = #{content},</if>
+		    <if test="departLocation != null">DEPART_LOCATION = #{departLocation},</if>
+		    <if test="destination != null">DESTINATION = #{destination},</if>
+		    <if test="departTime != null">DEPART_TIME = #{departTime},</if>
+		    <if test="arriveTime != null">ARRIVE_TIME = #{arriveTime},</if>
 		    UPDATED_AT = NOW()
 		  </set>
 		 WHERE TRANSPORT_ID = #{transportId}
 		   AND DEL_YN = 'N'
 	</update>
-	
+
 	<update id="deleteTransport" parameterType="string">
 		UPDATE TRANSPORT
-			SET DEL_YN = 'Y',
-		    UPDATED_AT = NOW()
-		WHERE FACILITY_ID = #{transportId}
-		  	AND DEL_YN = 'N'
+		   SET DEL_YN = 'Y',
+		       UPDATED_AT = NOW()
+		 WHERE TRANSPORT_ID = #{transportId}
+		   AND DEL_YN = 'N'
 	</update>
 </mapper>
