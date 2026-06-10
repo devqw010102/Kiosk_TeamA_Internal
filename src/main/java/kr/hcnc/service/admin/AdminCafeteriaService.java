@@ -1,6 +1,8 @@
 package kr.hcnc.service.admin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +23,8 @@ public class AdminCafeteriaService extends EgovAbstractServiceImpl {
 	private AdminCafeteriaMapper adminCafeteriaMapper;
 	
 	public List<CafeteriaVO> selectCafeteriaSummary(String year, String month) {
-		log.info("selectCafeteriaSummary year = {}, month = {}", year, month);
-		
-		return adminCafeteriaMapper.selectCafeteriaSummary(year, month);
-	}
-	
-	public List<CafeteriaVO> selectCafeteriaDetail(String date) {
-		log.info("selectCafeteriaDetail date = {}", date);
-		
-		return adminCafeteriaMapper.selectCafeteriaDetail(date);
+	    log.info("selectCafeteriaSummary year = {}, month = {}", year, month);
+	    return adminCafeteriaMapper.selectCafeteriaSummary(year, month);
 	}
 	
 	@Transactional

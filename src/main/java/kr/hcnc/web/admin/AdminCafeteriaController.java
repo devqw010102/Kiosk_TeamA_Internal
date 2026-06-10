@@ -33,26 +33,15 @@ public class AdminCafeteriaController {
     @Resource(name = "adminCafeteriaService")
     private AdminCafeteriaService adminCafeteriaService;
     
-    @GetMapping("")
-    public ResponseEntity<List<CafeteriaVO>> getCafeteria(@RequestParam String date) {
-    	log.info("Called :: GET /api/admin/cafeteria?date={}", date);
-    	
-    	String[] dateParts = date.split("-");
-    	String year = dateParts[0];
-    	String month = dateParts[1];
-    	
-    	List<CafeteriaVO> result = adminCafeteriaService.selectCafeteriaSummary(year, month);
-    	
-    	return ResponseEntity.ok(result);
-    }
-    
-    @GetMapping("/detail")
-    public ResponseEntity<List<CafeteriaVO>> getCafeteriaDetail(@RequestParam String date) {
-    	log.info("Called :: GET /api/admin/cafeteria/detail?date={}", date);
-    	
-    	List<CafeteriaVO> result = adminCafeteriaService.selectCafeteriaDetail(date);
-    	
-    	return ResponseEntity.ok(result);
+    @GetMapping("/{date}")
+    public ResponseEntity<List<CafeteriaVO>> getCafeteria(@PathVariable String date) {
+        log.info("Called :: GET /api/admin/cafeteria/{}", date);
+        
+        String[] dateParts = date.split("-");
+        String year = dateParts[0];
+        String month = dateParts[1];
+        
+        return ResponseEntity.ok(adminCafeteriaService.selectCafeteriaSummary(year, month));
     }
     
     @PostMapping(produces = "application/json; charset=utf8")
