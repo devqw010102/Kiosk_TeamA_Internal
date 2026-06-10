@@ -15,17 +15,6 @@
 	     ORDER BY MEAL_DATE ASC
 	</select>
 	
-	<select id="selectCafeteriaDetail" resultType="CafeteriaVO">
-	    SELECT CAFETERIA_ID,
-	           MEAL_DATE,
-	           MEAL_TYPE,
-	           MENU,
-	           MEAL_CLOSED
-	      FROM CAFETERIA
-	     WHERE DEL_YN = 'N'
-	       AND MEAL_DATE = #{mealDate}
-	</select>
-	
 	<update id="logicalDeleteOldData" parameterType="java.util.List">
 	    UPDATE CAFETERIA
 	       SET DEL_YN = 'Y',
