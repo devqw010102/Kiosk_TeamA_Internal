@@ -14,8 +14,8 @@ public interface AdminDormitoryMapper {
 	public List<DormInOutVO> selectDormWaiting();
 	public List<DormInOutVO> selectDormIn();
 	public List<DormInOutVO> selectDormOut();
-	public List<DormitoryVO> selectDormRoomAssignStatus();
-	public DormitoryVO selectDormRoomAssignStatusById(String dormitoryId);
+	public List<DormitoryVO> selectDormRoomAssignStatus(DormitoryVO dormitoryVO);
+//	public DormitoryVO selectDormRoomAssignStatusById(String dormitoryId);
 	public int updateDormId(DormAssignVO dormAssignVO);
 	public int updateDormAssignMaxCnt(DormitoryVO dormitoryVO);
 	public int updateDormCurrentCnt(DormitoryVO dormitoryVO);

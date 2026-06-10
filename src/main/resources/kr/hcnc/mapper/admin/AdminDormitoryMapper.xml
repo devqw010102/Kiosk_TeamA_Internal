@@ -66,13 +66,18 @@
 		WHERE KOL.DORM = 'OUT'
 	</select>
 	
-	<select id="selectDormRoomAssignStatus" resultType="DormitoryVO">
+	<select id="selectDormRoomAssignStatus" parameterType="DormitoryVO" resultType="DormitoryVO">
 		SELECT  DORMITORY_ID as dormitoryId,
 				DORMITORY_ROOM_NAME as dormitoryRoomName,
    				CURRENT_COUNT as currentCount, 
 			   MAX_COUNT as maxCount
 		FROM DORMITORIES
-		WHERE DEL_YN = 'N'
+		<where>
+        	DEL_YN = 'N' 
+	        <if test="dormitoryId != null and dormitoryId != ''">
+	            AND DORMITORY_ID = #{dormitoryId}
+	        </if>
+        </where>
 	</select>
 	
 	<select id="selectDormRoomAssignStatusById" resultType="DormitoryVO">

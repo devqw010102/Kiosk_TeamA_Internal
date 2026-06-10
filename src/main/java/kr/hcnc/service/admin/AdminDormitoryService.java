@@ -53,15 +53,15 @@ public class AdminDormitoryService extends EgovAbstractServiceImpl {
 		return adminDormitoryMapper.selectDormOut();
 	}
 	
-	public List<DormitoryVO> selectDormRoomAssignStatus() {
+	public List<DormitoryVO> selectDormRoomAssignStatus(DormitoryVO dormitoryVO) {
 		log.info("Called :: selectDormAssignStatus()");
-		return adminDormitoryMapper.selectDormRoomAssignStatus();
+		return adminDormitoryMapper.selectDormRoomAssignStatus(dormitoryVO);
 	}
 	
-	public DormitoryVO selectDormRoomAssignStatusById(String dormitoryId) {
-		log.info("Called :: selectDormAssignStatusById");
-		return adminDormitoryMapper.selectDormRoomAssignStatusById(dormitoryId);
-	}
+//	public DormitoryVO selectDormRoomAssignStatusById(String dormitoryId) {
+//		log.info("Called :: selectDormAssignStatusById");
+//		return adminDormitoryMapper.selectDormRoomAssignStatusById(dormitoryId);
+//	}
 	
 	@Transactional
 	public int updateDormId(String studentId, DormAssignVO dormAssignVO) {
