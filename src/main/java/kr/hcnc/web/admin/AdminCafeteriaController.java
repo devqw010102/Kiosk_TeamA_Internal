@@ -33,9 +33,9 @@ public class AdminCafeteriaController {
     @Resource(name = "adminCafeteriaService")
     private AdminCafeteriaService adminCafeteriaService;
     
-    @GetMapping("")
-    public ResponseEntity<List<CafeteriaVO>> getCafeteria(@RequestParam String date) {
-    	log.info("Called :: GET /api/admin/cafeteria?date={}", date);
+    @GetMapping("/{date}")
+    public ResponseEntity<List<CafeteriaVO>> getCafeteria(@PathVariable String date) {
+    	log.info("Called :: GET /api/admin/cafeteria/{}", date);
     	
     	String[] dateParts = date.split("-");
     	String year = dateParts[0];
@@ -46,9 +46,9 @@ public class AdminCafeteriaController {
     	return ResponseEntity.ok(result);
     }
     
-    @GetMapping("/detail")
-    public ResponseEntity<List<CafeteriaVO>> getCafeteriaDetail(@RequestParam String date) {
-    	log.info("Called :: GET /api/admin/cafeteria/detail?date={}", date);
+    @GetMapping("/detail/{date}")
+    public ResponseEntity<List<CafeteriaVO>> getCafeteriaDetail(@PathVariable String date) {
+    	log.info("Called :: GET /api/admin/cafeteria/detail/{}", date);
     	
     	List<CafeteriaVO> result = adminCafeteriaService.selectCafeteriaDetail(date);
     	

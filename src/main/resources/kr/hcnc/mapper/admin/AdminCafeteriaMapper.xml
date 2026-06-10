@@ -3,41 +3,27 @@
 <mapper namespace="kr.hcnc.mapper.admin.AdminCafeteriaMapper">
 	
 	<select id="selectCafeteriaSummary" resultType="CafeteriaVO">
-		SELECT 
-    		C.CAFETERIA_ID, 
-    		C.MEAL_DATE, 
-    		C.MEAL_TYPE, 
-    		C.MENU, 
-    		C.MEAL_CLOSED
-		FROM CAFETERIA C
-		INNER JOIN (
-    			SELECT MAX(CAFETERIA_ID) AS max_id
-    			FROM CAFETERIA
-    			GROUP BY MEAL_DATE, MEAL_TYPE
-		) latest 
-		ON C.CAFETERIA_ID = latest.max_id
-		WHERE YEAR(C.MEAL_DATE) = #{mealYear}
-  		  AND MONTH(C.MEAL_DATE) = #{mealMonth}
-    	  AND C.DEL_YN = 'N'
-		ORDER BY C.MEAL_DATE ASC;
+	    SELECT CAFETERIA_ID,
+	           MEAL_DATE,
+	           MEAL_TYPE,
+	           MENU,
+	           MEAL_CLOSED
+	      FROM CAFETERIA
+	     WHERE DEL_YN = 'N'
+	       AND YEAR(MEAL_DATE)  = #{mealYear}
+	       AND MONTH(MEAL_DATE) = #{mealMonth}
+	     ORDER BY MEAL_DATE ASC
 	</select>
 	
 	<select id="selectCafeteriaDetail" resultType="CafeteriaVO">
-		SELECT C.CAFETERIA_ID, 
-		 	C.MEAL_DATE, 
-		 	C.MEAL_TYPE, 
-		 	C.MENU, 
-		 	C.MEAL_CLOSED
-		FROM CAFETERIA C
-		INNER JOIN (
-			SELECT MAX(CAFETERIA_ID) AS max_id
-			FROM CAFETERIA
-			GROUP BY MEAL_DATE, 
-			MEAL_TYPE
-		) latest 
-		ON C.CAFETERIA_ID = latest.max_id
-		WHERE C.MEAL_DATE = #{mealDate}
-		  AND C.DEL_YN = 'N'
+	    SELECT CAFETERIA_ID,
+	           MEAL_DATE,
+	           MEAL_TYPE,
+	           MENU,
+	           MEAL_CLOSED
+	      FROM CAFETERIA
+	     WHERE DEL_YN = 'N'
+	       AND MEAL_DATE = #{mealDate}
 	</select>
 	
 	<update id="logicalDeleteOldData" parameterType="java.util.List">
