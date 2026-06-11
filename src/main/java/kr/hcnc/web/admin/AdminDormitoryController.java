@@ -53,7 +53,7 @@ public class AdminDormitoryController {
     	List<DormInOutVO> list = adminDormitoryService.selectDormWaiting();
     	return ResponseEntity.ok(list);
     }
-    
+    // ==================== 삭제 예정 =========================
     // 생활관 입실 조회
     @GetMapping("/check-in")
     public ResponseEntity<List<DormInOutVO>> getDormIn(){
@@ -61,7 +61,7 @@ public class AdminDormitoryController {
     	List<DormInOutVO> list = adminDormitoryService.selectDormIn();
     	return ResponseEntity.ok(list);
     }
-    
+    // =================== 삭제 예정 ==========================
     // 생활관 퇴실 조회
     @GetMapping("/check-out")
     public ResponseEntity<List<DormInOutVO>> getDormOut(){
@@ -70,6 +70,13 @@ public class AdminDormitoryController {
     	return ResponseEntity.ok(list);
     }
     
+    // 생활관 입/퇴실 통합 조회
+    @GetMapping("/in-out")
+    public ResponseEntity<List<DormInOutVO>> getDormInOut(){
+    	log.info("Called :: GET /api/admin/dormitories/in-out");
+    	List<DormInOutVO> list = adminDormitoryService.selectDormInOut();
+    	return ResponseEntity.ok(list);
+    }
     // 생활관 전체  배정인원/최대 인원 가져오기
     @GetMapping("/assign-status")
     public ResponseEntity<List<DormitoryVO>> gettDormRoomAssignStatus(DormitoryVO dormitoryVO) {

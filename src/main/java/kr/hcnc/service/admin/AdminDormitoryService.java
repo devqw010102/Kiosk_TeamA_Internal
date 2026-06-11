@@ -42,15 +42,20 @@ public class AdminDormitoryService extends EgovAbstractServiceImpl {
 		log.info("Called :: selectDormWating()");
 		return adminDormitoryMapper.selectDormWaiting();
 	}
-	
+	// ========= 삭제 예정 ===================
 	public List<DormInOutVO> selectDormIn() {
 		log.info("Called :: selectDormIn()");
 		return adminDormitoryMapper.selectDormIn();
 	}
-	
+	// ========= 삭제 예정 ===================
 	public List<DormInOutVO> selectDormOut() {
 		log.info("Called :: selectDormOut()");
 		return adminDormitoryMapper.selectDormOut();
+	}
+	
+	public List<DormInOutVO> selectDormInOut() {
+		log.info("Called :: selectDormInOut()");
+		return adminDormitoryMapper.selectDormInOut();
 	}
 	
 	public List<DormitoryVO> selectDormRoomAssignStatus(DormitoryVO dormitoryVO) {
