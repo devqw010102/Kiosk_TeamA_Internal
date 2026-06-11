@@ -65,6 +65,27 @@
 			KOL.STUDENT_ID = S.STUDENT_ID 
 		WHERE KOL.DORM = 'OUT'
 	</select>
+	<select id="selectDormInOut" resultType="DormInOutVO">
+		SELECT KOL.STUDENT_ID AS studentId, 
+			   S.STUDENT_NAME AS studentName,
+			   S.DORMITORY_ID AS dormitoryId,
+			   D.DORMITORY_ROOM_NAME AS dormitoryRoomName,
+			   (SELECT DORM 
+			   FROM KIOSK_OPERATIONAL_LOG  
+			   WHERE STUDENT_ID = KOL.STUDENT_ID
+			   AND DORM='IN') AS checkIn,
+			   (SELECT DORM 
+			   FROM KIOSK_OPERATIONAL_LOG  
+			   WHERE STUDENT_ID = KOL.STUDENT_ID
+			   AND DORM='OUT') AS checkOut 
+		FROM KIOSK_OPERATIONAL_LOG KOL
+			INNER JOIN STUDENTS S ON
+				KOL.STUDENT_ID = S.STUDENT_ID
+			INNER JOIN DORMITORIES D ON
+					S.DORMITORY_ID = D.DORMITORY_ID 
+		WHERE KOL.DORM IS NOT NULL	
+		GROUP BY KOL.STUDENT_ID, S.STUDENT_NAME, D.DORMITORY_ROOM_NAME
+	</select>
 	
 	<select id="selectDormRoomAssignStatus" parameterType="DormitoryVO" resultType="DormitoryVO">
 		SELECT  DORMITORY_ID as dormitoryId,
