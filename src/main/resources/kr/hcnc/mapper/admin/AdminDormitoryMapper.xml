@@ -24,6 +24,7 @@
 		FROM STUDENTS S
 		LEFT JOIN DORMITORIES D ON S.DORMITORY_ID = D.DORMITORY_ID
 		WHERE S.DORM_YN = 'Y'
+		AND S.DEL_YN = 'N'
 	</select>
 	
 	<select id="selectDormWaiting" resultType="DormInOutVO">
