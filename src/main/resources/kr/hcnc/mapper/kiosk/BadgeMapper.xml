@@ -126,4 +126,12 @@
 		   AND J.END_DATE >= DATE_FORMAT(CURDATE(),'%y%m%d')
 		   AND DATE_FORMAT(CURDATE(), '%y%m%d') >= J.START_DATE
 	</select>
+	
+	<select id="selectTodayAttendance" parameterType="StudentSearchVO" resultType="int">
+		SELECT COUNT(*)
+		  FROM ATTENDANCE
+		 WHERE STUDENT_ID = #{studentId}
+		   AND ATTEND_DATE = CURDATE()
+		   AND DEL_YN = 'N'
+	</select>
 </mapper>

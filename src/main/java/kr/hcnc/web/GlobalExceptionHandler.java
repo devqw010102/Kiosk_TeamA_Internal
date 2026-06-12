@@ -37,26 +37,11 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Map<String, Object>> handleException(Exception e) {
 		Map<String, Object> result = new HashMap<>();
-		e.printStackTrace();
 		logger.error("Unexpected error", e);
 		result.put("status", 500);
 		result.put("message", "서버 오류가 발생했습니다.");
 		return ResponseEntity.ok(result);
 	}
-	
-//	@ExceptionHandler(Exception.class)
-//	public Map<String, Object> handleException(Exception e) {
-//	    Map<String, Object> result = new HashMap<>();
-//	    logger.error("Unexpected error", e);
-//	    result.put("status", "error");
-//	    result.put("message", "서버 오류가 발생했습니다.");
-//
-//	    result.put("debug_error", e.getClass().getName());
-//	    result.put("debug_message", e.getMessage());
-//	    
-//	    return result;
-//	}
-	
 
 	
 }

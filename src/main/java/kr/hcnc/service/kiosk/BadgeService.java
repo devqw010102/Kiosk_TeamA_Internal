@@ -16,7 +16,13 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import kr.hcnc.mapper.kiosk.BadgeMapper;
+import kr.hcnc.service.admin.AdminAttendanceService;
+import kr.hcnc.service.admin.AdminKioskLogService;
+import kr.hcnc.service.admin.AdminKioskOperationalLogService;
 import kr.hcnc.validator.StudentValidator;
+import kr.hcnc.vo.AttendVO;
+import kr.hcnc.vo.KioskLogVO;
+import kr.hcnc.vo.KioskOperationalLogVO;
 import kr.hcnc.vo.StudentSearchVO;
 
 @Service("badgeService")
@@ -24,6 +30,15 @@ public class BadgeService extends EgovAbstractServiceImpl {
 
 	@Resource(name = "badgeMapper")
 	private BadgeMapper badgeMapper;
+	
+	@Resource(name = "adminAttendanceService")
+	private AdminAttendanceService attendService;
+	
+	@Resource(name = "adminKioskLogService")
+	private AdminKioskLogService logService;
+	
+	@Resource(name = "adminKioskOperationalLogService")
+	private AdminKioskOperationalLogService operService;
 	
 	private static final Logger log = LoggerFactory.getLogger(BadgeService.class);
 	
@@ -73,64 +88,84 @@ public class BadgeService extends EgovAbstractServiceImpl {
 				result.put("message", "교육생 정보를 찾을 수 없습니다.");
 				return result;
 			}
-			// 출석 유효성 검사
+			
 			String attendYn = (String) student.get("ATTEND_YN");
-			log.info("attendYn : {}", attendYn);
-			if("Y".equals(attendYn)) {
+			String dormYn = (String) student.get("DORM_YN");
+			
+			int todayCount = badgeMapper.selectTodayAttendance(searchVO);
+			if(todayCount > 0) {
+				KioskLogVO reLogVO = new KioskLogVO();
+				reLogVO.setAction("명찰 재발급");
+				logService.insertLog(reLogVO);
+				
 				result.put("status", "already");
 				result.put("message", "이미 출석 처리된 교육생입니다.");
 				return result;
 			}
 			
-			// 생활관 유효성 검사
-			String dormYn = (String) student.get("DORM_YN");
-			if("Y".equals(dormYn)) {
-				Map<String, Object> dorm = badgeMapper.selectDormitoryInfo(searchVO);
-				int currentCount = (int) dorm.get("CURRENT_COUNT");
-				int maxCount = (int) dorm.get("MAX_COUNT");
-				
-				if(currentCount >= maxCount) {
-					Map<String, Object> available = badgeMapper.selectAvailableDormitory();
-					
-					if(available == null) {
-						result.put("status", "fail");
-						result.put("message", "배정 가능한 생활관이 없습니다.");
-						return result;
-					}
-					searchVO.setDormitoryId((String) available.get("DORMITORY_ID"));
-					badgeMapper.updateStudentDormitory(searchVO);
-					result.put("autoAssigned", "Y");
-				} 
-			}
-			
 			// 교육 기간 유효성 검사
-			Map<String, Object> eduInfo = badgeMapper.selectStudentEduInfo(searchVO);
-			if(eduInfo != null) {
-				String startDate = (String) eduInfo.get("START_DATE");
-				String endDate = (String) eduInfo.get("END_DATE");
-				
-				String today = new SimpleDateFormat("yyMMdd").format(new java.util.Date());
-				
-				if(today.compareTo(startDate) < 0) {
-					result.put("status", "fail");
-					result.put("message", "교육 시작 전입니다.\n교육 시작일 : 20" + startDate);
-					return result;
-				}
-			    if(today.compareTo(endDate) > 0) {
-			        result.put("status", "fail");
-			        result.put("message", "교육이 종료된 교육생입니다.\n교육 종료일 : 20" + endDate);
-			        return result;
-			    }
-			}
+	        Map<String, Object> eduInfo = badgeMapper.selectStudentEduInfo(searchVO);
+	        if (eduInfo != null) {
+	            String startDate = (String) eduInfo.get("START_DATE");
+	            String endDate   = (String) eduInfo.get("END_DATE");
+	            String today     = new SimpleDateFormat("yyMMdd").format(new java.util.Date());
+
+	            if (today.compareTo(startDate) < 0) {
+	                result.put("status", "fail");
+	                result.put("message", "교육 시작 전입니다.\n교육 시작일 : 20" + startDate);
+	                return result;
+	            }
+	            if (today.compareTo(endDate) > 0) {
+	                result.put("status", "fail");
+	                result.put("message", "교육이 종료된 교육생입니다.\n교육 종료일 : 20" + endDate);
+	                return result;
+	            }
+	        }
+	        
+	        // 첫 출석 처리 (생활관 배정 + ATTEND_YN 세팅)
+	        if ("N".equals(attendYn)) {
+	            if ("Y".equals(dormYn)) {
+	                Map<String, Object> dorm = badgeMapper.selectDormitoryInfo(searchVO);
+	                int currentCount = (int) dorm.get("CURRENT_COUNT");
+	                int maxCount     = (int) dorm.get("MAX_COUNT");
+
+	                if (currentCount >= maxCount) {
+	                    Map<String, Object> available = badgeMapper.selectAvailableDormitory();
+	                    if (available == null) {
+	                        result.put("status", "fail");
+	                        result.put("message", "배정 가능한 생활관이 없습니다.");
+	                        return result;
+	                    }
+	                    searchVO.setDormitoryId((String) available.get("DORMITORY_ID"));
+	                    badgeMapper.updateStudentDormitory(searchVO);
+	                    result.put("autoAssigned", "Y");
+	                }
+	                badgeMapper.updateDormitoryCount(searchVO);
+	            }
+	            badgeMapper.updateAttendYN(searchVO);
+	        }
 			
-			badgeMapper.updateAttendYN(searchVO);
-			
-			if("Y".equals(dormYn)) {
-				badgeMapper.updateDormitoryCount(searchVO);
-			}
-			
-			result.put("status", "success");
-			result.put("dormAssigned", "O");
+	        // 일일 출석 기록
+	        AttendVO attendVO = new AttendVO();
+	        attendVO.setStudentId(searchVO.getStudentId());
+	        attendVO.setAttendDate(new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()));
+	        attendVO.setStatus("출석");
+	        attendService.insertAttend(attendVO);
+
+	        // 키오스크 로그
+	        KioskLogVO kioskLogVO = new KioskLogVO();
+	        kioskLogVO.setAction("명찰 발급");
+	        logService.insertLog(kioskLogVO);
+
+	        // 운영 로그
+	        KioskOperationalLogVO opLogVO = new KioskOperationalLogVO();
+	        opLogVO.setStudentId(searchVO.getStudentId());
+	        opLogVO.setPrinting("Y");
+	        opLogVO.setDorm("Y".equals(dormYn) ? "IN" : null);
+	        operService.insertOpLog(opLogVO);
+
+	        result.put("status", "success");
+	        result.put("dormAssigned", "O");
 		}
 		catch(Exception e) {
 	        log.error("BadgeService :: updateStudentStatus() 오류 : {}", e);
