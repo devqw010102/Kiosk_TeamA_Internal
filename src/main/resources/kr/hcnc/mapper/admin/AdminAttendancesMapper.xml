@@ -18,7 +18,8 @@
 		LEFT JOIN EDU_INFO E
 			ON S.EDU_ID = E.EDU_ID 
 		<where>
-        	S.DEL_YN = 'N' 
+        	S.DEL_YN = 'N'
+        	AND A.DEL_YN = 'N'
 	        <if test="studentId != null and studentId != ''">
 	            AND A.STUDENT_ID = #{studentId}
 	        </if>
