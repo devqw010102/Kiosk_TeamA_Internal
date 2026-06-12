@@ -43,7 +43,7 @@ public class AdminDashBoardController {
     
     @GetMapping("/attend-count")
     public ResponseEntity<Map<String, Object>> selectAttendCount() {
-    	log.info("Called::selectPrintCountByHour()");
+    	log.info("Called::selectAttendCount()");
     	return ResponseEntity.ok(adminDashBoardService.selectAttendCount());
     }
     

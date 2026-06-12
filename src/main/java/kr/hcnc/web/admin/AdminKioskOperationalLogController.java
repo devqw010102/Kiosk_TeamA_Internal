@@ -46,7 +46,7 @@ public class AdminKioskOperationalLogController {
 	
 	@DeleteMapping
 	public ResponseEntity<Integer> deleteOpLog(@RequestBody KioskOperationalLogVO kioskOpVO) {
-		log.info("Called :: insertDormOutLog");
+		log.info("Called :: deleteOpLog");
 		int result = adminKioskOperationalLogService.deleteOpLog(kioskOpVO);
 		return ResponseEntity.ok(result);
 	}
