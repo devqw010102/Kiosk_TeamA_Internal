@@ -33,6 +33,7 @@
 				AND A.STATUS = #{status}
 			</if>	
 	    </where>
+	    ORDER BY A.ATTEND_DATE DESC
 	</select>
 	
 	<update id="updateAttendMsg" parameterType="AttendVO">
