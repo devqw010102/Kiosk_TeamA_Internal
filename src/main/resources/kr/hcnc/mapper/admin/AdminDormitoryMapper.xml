@@ -36,10 +36,12 @@
 		FROM STUDENTS S
 		    LEFT JOIN DORMITORIES D ON S.DORMITORY_ID = D.DORMITORY_ID
 		WHERE S.DORMITORY_ID IS NOT NULL
-		AND S.STUDENT_ID NOT IN (
-		    SELECT STUDENT_ID 
-		    FROM KIOSK_OPERATIONAL_LOG 
-		    WHERE DORM = 'IN'     
+		  AND S.DEL_YN = 'N'
+		  AND S.STUDENT_ID NOT IN (
+			    SELECT STUDENT_ID 
+			    FROM KIOSK_OPERATIONAL_LOG 
+			    WHERE DORM = 'IN'     
+			      AND DEL_YN = 'N'
 		)
 	</select>
 	
@@ -55,6 +57,9 @@
 			INNER JOIN DORMITORIES D ON
 				S.DORMITORY_ID = D.DORMITORY_ID 
 		WHERE KOL.DORM = 'IN'
+		  AND KOL.DEL_YN = 'N'
+		  AND S.DEL_YN = 'N'
+		  AND D.DEL_YN = 'N'
 	</select>
 	
 	<select id="selectDormOut" resultType="DormInOutVO">
@@ -65,6 +70,8 @@
 			INNER JOIN STUDENTS S ON
 			KOL.STUDENT_ID = S.STUDENT_ID 
 		WHERE KOL.DORM = 'OUT'
+		  AND KOL.DEL_YN = 'N'
+		  AND S.DEL_YN = 'N'
 	</select>
 	<select id="selectDormInOut" resultType="DormInOutVO">
 	    SELECT KOL.STUDENT_ID AS studentId, 
@@ -75,12 +82,14 @@
 	              FROM KIOSK_OPERATIONAL_LOG  
 	             WHERE STUDENT_ID = KOL.STUDENT_ID
 	               AND DORM='IN'
+	               AND DEL_YN = 'N'
 	             ORDER BY OP_LOG_ID DESC
 	             LIMIT 1) AS checkIn,
 	           (SELECT CREATED_AT 
 	              FROM KIOSK_OPERATIONAL_LOG  
 	             WHERE STUDENT_ID = KOL.STUDENT_ID
 	               AND DORM='OUT'
+	               AND DEL_YN = 'N'
 	             ORDER BY OP_LOG_ID DESC
 	             LIMIT 1) AS checkOut 
 	      FROM KIOSK_OPERATIONAL_LOG KOL
@@ -88,7 +97,9 @@
 	                KOL.STUDENT_ID = S.STUDENT_ID
 	     INNER JOIN DORMITORIES D ON
 	                S.DORMITORY_ID = D.DORMITORY_ID 
-	     WHERE KOL.DORM IS NOT NULL AND S.DEL_YN = 'N'
+	     WHERE KOL.DORM IS NOT NULL 
+	       AND S.DEL_YN = 'N'
+	       AND D.DEL_YN = 'N'
 	     GROUP BY KOL.STUDENT_ID, S.STUDENT_NAME, D.DORMITORY_ROOM_NAME
 	</select>
 	
@@ -105,22 +116,13 @@
 	        </if>
         </where>
 	</select>
-	
-	<select id="selectDormRoomAssignStatusById" resultType="DormitoryVO">
-    	SELECT  DORMITORY_ID as dormitoryId,
-    			DORMITORY_ROOM_NAME as dormitoryRoomName,
-   				CURRENT_COUNT as currentCount, 
-			   MAX_COUNT as maxCount
-		FROM DORMITORIES
-			WHERE DORMITORY_ID = #{dormitoryId}
-			AND DEL_YN = 'N'
-    </select>
     
     <update id="updateDormId" parameterType="DormAssignVO">
 	    UPDATE STUDENTS
 			SET DORMITORY_ID = #{dormitoryId}
 		WHERE DORM_YN='Y'
 			AND STUDENT_ID = #{studentId};
+			AND DEL_YN = 'N'
     </update>
     
     <update id="updateDormAssignMaxCnt" parameterType="DormitoryVO">

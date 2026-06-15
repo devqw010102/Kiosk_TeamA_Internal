@@ -18,6 +18,7 @@
 	        , COUNT(*) AS PRINTING_COUNT
         FROM KIOSK_LOG
         WHERE ACTION='명찰 발급'
+          AND DEL_YN = 'N'
         GROUP BY HOUR(CREATED_AT)
         ORDER BY PRINT_HOUR
     </select>
@@ -26,8 +27,9 @@
         SELECT ACTION
              , COUNT(*) AS CNT
         FROM KIOSK_LOG
-            GROUP BY ACTION
-            ORDER BY CNT DESC
+       WHERE DEL_YN = 'N'
+       GROUP BY ACTION
+       ORDER BY CNT DESC
     </select>
 
     <select id="selectAttendCount" resultType="Map">
@@ -46,7 +48,7 @@
     
     <select id="selectDormStats" resultType="Map">
     	SELECT
-		 (SELECT COUNT(*) FROM KIOSK_OPERATIONAL_LOG WHERE DORM = 'IN' AND DEL_YN = 'N') AS assignCount,
+		 (SELECT COUNT(DISTINCT STUDENT_ID) FROM KIOSK_OPERATIONAL_LOG WHERE DORM = 'IN' AND DEL_YN = 'N') AS assignCount,
 		 (SELECT COUNT(*) FROM STUDENTS WHERE DORM_YN='Y' AND DEL_YN = 'N') AS totalStudents
     </select>
     

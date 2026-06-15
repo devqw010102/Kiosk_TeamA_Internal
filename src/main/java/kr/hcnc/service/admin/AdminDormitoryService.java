@@ -42,16 +42,6 @@ public class AdminDormitoryService extends EgovAbstractServiceImpl {
 		log.info("Called :: selectDormWating()");
 		return adminDormitoryMapper.selectDormWaiting();
 	}
-	// ========= 삭제 예정 ===================
-	public List<DormInOutVO> selectDormIn() {
-		log.info("Called :: selectDormIn()");
-		return adminDormitoryMapper.selectDormIn();
-	}
-	// ========= 삭제 예정 ===================
-	public List<DormInOutVO> selectDormOut() {
-		log.info("Called :: selectDormOut()");
-		return adminDormitoryMapper.selectDormOut();
-	}
 	
 	public List<DormInOutVO> selectDormInOut() {
 		log.info("Called :: selectDormInOut()");
@@ -62,12 +52,7 @@ public class AdminDormitoryService extends EgovAbstractServiceImpl {
 		log.info("Called :: selectDormAssignStatus()");
 		return adminDormitoryMapper.selectDormRoomAssignStatus(dormitoryVO);
 	}
-	
-//	public DormitoryVO selectDormRoomAssignStatusById(String dormitoryId) {
-//		log.info("Called :: selectDormAssignStatusById");
-//		return adminDormitoryMapper.selectDormRoomAssignStatusById(dormitoryId);
-//	}
-	
+
 	@Transactional
 	public int updateDormId(String studentId, DormAssignVO dormAssignVO) {
 		log.info("Called :: updateDormId");
