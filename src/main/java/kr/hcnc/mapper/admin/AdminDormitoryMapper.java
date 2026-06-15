@@ -12,13 +12,8 @@ public interface AdminDormitoryMapper {
 	public List<DormitoryVO> selectCmbDorm();
 	public List<DormAssignVO> selectDormAssign();
 	public List<DormInOutVO> selectDormWaiting();
-	// ========= 삭제 예정 ===================
-	public List<DormInOutVO> selectDormIn();
-	public List<DormInOutVO> selectDormOut();
-	// ===================================
 	public List<DormInOutVO> selectDormInOut();
 	public List<DormitoryVO> selectDormRoomAssignStatus(DormitoryVO dormitoryVO);
-//	public DormitoryVO selectDormRoomAssignStatusById(String dormitoryId);
 	public int updateDormId(DormAssignVO dormAssignVO);
 	public int updateDormAssignMaxCnt(DormitoryVO dormitoryVO);
 	public int updateDormCurrentCnt(DormitoryVO dormitoryVO);
