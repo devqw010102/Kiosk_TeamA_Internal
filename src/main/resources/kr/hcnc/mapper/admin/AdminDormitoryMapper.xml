@@ -121,7 +121,7 @@
 	    UPDATE STUDENTS
 			SET DORMITORY_ID = #{dormitoryId}
 		WHERE DORM_YN='Y'
-			AND STUDENT_ID = #{studentId};
+			AND STUDENT_ID = #{studentId}
 			AND DEL_YN = 'N'
     </update>
     
